@@ -115,7 +115,6 @@ const s: Record<string, React.CSSProperties> = {
     marginLeft: 8,
   },
   hamburger: {
-    display: 'none',
     background: 'none',
     border: '1px solid var(--border)',
     borderRadius: 8,
