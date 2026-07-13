@@ -32,8 +32,6 @@ export function ProjectModal({ project, onClose }: Props) {
         position: 'fixed',
         inset: 0,
         zIndex: 2000,
-        background: 'rgba(0, 0, 0, 0.85)',
-        backdropFilter: 'blur(8px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -46,11 +44,12 @@ export function ProjectModal({ project, onClose }: Props) {
       <div
         style={{
           width: '100%',
-          maxWidth: showImage ? 720 : 360,
+          maxWidth: showImage ? 1100 : 640,
           background: 'var(--bg-secondary)',
           borderRadius: 'var(--radius-lg)',
           border: '1px solid var(--border)',
           overflow: 'hidden',
+          boxShadow: '0 16px 64px rgba(0,0,0,0.5)',
         }}
       >
         <div
@@ -94,14 +93,14 @@ export function ProjectModal({ project, onClose }: Props) {
             alt={project.title}
             style={{
               width: '100%',
-              maxHeight: 480,
+              maxHeight: 720,
               objectFit: 'contain',
               display: 'block',
               background: '#0a0a0f',
             }}
           />
         ) : (
-          <div style={{ position: 'relative', height: 200 }}>
+          <div style={{ position: 'relative', height: 480 }}>
             {loading && !error && (
               <div style={{ position: 'absolute', inset: 0 }}>
                 <Skeleton height="100%" />

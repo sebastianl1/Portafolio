@@ -12,7 +12,7 @@ export function Card({ children, style, className = '', onClick }: Props) {
     background: 'var(--bg-card)',
     borderRadius: 'var(--radius-lg)',
     border: '1px solid var(--border)',
-    padding: '24px',
+    padding: '16px',
     transition: 'all 0.3s ease',
     cursor: onClick ? 'pointer' : undefined,
   }
@@ -23,9 +23,9 @@ export function Card({ children, style, className = '', onClick }: Props) {
       style={{ ...base, ...style }}
       onClick={onClick}
       onMouseEnter={(e) => {
-        e.currentTarget.style.transform = 'translateY(-4px)'
+        e.currentTarget.style.transform = 'translateY(-3px)'
         e.currentTarget.style.borderColor = 'var(--accent-dim)'
-        e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 245, 212, 0.08)'
+        e.currentTarget.style.boxShadow = '0 6px 24px rgba(0, 245, 212, 0.06)'
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.transform = 'none'
