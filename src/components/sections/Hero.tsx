@@ -2,15 +2,6 @@ import { useRef, useEffect } from 'react'
 import { profile } from '../../data/profile'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 
-const tags = [
-  'Programación',
-  'Ciberseguridad',
-  'Matemáticas',
-  'Procesos Químicos',
-  'Electrónica y Solar',
-  'Inglés Técnico',
-]
-
 const s: Record<string, React.CSSProperties> = {
   section: {
     maxWidth: 'var(--max-width)',
@@ -18,8 +9,6 @@ const s: Record<string, React.CSSProperties> = {
     padding: '140px 24px 60px',
     textAlign: 'center',
     position: 'relative',
-    backgroundImage: 'linear-gradient(rgba(0, 245, 212, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 245, 212, 0.02) 1px, transparent 1px)',
-    backgroundSize: '40px 40px',
   },
   avatarWrapper: {
     position: 'relative',
@@ -111,30 +100,11 @@ const s: Record<string, React.CSSProperties> = {
     transition: 'all var(--transition)',
     textDecoration: 'none',
   },
-  tagsRow: {
-    display: 'flex',
-    flexWrap: 'wrap' as const,
-    justifyContent: 'center',
-    gap: 8,
-  },
-  tag: {
-    padding: '6px 16px',
-    borderRadius: 'var(--radius-full)',
-    background: 'var(--bg-glass)',
-    border: '1px solid var(--border)',
-    backdropFilter: 'blur(8px)',
-    fontFamily: 'var(--font-mono)',
-    fontSize: '0.72rem',
-    color: 'var(--text-secondary)',
-    letterSpacing: 0.3,
-    transition: 'all var(--transition)',
-  },
 }
 
 export function Hero() {
   const { ref, visible } = useScrollReveal()
   const ctaRef = useRef<HTMLDivElement>(null)
-  const tagsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!visible) return
@@ -144,13 +114,6 @@ export function Hero() {
         { opacity: 0, transform: 'translateY(12px)' },
         { opacity: 1, transform: 'translateY(0)' },
       ], { duration: 400, delay: 200 + i * 100, fill: 'forwards', easing: 'ease-out' })
-    })
-    const tagEls = tagsRef.current?.querySelectorAll('span:not([style*="position"])')
-    tagEls?.forEach((el, i) => {
-      el.animate([
-        { opacity: 0, transform: 'translateY(8px) scale(0.95)' },
-        { opacity: 1, transform: 'translateY(0) scale(1)' },
-      ], { duration: 350, delay: 400 + i * 80, fill: 'forwards', easing: 'ease-out' })
     })
   }, [visible])
 
@@ -228,26 +191,6 @@ export function Hero() {
           </svg>
           Contactar
         </a>
-      </div>
-
-      {/* Tags */}
-      <div ref={tagsRef} style={s.tagsRow}>
-        {tags.map((tag, i) => (
-          <span
-            key={tag}
-            style={{ ...s.tag, transitionDelay: `${i * 50}ms` }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(0, 245, 212, 0.3)'
-              e.currentTarget.style.transform = 'translateY(-2px)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'var(--border)'
-              e.currentTarget.style.transform = 'none'
-            }}
-          >
-            {tag}
-          </span>
-        ))}
       </div>
     </section>
   )
