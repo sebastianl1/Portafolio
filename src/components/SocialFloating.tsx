@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { profile } from '../data/profile'
 
 const links = [
@@ -35,60 +36,123 @@ const links = [
   },
 ]
 
+const s: Record<string, React.CSSProperties> = {
+  container: {
+    position: 'fixed',
+    bottom: 28,
+    right: 28,
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 10,
+    zIndex: 100,
+  },
+  link: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    border: '1px solid var(--border)',
+    color: 'var(--text-muted)',
+    textDecoration: 'none',
+    transition: 'all var(--transition)',
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    position: 'relative',
+  },
+  linkActive: {
+    background: 'var(--bg-glass)',
+    cursor: 'pointer',
+    pointerEvents: 'auto' as const,
+  },
+  linkInactive: {
+    background: 'transparent',
+    opacity: 0.25,
+    cursor: 'default',
+    pointerEvents: 'none' as const,
+  },
+  tooltip: {
+    position: 'absolute',
+    bottom: 'calc(100% + 8px)',
+    right: 0,
+    padding: '4px 10px',
+    borderRadius: 6,
+    background: 'var(--bg-card)',
+    border: '1px solid var(--border)',
+    color: 'var(--text-secondary)',
+    fontSize: '0.7rem',
+    fontFamily: 'var(--font-mono)',
+    whiteSpace: 'nowrap',
+    pointerEvents: 'none',
+    opacity: 0,
+    transform: 'translateY(4px)',
+    transition: 'all var(--transition)',
+  },
+}
+
 export function SocialFloating() {
+  const [mounted, setMounted] = useState(false)
+  const [tooltip, setTooltip] = useState<string | null>(null)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), 500)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <div
       style={{
-        position: 'fixed',
-        bottom: 24,
-        right: 24,
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 10,
-        zIndex: 100,
+        ...s.container,
+        opacity: mounted ? 1 : 0,
+        transform: mounted ? 'translateX(0)' : 'translateX(20px)',
+        transition: 'opacity 0.4s ease, transform 0.4s ease',
       }}
     >
-      {links.map((link) => (
-        <a
-          key={link.id}
-          href={link.href || undefined}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={link.label}
-          tabIndex={link.href ? 0 : -1}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: 40,
-            height: 40,
-            borderRadius: 10,
-            background: link.href ? 'var(--bg-card)' : 'transparent',
-            border: link.href ? '1px solid var(--border)' : '1px solid transparent',
-            color: link.href ? 'var(--text-muted)' : 'var(--text-muted)',
-            opacity: link.href ? 1 : 0.3,
-            textDecoration: 'none',
-            transition: 'all 0.2s',
-            backdropFilter: 'blur(8px)',
-            pointerEvents: link.href ? 'auto' : 'none',
-            cursor: link.href ? 'pointer' : 'default',
-          }}
-          onMouseEnter={(e) => {
-            if (!link.href) return
-            e.currentTarget.style.color = 'var(--accent)'
-            e.currentTarget.style.borderColor = 'var(--accent)'
-            e.currentTarget.style.background = 'var(--accent-dim)'
-          }}
-          onMouseLeave={(e) => {
-            if (!link.href) return
-            e.currentTarget.style.color = 'var(--text-muted)'
-            e.currentTarget.style.borderColor = 'var(--border)'
-            e.currentTarget.style.background = 'var(--bg-card)'
-          }}
-        >
-          {link.svg}
-        </a>
-      ))}
+      {links.map((link) => {
+        const active = !!link.href
+        return (
+          <a
+            key={link.id}
+            href={active ? link.href : undefined}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={link.label}
+            tabIndex={active ? 0 : -1}
+            style={{
+              ...s.link,
+              ...(active ? s.linkActive : s.linkInactive),
+            }}
+            onMouseEnter={(e) => {
+              if (!active) return
+              e.currentTarget.style.color = 'var(--accent)'
+              e.currentTarget.style.borderColor = 'var(--accent)'
+              e.currentTarget.style.background = 'var(--accent-dim)'
+              e.currentTarget.style.transform = 'translateY(-3px)'
+              setTooltip(link.label)
+            }}
+            onMouseLeave={(e) => {
+              if (!active) return
+              e.currentTarget.style.color = 'var(--text-muted)'
+              e.currentTarget.style.borderColor = 'var(--border)'
+              e.currentTarget.style.background = 'var(--bg-glass)'
+              e.currentTarget.style.transform = 'none'
+              setTooltip(null)
+            }}
+          >
+            {link.svg}
+            <span
+              style={{
+                ...s.tooltip,
+                opacity: tooltip === link.label ? 1 : 0,
+                transform: tooltip === link.label ? 'translateY(0)' : 'translateY(4px)',
+              }}
+            >
+              {link.label}
+            </span>
+          </a>
+        )
+      })}
     </div>
   )
 }

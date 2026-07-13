@@ -7,6 +7,32 @@ interface Props {
   children: ReactNode
 }
 
+const s: Record<string, React.CSSProperties> = {
+  section: {
+    padding: 'var(--section-py) 24px',
+    maxWidth: 'var(--max-width)',
+    margin: '0 auto',
+  },
+  heading: {
+    fontSize: '1.6rem',
+    fontWeight: 700,
+    marginBottom: 8,
+    color: 'var(--text-primary)',
+    fontFamily: 'var(--font-display)',
+    letterSpacing: -0.3,
+  },
+  accent: {
+    color: 'var(--accent)',
+  },
+  underline: {
+    width: 48,
+    height: 3,
+    borderRadius: 2,
+    background: 'var(--accent-gradient)',
+    marginBottom: 32,
+  },
+}
+
 export function Section({ id, title, children }: Props) {
   const { ref, visible } = useScrollReveal()
 
@@ -14,27 +40,23 @@ export function Section({ id, title, children }: Props) {
     <section
       id={id}
       ref={ref}
-      style={{
-        padding: 'var(--section-py) 24px',
-        maxWidth: 'var(--max-width)',
-        margin: '0 auto',
-      }}
+      style={s.section}
     >
       {title && (
         <h2
           className={`reveal ${visible ? 'visible' : ''}`}
-          style={{
-            fontSize: '1.4rem',
-            fontWeight: 700,
-            marginBottom: 32,
-            color: 'var(--text-primary)',
-          }}
+          style={s.heading}
         >
           {title}
-          <span style={{ color: 'var(--accent)' }}>.</span>
+          <span style={s.accent}>.</span>
         </h2>
       )}
-      <div className={`reveal ${visible ? 'visible' : ''}`}>{children}</div>
+      {title && (
+        <div className={`reveal-stagger ${visible ? 'visible' : ''}`} style={s.underline} />
+      )}
+      <div className={`reveal ${visible ? 'visible' : ''}`}>
+        {children}
+      </div>
     </section>
   )
 }

@@ -1,22 +1,54 @@
 :root {
+  /* ─── Paleta principal ─── */
   --bg-primary: #0a0a0f;
-  --bg-secondary: #12121a;
+  --bg-secondary: #0d0d1a;
+  --bg-tertiary: #12121a;
   --bg-card: #1a1a2e;
-  --bg-glass: rgba(18, 18, 26, 0.8);
+  --bg-glass: rgba(18, 18, 26, 0.85);
+  --bg-glass-solid: rgba(18, 18, 26, 0.97);
+
+  /* ─── Texto ─── */
   --text-primary: #e8e8f0;
   --text-secondary: #a0a0b8;
   --text-muted: #6b6b80;
+
+  /* ─── Acentos ─── */
   --accent: #00f5d4;
-  --accent-dim: rgba(0, 245, 212, 0.15);
-  --accent-glow: rgba(0, 245, 212, 0.3);
+  --accent-neutral: #c8c8d4;
+  --accent-neutral-dim: rgba(200, 200, 212, 0.12);
+  --accent-dim: rgba(0, 245, 212, 0.12);
+  --accent-dim-strong: rgba(0, 245, 212, 0.2);
+  --accent-glow: rgba(0, 245, 212, 0.25);
+  --accent-glow-strong: rgba(0, 245, 212, 0.4);
+  --accent-gradient: linear-gradient(135deg, #00f5d4, #c8c8d4);
+
+  /* ─── Bordes y sombras ─── */
   --border: rgba(255, 255, 255, 0.06);
+  --border-accent: rgba(0, 245, 212, 0.15);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.4);
+  --shadow-accent: 0 4px 24px rgba(0, 245, 212, 0.08);
+
+  /* ─── Radii ─── */
+  --radius-sm: 6px;
   --radius: 10px;
   --radius-lg: 16px;
+  --radius-full: 999px;
+
+  /* ─── Layout ─── */
   --max-width: 1000px;
-  --nav-height: 56px;
-  --section-py: 60px;
-  --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --nav-height: 60px;
+  --section-py: 80px;
+
+  /* ─── Tipografía ─── */
+  --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-display: 'Playfair Display', Georgia, serif;
+
+  /* ─── Transiciones ─── */
+  --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 html {
@@ -35,15 +67,22 @@ html {
 body {
   font-family: var(--font-sans);
   background: var(--bg-primary);
+  background-image: radial-gradient(ellipse at 20% 50%, rgba(200, 200, 212, 0.03) 0%, transparent 50%),
+                    radial-gradient(ellipse at 80% 50%, rgba(0, 245, 212, 0.03) 0%, transparent 50%);
   color: var(--text-primary);
-  line-height: 1.6;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
   color: var(--accent);
   text-decoration: none;
-  transition: opacity 0.2s;
+  transition: color var(--transition);
+}
+
+a:hover {
+  color: var(--accent);
 }
 
 img {
@@ -51,13 +90,21 @@ img {
   display: block;
 }
 
+::selection {
+  background: var(--accent-dim-strong);
+  color: var(--accent);
+}
+
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
+  background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--text-muted);
   border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
 }

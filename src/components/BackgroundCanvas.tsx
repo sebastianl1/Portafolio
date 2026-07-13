@@ -63,7 +63,7 @@ export function BackgroundCanvas() {
       drift: (Math.random() - 0.5) * 0.3,
       opacity: 0.03 + Math.random() * 0.06,
       phase: Math.random() * Math.PI * 2,
-      color: Math.random() > 0.5 ? '#00f5d4' : '#7b61ff',
+      color: Math.random() > 0.5 ? '#00f5d4' : '#c8c8d4',
     }))
 
     const time = { value: 0 }

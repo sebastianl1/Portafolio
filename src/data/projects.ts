@@ -9,7 +9,7 @@ export const projects: Project[] = [
     tags: ['JavaScript', 'SCADA', 'Webpack', 'Vite', 'FastAPI'],
     iframeUrl: 'https://sebastianl1.github.io/Web_prueba/',
     githubUrl: 'https://github.com/sebastianl1/SPY_SENA',
-    thumbnail: '/projects/scada.jpg',
+    thumbnail: 'projects/scada.jpg',
   },
 ]
 
