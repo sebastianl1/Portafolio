@@ -20,6 +20,8 @@ export interface Profile {
   name: string
   title: string
   tagline: string
+  formation: string[]
+  competencies: string[]
   bio: string
   avatar?: string
   social: {

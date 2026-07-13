@@ -81,15 +81,14 @@ npm run deploy   # Publicar en GitHub Pages
 
 ## Deploy a GitHub Pages
 
-Configuración en GitHub:
-1. Ir al repo → **Settings** → **Pages**
+Configuración en GitHub (una sola vez):
+1. https://github.com/sebastianl1/Portafolio/settings/pages
 2. **Source:** `Deploy from a branch`
-3. **Branch:** `main` / `docs`
+3. **Branch:** `gh-pages` / `/ (root)`
 
 ```bash
-npm run build                    # Build → carpeta docs/
-git add docs/ && git commit -m "deploy"
-git push origin main             # GitHub Pages actualiza automáticamente
+npm run build                      # Build → carpeta dist/
+npm run deploy                     # Publica a gh-pages branch automáticamente
 ```
 
 ## Próximos pasos (cuando retomes)

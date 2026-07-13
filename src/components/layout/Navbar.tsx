@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 
 const links = [
-  { href: '#about', label: 'Sobre mí' },
   { href: '#skills', label: 'Habilidades' },
   { href: '#projects', label: 'Proyectos' },
   { href: '#contact', label: 'Contacto' },
@@ -49,23 +48,23 @@ export function Navbar() {
           style={{
             fontFamily: 'var(--font-mono)',
             fontWeight: 700,
-            fontSize: '1.2rem',
+            fontSize: '1.1rem',
             color: 'var(--accent)',
           }}
         >
           {'<S/>'}
         </a>
 
-        <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ display: 'flex', gap: 4 }}>
           {links.map((link) => (
             <a
               key={link.href}
               href={link.href}
               style={{
-                padding: '8px 16px',
+                padding: '6px 14px',
                 borderRadius: 'var(--radius)',
                 color: 'var(--text-secondary)',
-                fontSize: '0.9rem',
+                fontSize: '0.85rem',
                 fontWeight: 500,
                 transition: 'all 0.2s',
               }}

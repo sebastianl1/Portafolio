@@ -10,7 +10,7 @@ export function Footer() {
       }}
     >
       <p>
-        &copy; {new Date().getFullYear()} [Tu Nombre]. Hecho con{' '}
+        &copy; {new Date().getFullYear()} Sebastián. Hecho con{' '}
         <span style={{ color: 'var(--accent)' }}>React + TypeScript</span>.
       </p>
     </footer>

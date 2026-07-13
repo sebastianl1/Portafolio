@@ -15,7 +15,7 @@ export function Section({ id, title, children }: Props) {
       id={id}
       ref={ref}
       style={{
-        padding: '100px 24px',
+        padding: 'var(--section-py) 24px',
         maxWidth: 'var(--max-width)',
         margin: '0 auto',
       }}
@@ -24,9 +24,9 @@ export function Section({ id, title, children }: Props) {
         <h2
           className={`reveal ${visible ? 'visible' : ''}`}
           style={{
-            fontSize: '2rem',
+            fontSize: '1.4rem',
             fontWeight: 700,
-            marginBottom: 48,
+            marginBottom: 32,
             color: 'var(--text-primary)',
           }}
         >

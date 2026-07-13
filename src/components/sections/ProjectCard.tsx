@@ -14,9 +14,9 @@ export function ProjectCard({ project, onPreview }: Props) {
       <div
         style={{
           width: '100%',
-          height: 180,
+          height: 140,
           borderRadius: 'var(--radius)',
-          marginBottom: 16,
+          marginBottom: 12,
           overflow: 'hidden',
           position: 'relative',
           background: 'linear-gradient(135deg, var(--accent-dim) 0%, var(--bg-card) 100%)',
@@ -36,7 +36,7 @@ export function ProjectCard({ project, onPreview }: Props) {
           if (overlay) overlay.style.opacity = '0'
         }}
       >
-        <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--accent)', fontSize: '3rem', fontWeight: 700, opacity: 0.3 }}>
+        <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--accent)', fontSize: '2.5rem', fontWeight: 700, opacity: 0.3 }}>
           {project.title.charAt(0)}
         </span>
 
@@ -50,27 +50,27 @@ export function ProjectCard({ project, onPreview }: Props) {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: 8,
+            gap: 4,
             opacity: 0,
             transition: 'opacity 0.3s ease',
           }}
         >
-          <span style={{ fontSize: '1.5rem' }}>🔍</span>
-          <span style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.9rem' }}>
+          <span style={{ fontSize: '1.2rem' }}>🔍</span>
+          <span style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.8rem' }}>
             Vista previa
           </span>
         </div>
       </div>
 
-      <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: 8 }}>{project.title}</h3>
+      <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 6 }}>{project.title}</h3>
 
-      <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: 12, lineHeight: 1.6 }}>
-        {project.description.length > 120
-          ? project.description.slice(0, 120) + '...'
+      <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: 10, lineHeight: 1.5 }}>
+        {project.description.length > 100
+          ? project.description.slice(0, 100) + '...'
           : project.description}
       </p>
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 12 }}>
         {project.tags.map((tag) => (
           <Tag key={tag} label={tag} />
         ))}

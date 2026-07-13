@@ -1,10 +1,20 @@
 import type { Profile } from '../types/portfolio'
 
 export const profile: Profile = {
-  name: '[Tu Nombre]',
+  name: 'Sebastián Laguna',
   title: 'Tecnólogo en Procesos de la Industria Química',
-  tagline: 'Software · SCADA · Ciberseguridad · Electrónica · Solar',
-  bio: 'Tecnólogo en procesos de la industria química, técnico en electrónica y en mantenimiento e instalación de sistemas eléctricos con energía solar fotovoltaica. Desarrollo aplicaciones multiplataforma con Flutter, interfaces web con React, y sistemas backend con FastAPI. Experiencia en sistemas de control industrial (SCADA), herramientas de seguridad informática y plataformas educativas. Siempre explorando nuevas tecnologías para crear soluciones que conecten el mundo físico con el digital.',
+  tagline: 'Software · Ciberseguridad · Industria · Electrónica · Solar',
+  formation: [
+    'Tecnólogo en Procesos de la Industria Química',
+    'Técnico en Electrónica',
+    'Técnico en Mantenimiento e Instalación de Sistemas Eléctricos con Energía Solar Fotovoltaica',
+  ],
+  competencies: [
+    'Inglés como lengua extranjera (nivel avanzado)',
+    'Integración de sistemas tecnológicos en entornos industriales',
+    'Capacidad analítica y resolución de problemas complejos',
+  ],
+  bio: 'Soy un profesional multidisciplinario con sólida formación técnica y experiencia en áreas que integran la industria química, la electrónica y la energía solar fotovoltaica. Mi enfoque combina el conocimiento científico con la programación y la seguridad informática, lo que me permite aportar soluciones innovadoras y eficientes en proyectos industriales y tecnológicos.',
   social: {
     github: 'https://github.com/sebastianl1',
   },
