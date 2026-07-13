@@ -5,6 +5,7 @@ import type { Project } from '../../types/portfolio'
 import { Card } from '../ui/Card'
 import { Tag } from '../ui/Tag'
 import { Button } from '../ui/Button'
+import { useMediaQuery } from '../../hooks/useMediaQuery'
 
 interface Props {
   project: Project
@@ -43,6 +44,15 @@ const s: Record<string, React.CSSProperties> = {
   thumb: {
     width: '100%',
     height: 110,
+    borderRadius: 'var(--radius)',
+    marginBottom: 10,
+    overflow: 'hidden',
+    position: 'relative',
+    cursor: 'pointer',
+  },
+  thumbMobile: {
+    width: '100%',
+    height: 90,
     borderRadius: 'var(--radius)',
     marginBottom: 10,
     overflow: 'hidden',
@@ -89,6 +99,12 @@ const s: Record<string, React.CSSProperties> = {
     marginBottom: 4,
     color: 'var(--text-primary)',
   },
+  titleMobile: {
+    fontSize: '0.85rem',
+    fontWeight: 700,
+    marginBottom: 4,
+    color: 'var(--text-primary)',
+  },
   desc: {
     color: 'var(--text-secondary)',
     fontSize: '0.78rem',
@@ -103,6 +119,7 @@ const s: Record<string, React.CSSProperties> = {
 
 export function ProjectCard({ project, onPreview, index }: Props) {
   const { language } = useLanguage()
+  const isMobile = useMediaQuery('(max-width: 768px)')
   const [accent, bg] = palette[hashId(project.id) % palette.length]
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
@@ -136,7 +153,7 @@ export function ProjectCard({ project, onPreview, index }: Props) {
     >
       <Card>
         <div
-          style={s.thumb}
+          style={isMobile ? s.thumbMobile : s.thumb}
           onClick={() => onPreview(project)}
           onMouseEnter={(e) => {
             const img = e.currentTarget.querySelector('img') as HTMLElement
@@ -179,7 +196,7 @@ export function ProjectCard({ project, onPreview, index }: Props) {
           </div>
         </div>
 
-        <h3 style={s.title}>{project.title}</h3>
+        <h3 style={isMobile ? s.titleMobile : s.title}>{project.title}</h3>
 
         <p style={s.desc}>
           {project.description.length > 80

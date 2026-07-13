@@ -6,6 +6,7 @@ import type { Project } from '../../types/portfolio'
 import { Section } from '../layout/Section'
 import { ProjectCard } from './ProjectCard'
 import { ProjectModal } from './ProjectModal'
+import { useMediaQuery } from '../../hooks/useMediaQuery'
 
 const s: Record<string, React.CSSProperties> = {
   empty: {
@@ -18,12 +19,18 @@ const s: Record<string, React.CSSProperties> = {
     gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
     gap: 20,
   },
+  gridMobile: {
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    gap: 16,
+  },
 }
 
 export function Projects() {
   const { language } = useLanguage()
   const projects = getProjects(language)
   const [preview, setPreview] = useState<Project | null>(null)
+  const isMobile = useMediaQuery('(max-width: 768px)')
 
   if (projects.length === 0) {
     return (
@@ -40,7 +47,7 @@ export function Projects() {
 
   return (
     <Section id="projects" title={t('section.proyectos', language)}>
-      <div style={s.grid}>
+      <div style={isMobile ? s.gridMobile : s.grid}>
         {projects.map((project, i) => (
           <ProjectCard key={project.id} project={project} onPreview={setPreview} index={i} />
         ))}

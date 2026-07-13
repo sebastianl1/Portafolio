@@ -2,6 +2,7 @@ import { useLanguage } from '../../contexts/LanguageContext'
 import { t } from '../../i18n/translations'
 import { getProfile } from '../../data/profile'
 import { Section } from '../layout/Section'
+import { useMediaQuery } from '../../hooks/useMediaQuery'
 
 const socialLinks = [
   { key: 'github' as const, labelKey: 'contact.github', descKey: 'contact.github-desc', icon: '🐙' },
@@ -16,8 +17,17 @@ const s: Record<string, React.CSSProperties> = {
     gap: 40,
     alignItems: 'center',
   },
+  gridMobile: {
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    gap: 32,
+    alignItems: 'center',
+  },
   left: {
     textAlign: 'left' as const,
+  },
+  leftMobile: {
+    textAlign: 'center' as const,
   },
   heading: {
     fontSize: '1.6rem',
@@ -37,6 +47,12 @@ const s: Record<string, React.CSSProperties> = {
     fontSize: '0.9rem',
     lineHeight: 1.7,
     maxWidth: 360,
+  },
+  subtitleMobile: {
+    color: 'var(--text-secondary)',
+    fontSize: '0.85rem',
+    lineHeight: 1.7,
+    maxWidth: '100%',
   },
   links: {
     display: 'flex',
@@ -87,17 +103,18 @@ const s: Record<string, React.CSSProperties> = {
 export function Contact() {
   const { language } = useLanguage()
   const profile = getProfile(language)
+  const isMobile = useMediaQuery('(max-width: 768px)')
   const available = socialLinks.filter(({ key }) => profile.social[key])
 
   return (
     <Section id="contact" title={t('section.contacto', language)}>
-      <div style={s.grid}>
-        <div style={s.left}>
+      <div style={isMobile ? s.gridMobile : s.grid}>
+        <div style={isMobile ? s.leftMobile : s.left}>
           <h3 style={s.heading}>
             {t('contact.hablemos', language)}
             <span style={s.gradient}>.</span>
           </h3>
-          <p style={s.subtitle}>
+          <p style={isMobile ? s.subtitleMobile : s.subtitle}>
             {t('contact.subtitle', language)}
           </p>
         </div>

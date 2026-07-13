@@ -4,6 +4,7 @@ import { t } from '../../i18n/translations'
 import type { Project } from '../../types/portfolio'
 import { Skeleton } from '../ui/Skeleton'
 import { Button } from '../ui/Button'
+import { useMediaQuery } from '../../hooks/useMediaQuery'
 
 interface Props {
   project: Project
@@ -19,6 +20,18 @@ const s: Record<string, React.CSSProperties> = {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 24,
+    background: 'rgba(0, 0, 0, 0.6)',
+    backdropFilter: 'blur(4px)',
+    animation: 'fadeIn 0.2s ease',
+  },
+  backdropMobile: {
+    position: 'fixed',
+    inset: 0,
+    zIndex: 2000,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 12,
     background: 'rgba(0, 0, 0, 0.6)',
     backdropFilter: 'blur(4px)',
     animation: 'fadeIn 0.2s ease',
@@ -40,6 +53,13 @@ const s: Record<string, React.CSSProperties> = {
     padding: '14px 18px',
     borderBottom: '1px solid var(--border)',
   },
+  headerMobile: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '12px 14px',
+    borderBottom: '1px solid var(--border)',
+  },
   closeBtn: {
     background: 'none',
     border: 'none',
@@ -54,6 +74,10 @@ const s: Record<string, React.CSSProperties> = {
   iframeContainer: {
     position: 'relative',
     height: 480,
+  },
+  iframeContainerMobile: {
+    position: 'relative',
+    height: 320,
   },
   error: {
     display: 'flex',
@@ -71,12 +95,20 @@ const s: Record<string, React.CSSProperties> = {
     display: 'flex',
     gap: 10,
   },
+  footerMobile: {
+    padding: '10px 14px',
+    borderTop: '1px solid var(--border)',
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: 8,
+  },
 }
 
 export function ProjectModal({ project, onClose }: Props) {
   const { language } = useLanguage()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
+  const isMobile = useMediaQuery('(max-width: 768px)')
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -88,14 +120,14 @@ export function ProjectModal({ project, onClose }: Props) {
 
   return (
     <div
-      style={s.backdrop}
+      style={isMobile ? s.backdropMobile : s.backdrop}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose()
       }}
     >
       <div style={s.modal}>
-        <div style={s.header}>
-          <span style={{ fontSize: '0.9rem', fontWeight: 700 }}>{project.title}</span>
+        <div style={isMobile ? s.headerMobile : s.header}>
+          <span style={{ fontSize: isMobile ? '0.82rem' : '0.9rem', fontWeight: 700 }}>{project.title}</span>
           <button
             onClick={onClose}
             style={s.closeBtn}
@@ -112,7 +144,7 @@ export function ProjectModal({ project, onClose }: Props) {
           </button>
         </div>
 
-        <div style={s.iframeContainer}>
+        <div style={isMobile ? s.iframeContainerMobile : s.iframeContainer}>
           {loading && !error && (
             <div style={{ position: 'absolute', inset: 0 }}>
               <Skeleton height="100%" />
@@ -157,11 +189,11 @@ export function ProjectModal({ project, onClose }: Props) {
           )}
         </div>
 
-        <div style={s.footer}>
+        <div style={isMobile ? s.footerMobile : s.footer}>
           <Button
             variant="primary"
             onClick={() => window.open(project.iframeUrl, '_blank')}
-            style={{ flex: 1 }}
+            style={{ flex: isMobile ? undefined : 1, width: isMobile ? '100%' : undefined }}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
@@ -171,7 +203,7 @@ export function ProjectModal({ project, onClose }: Props) {
             {t('modal.abrir', language)}
           </Button>
           {project.githubUrl && (
-            <Button variant="outline" onClick={() => window.open(project.githubUrl, '_blank')}>
+            <Button variant="outline" onClick={() => window.open(project.githubUrl, '_blank')} style={{ width: isMobile ? '100%' : undefined }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
                 <path d="M9 18c-4.51 2-5-2-7-2" />

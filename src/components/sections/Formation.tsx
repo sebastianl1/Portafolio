@@ -6,6 +6,7 @@ import { getKnowledgeAreas } from '../../data/skills'
 import { courses } from '../../data/courses'
 import { Section } from '../layout/Section'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
+import { useMediaQuery } from '../../hooks/useMediaQuery'
 import type { FormationItem } from '../../types/portfolio'
 
 const s: Record<string, React.CSSProperties> = {
@@ -20,9 +21,22 @@ const s: Record<string, React.CSSProperties> = {
     position: 'relative',
     paddingLeft: 28,
   },
+  timelineMobile: {
+    position: 'relative',
+    paddingLeft: 22,
+  },
   timelineLine: {
     position: 'absolute',
     left: 10,
+    top: 4,
+    bottom: 4,
+    width: 2,
+    background: 'var(--border)',
+    borderRadius: 1,
+  },
+  timelineLineMobile: {
+    position: 'absolute',
+    left: 8,
     top: 4,
     bottom: 4,
     width: 2,
@@ -40,12 +54,34 @@ const s: Record<string, React.CSSProperties> = {
     background: 'var(--bg-primary)',
     zIndex: 1,
   },
+  timelineDotMobile: {
+    position: 'absolute',
+    left: 3,
+    top: 16,
+    width: 12,
+    height: 12,
+    borderRadius: '50%',
+    border: '2px solid var(--accent)',
+    background: 'var(--bg-primary)',
+    zIndex: 1,
+  },
   timelineDotIndependent: {
     position: 'absolute',
     left: 4,
     top: 18,
     width: 14,
     height: 14,
+    borderRadius: '50%',
+    border: '2px solid var(--accent-neutral)',
+    background: 'var(--bg-primary)',
+    zIndex: 1,
+  },
+  timelineDotIndependentMobile: {
+    position: 'absolute',
+    left: 3,
+    top: 16,
+    width: 12,
+    height: 12,
     borderRadius: '50%',
     border: '2px solid var(--accent-neutral)',
     background: 'var(--bg-primary)',
@@ -66,14 +102,32 @@ const s: Record<string, React.CSSProperties> = {
     justifyContent: 'space-between',
     padding: '14px 18px',
   },
+  cardHeaderMobile: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '12px 14px',
+  },
   cardTitle: {
     fontSize: '0.85rem',
     fontWeight: 600,
     color: 'var(--text-primary)',
     lineHeight: 1.4,
   },
+  cardTitleMobile: {
+    fontSize: '0.8rem',
+    fontWeight: 600,
+    color: 'var(--text-primary)',
+    lineHeight: 1.4,
+  },
   cardMeta: {
     fontSize: '0.72rem',
+    color: 'var(--text-muted)',
+    fontFamily: 'var(--font-mono)',
+    marginTop: 3,
+  },
+  cardMetaMobile: {
+    fontSize: '0.68rem',
     color: 'var(--text-muted)',
     fontFamily: 'var(--font-mono)',
     marginTop: 3,
@@ -88,15 +142,31 @@ const s: Record<string, React.CSSProperties> = {
     borderTop: '1px solid var(--border)',
     paddingTop: 12,
   },
+  cardBodyMobile: {
+    padding: '0 14px 12px',
+    borderTop: '1px solid var(--border)',
+    paddingTop: 10,
+  },
   description: {
     color: 'var(--text-secondary)',
     fontSize: '0.82rem',
     lineHeight: 1.7,
     marginBottom: 14,
   },
+  descriptionMobile: {
+    color: 'var(--text-secondary)',
+    fontSize: '0.78rem',
+    lineHeight: 1.7,
+    marginBottom: 12,
+  },
   competency: {
     color: 'var(--text-secondary)',
     fontSize: '0.8rem',
+    lineHeight: 1.6,
+  },
+  competencyMobile: {
+    color: 'var(--text-secondary)',
+    fontSize: '0.76rem',
     lineHeight: 1.6,
   },
   competencyBullet: {
@@ -120,6 +190,11 @@ const s: Record<string, React.CSSProperties> = {
     gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
     gap: 12,
   },
+  certGridMobile: {
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    gap: 10,
+  },
   certCard: {
     borderRadius: 'var(--radius)',
     border: '1px solid var(--border)',
@@ -127,6 +202,18 @@ const s: Record<string, React.CSSProperties> = {
     display: 'flex',
     flexDirection: 'column' as const,
     gap: 10,
+    background: 'var(--bg-card)',
+    transition: 'all var(--transition)',
+    cursor: 'default',
+  },
+  certCardMobile: {
+    borderRadius: 'var(--radius)',
+    border: '1px solid var(--border)',
+    padding: '14px',
+    display: 'flex',
+    flexDirection: 'row' as const,
+    alignItems: 'center',
+    gap: 12,
     background: 'var(--bg-card)',
     transition: 'all var(--transition)',
     cursor: 'default',
@@ -161,6 +248,19 @@ const s: Record<string, React.CSSProperties> = {
     marginTop: 'auto',
     transition: 'all var(--transition)',
   },
+  pdfBtnMobile: {
+    padding: '6px 14px',
+    borderRadius: 6,
+    border: '1px solid var(--accent)',
+    background: 'transparent',
+    color: 'var(--accent)',
+    fontFamily: 'var(--font-sans)',
+    fontSize: '0.7rem',
+    fontWeight: 600,
+    cursor: 'pointer',
+    flexShrink: 0,
+    transition: 'all var(--transition)',
+  },
   comingSoon: {
     color: 'var(--text-muted)',
     fontSize: '0.85rem',
@@ -172,13 +272,17 @@ function FormationCard({ item, index }: { item: FormationItem; index: number }) 
   const [isOpen, setIsOpen] = useState(false)
   const { language } = useLanguage()
   const { ref, visible } = useScrollReveal()
+  const isMobile = useMediaQuery('(max-width: 768px)')
   const areas = getKnowledgeAreas(language)
 
   const relatedAreas = areas.filter((a) =>
     item.knowledgeAreaIds.includes(a.id),
   )
   const isIndependent = item.type === 'independent'
-  const dotStyle = isIndependent ? s.timelineDotIndependent : s.timelineDot
+
+  const dotStyle = isIndependent
+    ? (isMobile ? s.timelineDotIndependentMobile : s.timelineDotIndependent)
+    : (isMobile ? s.timelineDotMobile : s.timelineDot)
 
   return (
     <div
@@ -203,11 +307,11 @@ function FormationCard({ item, index }: { item: FormationItem; index: number }) 
           }
         }}
       >
-        <div style={s.cardHeader}>
+        <div style={isMobile ? s.cardHeaderMobile : s.cardHeader}>
           <div>
-            <div style={s.cardTitle}>{item.title}</div>
+            <div style={isMobile ? s.cardTitleMobile : s.cardTitle}>{item.title}</div>
             {(item.institution || item.duration) && (
-              <div style={s.cardMeta}>
+              <div style={isMobile ? s.cardMetaMobile : s.cardMeta}>
                 {[item.institution, item.duration].filter(Boolean).join(' · ')}
               </div>
             )}
@@ -224,13 +328,13 @@ function FormationCard({ item, index }: { item: FormationItem; index: number }) 
           }}
         >
           <div style={{ overflow: 'hidden' }}>
-            <div style={s.cardBody}>
-              <p style={s.description}>{item.description}</p>
+            <div style={isMobile ? s.cardBodyMobile : s.cardBody}>
+              <p style={isMobile ? s.descriptionMobile : s.description}>{item.description}</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 3, marginBottom: 14 }}>
                 {item.competencies.map((c) => (
                   <div key={c} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
                     <span style={s.competencyBullet}>●</span>
-                    <span style={s.competency}>{c}</span>
+                    <span style={isMobile ? s.competencyMobile : s.competency}>{c}</span>
                   </div>
                 ))}
               </div>
@@ -254,15 +358,19 @@ function FormationCard({ item, index }: { item: FormationItem; index: number }) 
 export function Formation() {
   const { language } = useLanguage()
   const profile = getProfile(language)
+  const isMobile = useMediaQuery('(max-width: 768px)')
   const technical = profile.formation.filter((f) => f.type === 'technical')
   const independent = profile.formation.filter((f) => f.type === 'independent')
+
+  const timelineStyle = isMobile ? s.timelineMobile : s.timeline
+  const timelineLineStyle = isMobile ? s.timelineLineMobile : s.timelineLine
 
   return (
     <Section id="formation" title={t('section.formacion', language)}>
       <div style={{ marginBottom: 40 }}>
         <p style={s.sectionLabel}>{t('formation.tecnica', language)}</p>
-        <div style={s.timeline}>
-          <div style={s.timelineLine} />
+        <div style={timelineStyle}>
+          <div style={timelineLineStyle} />
           {technical.map((item, i) => (
             <FormationCard key={item.id} item={item} index={i} />
           ))}
@@ -273,8 +381,8 @@ export function Formation() {
         <p style={{ ...s.sectionLabel, color: 'var(--accent-neutral)' }}>
           {t('formation.independiente', language)}
         </p>
-        <div style={s.timeline}>
-          <div style={s.timelineLine} />
+        <div style={timelineStyle}>
+          <div style={timelineLineStyle} />
           {independent.map((item, i) => (
             <FormationCard key={item.id} item={item} index={i} />
           ))}
@@ -286,18 +394,18 @@ export function Formation() {
         {courses.length === 0 ? (
           <p style={s.comingSoon}>{t('formation.proximamente', language)}</p>
         ) : (
-          <div style={s.certGrid}>
+          <div style={isMobile ? s.certGridMobile : s.certGrid}>
             {courses.map((course) => (
-              <div key={course.id} style={s.certCard}>
+              <div key={course.id} style={isMobile ? s.certCardMobile : s.certCard}>
                 <span style={s.certIcon}>📄</span>
-                <div>
+                <div style={isMobile ? { flex: 1 } : undefined}>
                   <div style={s.certTitle}>{course.title}</div>
                   <div style={s.certInst}>{course.institution}</div>
                 </div>
                 {course.certificateUrl && (
                   <button
                     onClick={() => window.open(import.meta.env.BASE_URL + course.certificateUrl, '_blank')}
-                    style={s.pdfBtn}
+                    style={isMobile ? s.pdfBtnMobile : s.pdfBtn}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = 'var(--accent-dim)'
                       e.currentTarget.style.boxShadow = '0 0 12px var(--accent-glow)'

@@ -56,6 +56,13 @@ html {
   scroll-padding-top: var(--nav-height);
 }
 
+@media (max-width: 768px) {
+  :root {
+    --section-py: 48px;
+    --nav-height: 56px;
+  }
+}
+
 *,
 *::before,
 *::after {

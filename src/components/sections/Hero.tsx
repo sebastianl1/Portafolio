@@ -3,6 +3,7 @@ import { useLanguage } from '../../contexts/LanguageContext'
 import { t } from '../../i18n/translations'
 import { getProfile } from '../../data/profile'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
+import { useMediaQuery } from '../../hooks/useMediaQuery'
 
 const s: Record<string, React.CSSProperties> = {
   section: {
@@ -20,6 +21,17 @@ const s: Record<string, React.CSSProperties> = {
     marginLeft: 'auto',
     marginRight: 'auto',
   },
+  heroRowMobile: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 24,
+    marginBottom: 24,
+    maxWidth: 760,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    textAlign: 'center',
+  },
   avatarCol: {
     flexShrink: 0,
   },
@@ -27,6 +39,11 @@ const s: Record<string, React.CSSProperties> = {
     position: 'relative',
     width: 150,
     height: 150,
+  },
+  avatarWrapperMobile: {
+    position: 'relative',
+    width: 120,
+    height: 120,
   },
   avatarBorder: {
     position: 'absolute',
@@ -71,6 +88,12 @@ const s: Record<string, React.CSSProperties> = {
     WebkitHyphens: 'auto',
     msHyphens: 'auto',
   },
+  bioMobile: {
+    color: 'var(--text-secondary)',
+    fontSize: '0.82rem',
+    lineHeight: 1.8,
+    textAlign: 'center',
+  },
   tagsRow: {
     display: 'flex',
     flexWrap: 'wrap' as const,
@@ -79,6 +102,7 @@ const s: Record<string, React.CSSProperties> = {
     maxWidth: 760,
     marginLeft: 'auto',
     marginRight: 'auto',
+    justifyContent: 'center',
   },
   tag: {
     padding: '3px 10px',
@@ -99,6 +123,15 @@ const s: Record<string, React.CSSProperties> = {
     maxWidth: 760,
     marginLeft: 'auto',
     marginRight: 'auto',
+  },
+  ctaRowMobile: {
+    display: 'flex',
+    gap: 10,
+    flexWrap: 'wrap' as const,
+    maxWidth: 760,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    justifyContent: 'center',
   },
   ctaPrimary: {
     display: 'inline-flex',
@@ -149,6 +182,7 @@ export function Hero() {
   const { ref, visible } = useScrollReveal()
   const ctaRef = useRef<HTMLDivElement>(null)
   const tagsRef = useRef<HTMLDivElement>(null)
+  const isMobile = useMediaQuery('(max-width: 768px)')
 
   useEffect(() => {
     if (!visible) return
@@ -168,19 +202,28 @@ export function Hero() {
     })
   }, [visible])
 
+  const sectionStyle = isMobile
+    ? { ...s.section, padding: '120px 16px 40px' }
+    : s.section
+
   return (
     <section
       id="hero"
       ref={ref}
       className={`reveal ${visible ? 'visible' : ''}`}
-      style={s.section}
+      style={sectionStyle}
     >
-      <div style={s.heroRow}>
+      <div style={isMobile ? s.heroRowMobile : s.heroRow}>
         <div style={s.avatarCol}>
-          <div style={s.avatarWrapper}>
+          <div style={isMobile ? s.avatarWrapperMobile : s.avatarWrapper}>
             <div style={s.avatarBorder} />
             <div style={s.avatarInner}>
-              <svg width="76" height="76" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--text-muted)', opacity: 0.7 }}>
+              <svg
+                width={isMobile ? 60 : 76}
+                height={isMobile ? 60 : 76}
+                viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                style={{ color: 'var(--text-muted)', opacity: 0.7 }}
+              >
                 <circle cx="50" cy="30" r="16" stroke="var(--accent)" strokeWidth="2" />
                 <path d="M18 88c0-18 14-32 32-32s32 14 32 32" stroke="var(--accent)" opacity="0.6" />
                 <path d="M34 42l-8-4M66 42l8-4" stroke="var(--accent-neutral)" strokeWidth="1.5" opacity="0.5" />
@@ -194,7 +237,7 @@ export function Hero() {
 
         <div style={s.textCol}>
           <h1 style={s.name}>{profile.name}</h1>
-          <p style={s.bio}>{profile.bio}</p>
+          <p style={isMobile ? s.bioMobile : s.bio}>{profile.bio}</p>
         </div>
       </div>
 
@@ -217,7 +260,7 @@ export function Hero() {
         ))}
       </div>
 
-      <div ref={ctaRef} style={s.ctaRow}>
+      <div ref={ctaRef} style={isMobile ? s.ctaRowMobile : s.ctaRow}>
         <a
           href="#projects"
           style={s.ctaPrimary}

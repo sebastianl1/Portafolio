@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { t } from '../i18n/translations'
 import { getProfile } from '../data/profile'
+import { useMediaQuery } from '../hooks/useMediaQuery'
 
 function useSocialLinks() {
   const { language } = useLanguage()
@@ -52,6 +53,15 @@ const s: Record<string, React.CSSProperties> = {
     gap: 10,
     zIndex: 100,
   },
+  containerMobile: {
+    position: 'fixed',
+    bottom: 16,
+    right: 16,
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 8,
+    zIndex: 100,
+  },
   link: {
     display: 'flex',
     alignItems: 'center',
@@ -59,6 +69,21 @@ const s: Record<string, React.CSSProperties> = {
     width: 44,
     height: 44,
     borderRadius: 12,
+    border: '1px solid var(--border)',
+    color: 'var(--text-muted)',
+    textDecoration: 'none',
+    transition: 'all var(--transition)',
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    position: 'relative',
+  },
+  linkMobile: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 38,
+    height: 38,
+    borderRadius: 10,
     border: '1px solid var(--border)',
     color: 'var(--text-muted)',
     textDecoration: 'none',
@@ -102,6 +127,7 @@ export function SocialFloating() {
   const links = useSocialLinks()
   const [mounted, setMounted] = useState(false)
   const [tooltip, setTooltip] = useState<string | null>(null)
+  const isMobile = useMediaQuery('(max-width: 768px)')
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 500)
@@ -111,7 +137,7 @@ export function SocialFloating() {
   return (
     <div
       style={{
-        ...s.container,
+        ...(isMobile ? s.containerMobile : s.container),
         opacity: mounted ? 1 : 0,
         transform: mounted ? 'translateX(0)' : 'translateX(20px)',
         transition: 'opacity 0.4s ease, transform 0.4s ease',
@@ -128,7 +154,7 @@ export function SocialFloating() {
             aria-label={t(link.labelKey, language)}
             tabIndex={active ? 0 : -1}
             style={{
-              ...s.link,
+              ...(isMobile ? s.linkMobile : s.link),
               ...(active ? s.linkActive : s.linkInactive),
             }}
             onMouseEnter={(e) => {

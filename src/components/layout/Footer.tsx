@@ -1,6 +1,7 @@
 import { useLanguage } from '../../contexts/LanguageContext'
 import { t } from '../../i18n/translations'
 import { getProfile } from '../../data/profile'
+import { useMediaQuery } from '../../hooks/useMediaQuery'
 
 const s: Record<string, React.CSSProperties> = {
   footer: {
@@ -19,6 +20,15 @@ const s: Record<string, React.CSSProperties> = {
     display: 'grid',
     gridTemplateColumns: '1.5fr 1fr 1fr',
     gap: 32,
+  },
+  innerMobile: {
+    maxWidth: 'var(--max-width)',
+    margin: '0 auto',
+    padding: '32px 24px 24px',
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    gap: 24,
+    textAlign: 'center',
   },
   brand: {
     fontSize: '1.1rem',
@@ -72,6 +82,7 @@ const s: Record<string, React.CSSProperties> = {
 export function Footer() {
   const { language } = useLanguage()
   const profile = getProfile(language)
+  const isMobile = useMediaQuery('(max-width: 768px)')
 
   const quickLinks = [
     { labelKey: 'footer.inicio', href: '#hero' },
@@ -85,31 +96,34 @@ export function Footer() {
     { label: 'LinkedIn', href: profile.social.linkedin },
   ]
 
+  const colStyle = isMobile ? { alignItems: 'center' as const, display: 'flex' as const, flexDirection: 'column' as const } : {}
+  const linkStyle = { ...s.links, ...(isMobile ? { alignItems: 'center' as const } : {}) }
+
   return (
     <footer style={s.footer}>
       <div style={s.divider} />
-      <div style={s.inner}>
-        <div>
+      <div style={isMobile ? s.innerMobile : s.inner}>
+        <div style={colStyle}>
           <div style={s.brand}>{profile.name}</div>
           <p style={s.tagline}>{profile.tagline}</p>
         </div>
 
-        <div>
+        <div style={colStyle}>
           <div style={s.colTitle}>{t('footer.navegacion', language)}</div>
-          <div style={s.links}>
+          <div style={linkStyle}>
             {quickLinks.map((link) => (
-              <a key={link.href} href={link.href} style={s.link}>
+              <a key={link.href} href={link.href} style={{ ...s.link, ...(isMobile ? { fontSize: '0.85rem' } : {}) }}>
                 {t(link.labelKey, language)}
               </a>
             ))}
           </div>
         </div>
 
-        <div>
+        <div style={colStyle}>
           <div style={s.colTitle}>{t('footer.redes', language)}</div>
-          <div style={s.links}>
+          <div style={linkStyle}>
             {socialFooter.filter((l) => l.href).map((link) => (
-              <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" style={s.link}>
+              <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" style={{ ...s.link, ...(isMobile ? { fontSize: '0.85rem' } : {}) }}>
                 {link.label}
               </a>
             ))}

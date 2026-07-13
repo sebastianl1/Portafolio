@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { t } from '../../i18n/translations'
+import { useMediaQuery } from '../../hooks/useMediaQuery'
 
 const links = [
   { key: 'nav.trayectoria', href: '#formation' },
@@ -113,6 +114,54 @@ const s: Record<string, React.CSSProperties> = {
     letterSpacing: 0.5,
     marginLeft: 8,
   },
+  hamburger: {
+    display: 'none',
+    background: 'none',
+    border: '1px solid var(--border)',
+    borderRadius: 8,
+    color: 'var(--text-secondary)',
+    cursor: 'pointer',
+    padding: '8px 10px',
+    transition: 'all var(--transition)',
+  },
+  mobileMenu: {
+    position: 'fixed',
+    top: 'var(--nav-height)',
+    left: 0,
+    right: 0,
+    background: 'var(--bg-glass-solid)',
+    backdropFilter: 'blur(20px)',
+    WebkitBackdropFilter: 'blur(20px)',
+    borderBottom: '1px solid var(--border)',
+    padding: '12px 24px 16px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 4,
+    zIndex: 999,
+  },
+  mobileLink: {
+    padding: '10px 14px',
+    borderRadius: 8,
+    fontSize: '0.9rem',
+    fontWeight: 500,
+    textDecoration: 'none',
+    transition: 'all var(--transition)',
+    display: 'block',
+  },
+  mobileLangBtn: {
+    padding: '10px 14px',
+    borderRadius: 8,
+    fontSize: '0.9rem',
+    fontWeight: 600,
+    fontFamily: 'var(--font-mono)',
+    border: '1px solid var(--border)',
+    background: 'transparent',
+    color: 'var(--text-muted)',
+    cursor: 'pointer',
+    transition: 'all var(--transition)',
+    marginTop: 4,
+    textAlign: 'center',
+  },
 }
 
 export function Navbar() {
@@ -120,6 +169,8 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState('')
   const [progress, setProgress] = useState(0)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const isMobile = useMediaQuery('(max-width: 768px)')
 
   useEffect(() => {
     const onScroll = () => {
@@ -149,6 +200,41 @@ export function Navbar() {
     return () => observer.disconnect()
   }, [])
 
+  useEffect(() => {
+    if (!isMobile) setMobileOpen(false)
+  }, [isMobile])
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [mobileOpen])
+
+  const linkEls = (isMobileStyle: boolean) =>
+    links.map((link) => {
+      const isActive = active === link.href.slice(1)
+      return (
+        <a
+          key={link.href}
+          href={link.href}
+          onClick={() => setMobileOpen(false)}
+          style={
+            isMobileStyle
+              ? {
+                  ...s.mobileLink,
+                  color: isActive ? 'var(--accent)' : 'var(--text-secondary)',
+                  background: isActive ? 'var(--accent-dim)' : 'transparent',
+                }
+              : {
+                  ...s.link,
+                  ...(isActive ? s.linkActive : s.linkInactive),
+                }
+          }
+        >
+          {t(link.key, language)}
+        </a>
+      )
+    })
+
   return (
     <>
       <div style={{ ...s.progressBar, width: `${progress}%` }} />
@@ -175,50 +261,85 @@ export function Navbar() {
             </span>
           </a>
 
-          <div
-            style={s.linkContainer}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(0, 245, 212, 0.2)'
-              e.currentTarget.style.boxShadow = '0 0 20px rgba(0, 245, 212, 0.05)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(0, 245, 212, 0.04)'
-              e.currentTarget.style.boxShadow = 'none'
-            }}
-          >
-            {links.map((link) => {
-              const isActive = active === link.href.slice(1)
-              return (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  style={{
-                    ...s.link,
-                    ...(isActive ? s.linkActive : s.linkInactive),
-                  }}
-                >
-                  {t(link.key, language)}
-                </a>
-              )
-            })}
-
+          {isMobile ? (
             <button
-              onClick={toggleLanguage}
-              style={s.langToggle}
+              onClick={() => setMobileOpen(!mobileOpen)}
+              style={s.hamburger}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = 'var(--accent)'
                 e.currentTarget.style.color = 'var(--accent)'
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = 'var(--border)'
-                e.currentTarget.style.color = 'var(--text-muted)'
+                e.currentTarget.style.color = 'var(--text-secondary)'
               }}
             >
-              {language === 'en' ? 'ES' : 'EN'}
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                {mobileOpen ? (
+                  <>
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </>
+                ) : (
+                  <>
+                    <line x1="4" y1="6" x2="20" y2="6" />
+                    <line x1="4" y1="12" x2="20" y2="12" />
+                    <line x1="4" y1="18" x2="20" y2="18" />
+                  </>
+                )}
+              </svg>
             </button>
-          </div>
+          ) : (
+            <div
+              style={s.linkContainer}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(0, 245, 212, 0.2)'
+                e.currentTarget.style.boxShadow = '0 0 20px rgba(0, 245, 212, 0.05)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(0, 245, 212, 0.04)'
+                e.currentTarget.style.boxShadow = 'none'
+              }}
+            >
+              {linkEls(false)}
+              <button
+                onClick={toggleLanguage}
+                style={s.langToggle}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--accent)'
+                  e.currentTarget.style.color = 'var(--accent)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--border)'
+                  e.currentTarget.style.color = 'var(--text-muted)'
+                }}
+              >
+                {language === 'en' ? 'ES' : 'EN'}
+              </button>
+            </div>
+          )}
         </div>
       </nav>
+
+      {isMobile && mobileOpen && (
+        <div style={s.mobileMenu}>
+          {linkEls(true)}
+          <button
+            onClick={toggleLanguage}
+            style={s.mobileLangBtn}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'var(--accent)'
+              e.currentTarget.style.color = 'var(--accent)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border)'
+              e.currentTarget.style.color = 'var(--text-muted)'
+            }}
+          >
+            {language === 'en' ? 'ES' : 'EN'}
+          </button>
+        </div>
+      )}
     </>
   )
 }
