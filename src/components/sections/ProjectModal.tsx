@@ -24,6 +24,8 @@ export function ProjectModal({ project, onClose }: Props) {
     }
   }, [onClose])
 
+  const showImage = !!(project.thumbnail)
+
   return (
     <div
       style={{
@@ -44,7 +46,7 @@ export function ProjectModal({ project, onClose }: Props) {
       <div
         style={{
           width: '100%',
-          maxWidth: 360,
+          maxWidth: showImage ? 720 : 360,
           background: 'var(--bg-secondary)',
           borderRadius: 'var(--radius-lg)',
           border: '1px solid var(--border)',
@@ -86,57 +88,71 @@ export function ProjectModal({ project, onClose }: Props) {
           </button>
         </div>
 
-        <div style={{ position: 'relative', height: 200 }}>
-          {loading && !error && (
-            <div style={{ position: 'absolute', inset: 0 }}>
-              <Skeleton height="100%" />
-            </div>
-          )}
+        {showImage ? (
+          <img
+            src={project.thumbnail}
+            alt={project.title}
+            style={{
+              width: '100%',
+              maxHeight: 480,
+              objectFit: 'contain',
+              display: 'block',
+              background: '#0a0a0f',
+            }}
+          />
+        ) : (
+          <div style={{ position: 'relative', height: 200 }}>
+            {loading && !error && (
+              <div style={{ position: 'absolute', inset: 0 }}>
+                <Skeleton height="100%" />
+              </div>
+            )}
 
-          {error ? (
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '100%',
-                padding: 24,
-                gap: 12,
-                textAlign: 'center',
-              }}
-            >
-              <span style={{ fontSize: '2rem' }}>⚠️</span>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
-                Vista previa no disponible
-              </p>
-              {project.githubUrl && (
-                <Button
-                  variant="outline"
-                  onClick={() => window.open(project.githubUrl, '_blank')}
-                >
-                  Ver en GitHub
-                </Button>
-              )}
-            </div>
-          ) : (
-            <iframe
-              src={project.iframeUrl}
-              title={project.title}
-              style={{
-                width: '100%',
-                height: '100%',
-                border: 'none',
-                display: loading ? 'none' : 'block',
-              }}
-              onLoad={() => setLoading(false)}
-              onError={() => {
-                setLoading(false)
-                setError(true)
-              }}
-            />
-          )}
-        </div>
+            {error ? (
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '100%',
+                  padding: 24,
+                  gap: 12,
+                  textAlign: 'center',
+                }}
+              >
+                <span style={{ fontSize: '2rem' }}>⚠️</span>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+                  Vista previa no disponible
+                </p>
+                {project.githubUrl && (
+                  <Button
+                    variant="outline"
+                    onClick={() => window.open(project.githubUrl, '_blank')}
+                  >
+                    Ver en GitHub
+                  </Button>
+                )}
+              </div>
+            ) : (
+              <iframe
+                src={project.iframeUrl}
+                title={project.title}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  border: 'none',
+                  display: loading ? 'none' : 'block',
+                }}
+                onLoad={() => setLoading(false)}
+                onError={() => {
+                  setLoading(false)
+                  setError(true)
+                }}
+              />
+            )}
+          </div>
+        )}
 
         <div style={{ padding: '10px 16px', borderTop: '1px solid var(--border)' }}>
           <button
