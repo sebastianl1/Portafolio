@@ -1,12 +1,13 @@
 import { useState } from 'react'
-import { profile } from '../../data/profile'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { t } from '../../i18n/translations'
+import { getProfile } from '../../data/profile'
+import { getKnowledgeAreas } from '../../data/skills'
 import { courses } from '../../data/courses'
-import { knowledgeAreas } from '../../data/skills'
 import { Section } from '../layout/Section'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 import type { FormationItem } from '../../types/portfolio'
 
-/* ─── Styles ─── */
 const s: Record<string, React.CSSProperties> = {
   sectionLabel: {
     fontFamily: 'var(--font-mono)',
@@ -167,17 +168,16 @@ const s: Record<string, React.CSSProperties> = {
   },
 }
 
-/* ─── Subcomponentes ─── */
-
 function FormationCard({ item, index }: { item: FormationItem; index: number }) {
   const [isOpen, setIsOpen] = useState(false)
+  const { language } = useLanguage()
   const { ref, visible } = useScrollReveal()
+  const areas = getKnowledgeAreas(language)
 
-  const relatedAreas = knowledgeAreas.filter((a) =>
+  const relatedAreas = areas.filter((a) =>
     item.knowledgeAreaIds.includes(a.id),
   )
   const isIndependent = item.type === 'independent'
-
   const dotStyle = isIndependent ? s.timelineDotIndependent : s.timelineDot
 
   return (
@@ -187,7 +187,6 @@ function FormationCard({ item, index }: { item: FormationItem; index: number }) 
       style={{ position: 'relative', transitionDelay: `${index * 100}ms` }}
     >
       <div style={dotStyle} />
-
       <div
         style={s.card}
         onClick={() => setIsOpen(!isOpen)}
@@ -252,17 +251,16 @@ function FormationCard({ item, index }: { item: FormationItem; index: number }) 
   )
 }
 
-/* ─── Componente principal ─── */
-
 export function Formation() {
+  const { language } = useLanguage()
+  const profile = getProfile(language)
   const technical = profile.formation.filter((f) => f.type === 'technical')
   const independent = profile.formation.filter((f) => f.type === 'independent')
 
   return (
-    <Section id="formation" title="Trayectoria">
-      {/* Formación Técnica y Tecnológica */}
+    <Section id="formation" title={t('section.formacion', language)}>
       <div style={{ marginBottom: 40 }}>
-        <p style={s.sectionLabel}>FORMACIÓN TÉCNICA Y TECNOLÓGICA</p>
+        <p style={s.sectionLabel}>{t('formation.tecnica', language)}</p>
         <div style={s.timeline}>
           <div style={s.timelineLine} />
           {technical.map((item, i) => (
@@ -271,10 +269,9 @@ export function Formation() {
         </div>
       </div>
 
-      {/* Formación Independiente */}
       <div style={{ marginBottom: 40 }}>
         <p style={{ ...s.sectionLabel, color: 'var(--accent-neutral)' }}>
-          FORMACIÓN INDEPENDIENTE
+          {t('formation.independiente', language)}
         </p>
         <div style={s.timeline}>
           <div style={s.timelineLine} />
@@ -284,11 +281,10 @@ export function Formation() {
         </div>
       </div>
 
-      {/* Certificados */}
       <div style={{ marginBottom: 32 }}>
-        <p style={s.sectionLabel}>CERTIFICADOS</p>
+        <p style={s.sectionLabel}>{t('formation.certificados', language)}</p>
         {courses.length === 0 ? (
-          <p style={s.comingSoon}>Próximamente...</p>
+          <p style={s.comingSoon}>{t('formation.proximamente', language)}</p>
         ) : (
           <div style={s.certGrid}>
             {courses.map((course) => (
@@ -311,7 +307,7 @@ export function Formation() {
                       e.currentTarget.style.boxShadow = 'none'
                     }}
                   >
-                    Ver PDF
+                    {t('cert.ver-pdf', language)}
                   </button>
                 )}
               </div>

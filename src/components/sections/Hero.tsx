@@ -1,5 +1,7 @@
 import { useRef, useEffect } from 'react'
-import { profile } from '../../data/profile'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { t } from '../../i18n/translations'
+import { getProfile } from '../../data/profile'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 
 const s: Record<string, React.CSSProperties> = {
@@ -7,14 +9,24 @@ const s: Record<string, React.CSSProperties> = {
     maxWidth: 'var(--max-width)',
     margin: '0 auto',
     padding: '140px 24px 60px',
-    textAlign: 'center',
     position: 'relative',
+  },
+  heroRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 44,
+    marginBottom: 28,
+    maxWidth: 760,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  avatarCol: {
+    flexShrink: 0,
   },
   avatarWrapper: {
     position: 'relative',
-    width: 140,
-    height: 140,
-    margin: '0 auto 24px',
+    width: 150,
+    height: 150,
   },
   avatarBorder: {
     position: 'absolute',
@@ -33,12 +45,16 @@ const s: Record<string, React.CSSProperties> = {
     justifyContent: 'center',
     overflow: 'hidden',
   },
+  textCol: {
+    flex: 1,
+    minWidth: 0,
+  },
   name: {
     fontFamily: 'var(--font-display)',
-    fontSize: 'clamp(2rem, 4vw, 2.8rem)',
+    fontSize: 'clamp(1.6rem, 3vw, 2.2rem)',
     fontWeight: 800,
-    lineHeight: 1.1,
-    marginBottom: 8,
+    lineHeight: 1.15,
+    marginBottom: 10,
     background: 'var(--accent-gradient)',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
@@ -46,38 +62,54 @@ const s: Record<string, React.CSSProperties> = {
     backgroundSize: '200% 100%',
     animation: 'gradientShift 4s ease infinite',
   },
-  tagline: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: 'clamp(0.75rem, 1.2vw, 0.85rem)',
-    color: 'var(--accent)',
-    letterSpacing: 1,
-    marginBottom: 20,
-    opacity: 0.8,
-  },
   bio: {
     color: 'var(--text-secondary)',
-    fontSize: 'clamp(0.85rem, 1.3vw, 0.95rem)',
+    fontSize: 'clamp(0.8rem, 1.1vw, 0.9rem)',
     lineHeight: 1.8,
-    maxWidth: 620,
-    margin: '0 auto 28px',
+    textAlign: 'justify',
+    hyphens: 'auto',
+    WebkitHyphens: 'auto',
+    msHyphens: 'auto',
+  },
+  tagsRow: {
+    display: 'flex',
+    flexWrap: 'wrap' as const,
+    gap: 6,
+    marginBottom: 24,
+    maxWidth: 760,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  tag: {
+    padding: '3px 10px',
+    borderRadius: 'var(--radius-full)',
+    background: 'var(--bg-glass)',
+    border: '1px solid var(--border)',
+    backdropFilter: 'blur(8px)',
+    fontFamily: 'var(--font-mono)',
+    fontSize: '0.65rem',
+    color: 'var(--text-secondary)',
+    letterSpacing: 0.3,
+    transition: 'all var(--transition)',
   },
   ctaRow: {
     display: 'flex',
-    justifyContent: 'center',
-    gap: 12,
-    marginBottom: 36,
+    gap: 10,
     flexWrap: 'wrap' as const,
+    maxWidth: 760,
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   ctaPrimary: {
     display: 'inline-flex',
     alignItems: 'center',
-    gap: 8,
-    padding: '12px 28px',
+    gap: 6,
+    padding: '8px 20px',
     borderRadius: 'var(--radius)',
     background: 'var(--accent)',
     color: '#0a0a0f',
     fontFamily: 'var(--font-sans)',
-    fontSize: '0.9rem',
+    fontSize: '0.82rem',
     fontWeight: 700,
     border: 'none',
     cursor: 'pointer',
@@ -87,13 +119,13 @@ const s: Record<string, React.CSSProperties> = {
   ctaOutline: {
     display: 'inline-flex',
     alignItems: 'center',
-    gap: 8,
-    padding: '12px 28px',
+    gap: 6,
+    padding: '8px 20px',
     borderRadius: 'var(--radius)',
     background: 'transparent',
     color: 'var(--text-primary)',
     fontFamily: 'var(--font-sans)',
-    fontSize: '0.9rem',
+    fontSize: '0.82rem',
     fontWeight: 600,
     border: '1px solid var(--border)',
     cursor: 'pointer',
@@ -102,18 +134,37 @@ const s: Record<string, React.CSSProperties> = {
   },
 }
 
+const tagKeys = [
+  'tag.programacion',
+  'tag.ciberseguridad',
+  'tag.matematicas',
+  'tag.quimica',
+  'tag.electronica',
+  'tag.ingles',
+]
+
 export function Hero() {
+  const { language } = useLanguage()
+  const profile = getProfile(language)
   const { ref, visible } = useScrollReveal()
   const ctaRef = useRef<HTMLDivElement>(null)
+  const tagsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!visible) return
     const ctaEls = ctaRef.current?.querySelectorAll('a')
     ctaEls?.forEach((el, i) => {
       el.animate([
-        { opacity: 0, transform: 'translateY(12px)' },
+        { opacity: 0, transform: 'translateY(8px)' },
         { opacity: 1, transform: 'translateY(0)' },
-      ], { duration: 400, delay: 200 + i * 100, fill: 'forwards', easing: 'ease-out' })
+      ], { duration: 300, delay: 300 + i * 80, fill: 'forwards', easing: 'ease-out' })
+    })
+    const tagEls = tagsRef.current?.querySelectorAll('span')
+    tagEls?.forEach((el, i) => {
+      el.animate([
+        { opacity: 0, transform: 'translateY(6px) scale(0.95)' },
+        { opacity: 1, transform: 'translateY(0) scale(1)' },
+      ], { duration: 300, delay: 200 + i * 60, fill: 'forwards', easing: 'ease-out' })
     })
   }, [visible])
 
@@ -124,52 +175,65 @@ export function Hero() {
       className={`reveal ${visible ? 'visible' : ''}`}
       style={s.section}
     >
-      {/* Avatar */}
-      <div style={s.avatarWrapper}>
-        <div style={s.avatarBorder} />
-        <div style={s.avatarInner}>
-          <svg width="72" height="72" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--text-muted)', opacity: 0.7 }}>
-            {/* Cabeza estilo geométrico / tech */}
-            <circle cx="50" cy="30" r="16" stroke="var(--accent)" strokeWidth="2" />
-            {/* Cuerpo / torso */}
-            <path d="M18 88c0-18 14-32 32-32s32 14 32 32" stroke="var(--accent)" opacity="0.6" />
-            {/* Líneas de circuito decorativas */}
-            <path d="M34 42l-8-4M66 42l8-4" stroke="var(--accent-neutral)" strokeWidth="1.5" opacity="0.5" />
-            <circle cx="26" cy="38" r="2" fill="var(--accent)" opacity="0.4" />
-            <circle cx="74" cy="38" r="2" fill="var(--accent)" opacity="0.4" />
-            {/* Línea de conexión tipo circuito */}
-            <path d="M50 46v8M44 50h12" stroke="var(--accent-neutral)" strokeWidth="1.2" opacity="0.3" />
-          </svg>
+      <div style={s.heroRow}>
+        <div style={s.avatarCol}>
+          <div style={s.avatarWrapper}>
+            <div style={s.avatarBorder} />
+            <div style={s.avatarInner}>
+              <svg width="76" height="76" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: 'var(--text-muted)', opacity: 0.7 }}>
+                <circle cx="50" cy="30" r="16" stroke="var(--accent)" strokeWidth="2" />
+                <path d="M18 88c0-18 14-32 32-32s32 14 32 32" stroke="var(--accent)" opacity="0.6" />
+                <path d="M34 42l-8-4M66 42l8-4" stroke="var(--accent-neutral)" strokeWidth="1.5" opacity="0.5" />
+                <circle cx="26" cy="38" r="2" fill="var(--accent)" opacity="0.4" />
+                <circle cx="74" cy="38" r="2" fill="var(--accent)" opacity="0.4" />
+                <path d="M50 46v8M44 50h12" stroke="var(--accent-neutral)" strokeWidth="1.2" opacity="0.3" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div style={s.textCol}>
+          <h1 style={s.name}>{profile.name}</h1>
+          <p style={s.bio}>{profile.bio}</p>
         </div>
       </div>
 
-      {/* Name */}
-      <h1 style={s.name}>{profile.name}</h1>
+      <div ref={tagsRef} style={s.tagsRow}>
+        {tagKeys.map((key, i) => (
+          <span
+            key={key}
+            style={{ ...s.tag, transitionDelay: `${i * 50}ms` }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(0, 245, 212, 0.3)'
+              e.currentTarget.style.transform = 'translateY(-2px)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border)'
+              e.currentTarget.style.transform = 'none'
+            }}
+          >
+            {t(key, language)}
+          </span>
+        ))}
+      </div>
 
-      {/* Tagline */}
-      <p style={s.tagline}>{profile.tagline}</p>
-
-      {/* Bio */}
-      <p style={s.bio}>{profile.bio}</p>
-
-      {/* CTA Buttons */}
       <div ref={ctaRef} style={s.ctaRow}>
         <a
           href="#projects"
           style={s.ctaPrimary}
           onMouseEnter={(e) => {
-            e.currentTarget.style.boxShadow = '0 0 24px var(--accent-glow)'
-            e.currentTarget.style.transform = 'translateY(-2px)'
+            e.currentTarget.style.boxShadow = '0 0 16px var(--accent-glow)'
+            e.currentTarget.style.transform = 'translateY(-1px)'
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.boxShadow = 'none'
             e.currentTarget.style.transform = 'none'
           }}
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="m9 5 7 7-7 7" />
           </svg>
-          Ver proyectos
+          {t('cta.ver-proyectos', language)}
         </a>
         <a
           href="#contact"
@@ -177,7 +241,7 @@ export function Hero() {
           onMouseEnter={(e) => {
             e.currentTarget.style.borderColor = 'var(--accent)'
             e.currentTarget.style.background = 'var(--accent-dim)'
-            e.currentTarget.style.transform = 'translateY(-2px)'
+            e.currentTarget.style.transform = 'translateY(-1px)'
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.borderColor = 'var(--border)'
@@ -185,11 +249,11 @@ export function Hero() {
             e.currentTarget.style.transform = 'none'
           }}
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
             <polyline points="22,6 12,13 2,6" />
           </svg>
-          Contactar
+          {t('cta.contactar', language)}
         </a>
       </div>
     </section>

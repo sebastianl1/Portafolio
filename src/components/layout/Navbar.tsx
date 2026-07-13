@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { t } from '../../i18n/translations'
 
 const links = [
-  { href: '#formation', label: 'Trayectoria' },
-  { href: '#projects', label: 'Proyectos' },
-  { href: '#contact', label: 'Contacto' },
+  { key: 'nav.trayectoria', href: '#formation' },
+  { key: 'nav.proyectos', href: '#projects' },
+  { key: 'nav.contacto', href: '#contact' },
 ]
 
 const sections = links.map((l) => l.href.slice(1))
@@ -78,9 +80,10 @@ const s: Record<string, React.CSSProperties> = {
     background: 'rgba(255, 255, 255, 0.03)',
     border: '1px solid rgba(0, 245, 212, 0.04)',
     transition: 'all var(--transition)',
+    alignItems: 'center',
   },
   link: {
-    padding: '7px 18px',
+    padding: '7px 14px',
     borderRadius: 8,
     fontSize: '0.82rem',
     fontWeight: 500,
@@ -96,9 +99,24 @@ const s: Record<string, React.CSSProperties> = {
     color: 'var(--text-secondary)',
     background: 'transparent',
   },
+  langToggle: {
+    padding: '6px 10px',
+    borderRadius: 6,
+    fontSize: '0.72rem',
+    fontWeight: 700,
+    fontFamily: 'var(--font-mono)',
+    border: '1px solid var(--border)',
+    background: 'transparent',
+    color: 'var(--text-muted)',
+    cursor: 'pointer',
+    transition: 'all var(--transition)',
+    letterSpacing: 0.5,
+    marginLeft: 8,
+  },
 }
 
 export function Navbar() {
+  const { language, toggleLanguage } = useLanguage()
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState('')
   const [progress, setProgress] = useState(0)
@@ -179,10 +197,25 @@ export function Navbar() {
                     ...(isActive ? s.linkActive : s.linkInactive),
                   }}
                 >
-                  {link.label}
+                  {t(link.key, language)}
                 </a>
               )
             })}
+
+            <button
+              onClick={toggleLanguage}
+              style={s.langToggle}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'var(--accent)'
+                e.currentTarget.style.color = 'var(--accent)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'var(--border)'
+                e.currentTarget.style.color = 'var(--text-muted)'
+              }}
+            >
+              {language === 'en' ? 'ES' : 'EN'}
+            </button>
           </div>
         </div>
       </nav>

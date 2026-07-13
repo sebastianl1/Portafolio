@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { t } from '../../i18n/translations'
+import { getProjects } from '../../data/projects'
 import type { Project } from '../../types/portfolio'
-import { projects } from '../../data/projects'
 import { Section } from '../layout/Section'
 import { ProjectCard } from './ProjectCard'
 import { ProjectModal } from './ProjectModal'
@@ -19,15 +21,17 @@ const s: Record<string, React.CSSProperties> = {
 }
 
 export function Projects() {
+  const { language } = useLanguage()
+  const projects = getProjects(language)
   const [preview, setPreview] = useState<Project | null>(null)
 
   if (projects.length === 0) {
     return (
-      <Section id="projects" title="Proyectos">
+      <Section id="projects" title={t('section.proyectos', language)}>
         <div style={s.empty}>
-          <p style={{ fontSize: '1.1rem' }}>Próximamente...</p>
+          <p style={{ fontSize: '1.1rem' }}>{t('projects.proximamente', language)}</p>
           <p style={{ fontSize: '0.9rem', marginTop: 8 }}>
-            Los proyectos se agregarán aquí a medida que se desplieguen.
+            {t('projects.proximamente-desc', language)}
           </p>
         </div>
       </Section>
@@ -35,7 +39,7 @@ export function Projects() {
   }
 
   return (
-    <Section id="projects" title="Proyectos">
+    <Section id="projects" title={t('section.proyectos', language)}>
       <div style={s.grid}>
         {projects.map((project, i) => (
           <ProjectCard key={project.id} project={project} onPreview={setPreview} index={i} />

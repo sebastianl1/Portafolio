@@ -1,10 +1,12 @@
-import { profile } from '../../data/profile'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { t } from '../../i18n/translations'
+import { getProfile } from '../../data/profile'
 import { Section } from '../layout/Section'
 
 const socialLinks = [
-  { key: 'github' as const, label: 'GitHub', icon: '🐙', desc: 'Código abierto y proyectos' },
-  { key: 'linkedin' as const, label: 'LinkedIn', icon: '💼', desc: 'Perfil profesional' },
-  { key: 'email' as const, label: 'Email', icon: '✉️', desc: 'Envíame un mensaje' },
+  { key: 'github' as const, labelKey: 'contact.github', descKey: 'contact.github-desc', icon: '🐙' },
+  { key: 'linkedin' as const, labelKey: 'contact.linkedin', descKey: 'contact.linkedin-desc', icon: '💼' },
+  { key: 'email' as const, labelKey: 'contact.email', descKey: 'contact.email-desc', icon: '✉️' },
 ]
 
 const s: Record<string, React.CSSProperties> = {
@@ -83,23 +85,25 @@ const s: Record<string, React.CSSProperties> = {
 }
 
 export function Contact() {
+  const { language } = useLanguage()
+  const profile = getProfile(language)
   const available = socialLinks.filter(({ key }) => profile.social[key])
 
   return (
-    <Section id="contact" title="Contacto">
+    <Section id="contact" title={t('section.contacto', language)}>
       <div style={s.grid}>
         <div style={s.left}>
           <h3 style={s.heading}>
-            Hablemos<span style={s.gradient}>.</span>
+            {t('contact.hablemos', language)}
+            <span style={s.gradient}>.</span>
           </h3>
           <p style={s.subtitle}>
-            Estoy abierto a oportunidades laborales, colaboraciones en proyectos open-source,
-            o simplemente una conversación interesante. No dudes en escribirme.
+            {t('contact.subtitle', language)}
           </p>
         </div>
 
         <div style={s.links}>
-          {available.map(({ key, label, icon, desc }) => {
+          {available.map(({ key, labelKey, descKey, icon }) => {
             const url = profile.social[key]
             if (!url) return null
             return (
@@ -122,8 +126,8 @@ export function Contact() {
               >
                 <span style={s.linkIcon}>{icon}</span>
                 <span style={s.linkText}>
-                  <span style={s.linkLabel}>{label}</span>
-                  <span style={s.linkDesc}>{desc}</span>
+                  <span style={s.linkLabel}>{t(labelKey, language)}</span>
+                  <span style={s.linkDesc}>{t(descKey, language)}</span>
                 </span>
               </a>
             )

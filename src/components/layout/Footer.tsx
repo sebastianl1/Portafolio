@@ -1,4 +1,6 @@
-import { profile } from '../../data/profile'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { t } from '../../i18n/translations'
+import { getProfile } from '../../data/profile'
 
 const s: Record<string, React.CSSProperties> = {
   footer: {
@@ -67,19 +69,22 @@ const s: Record<string, React.CSSProperties> = {
   },
 }
 
-const quickLinks = [
-  { label: 'Inicio', href: '#hero' },
-  { label: 'Trayectoria', href: '#formation' },
-  { label: 'Proyectos', href: '#projects' },
-  { label: 'Contacto', href: '#contact' },
-]
-
-const socialLinks = [
-  { label: 'GitHub', href: profile.social.github },
-  { label: 'LinkedIn', href: profile.social.linkedin },
-]
-
 export function Footer() {
+  const { language } = useLanguage()
+  const profile = getProfile(language)
+
+  const quickLinks = [
+    { labelKey: 'footer.inicio', href: '#hero' },
+    { labelKey: 'nav.trayectoria', href: '#formation' },
+    { labelKey: 'nav.proyectos', href: '#projects' },
+    { labelKey: 'nav.contacto', href: '#contact' },
+  ]
+
+  const socialFooter = [
+    { label: 'GitHub', href: profile.social.github },
+    { label: 'LinkedIn', href: profile.social.linkedin },
+  ]
+
   return (
     <footer style={s.footer}>
       <div style={s.divider} />
@@ -90,18 +95,20 @@ export function Footer() {
         </div>
 
         <div>
-          <div style={s.colTitle}>Navegación</div>
+          <div style={s.colTitle}>{t('footer.navegacion', language)}</div>
           <div style={s.links}>
             {quickLinks.map((link) => (
-              <a key={link.href} href={link.href} style={s.link}>{link.label}</a>
+              <a key={link.href} href={link.href} style={s.link}>
+                {t(link.labelKey, language)}
+              </a>
             ))}
           </div>
         </div>
 
         <div>
-          <div style={s.colTitle}>Redes</div>
+          <div style={s.colTitle}>{t('footer.redes', language)}</div>
           <div style={s.links}>
-            {socialLinks.filter((l) => l.href).map((link) => (
+            {socialFooter.filter((l) => l.href).map((link) => (
               <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" style={s.link}>
                 {link.label}
               </a>
@@ -112,7 +119,7 @@ export function Footer() {
 
       <div style={s.bottom}>
         <p style={s.bottomText}>
-          &copy; {new Date().getFullYear()} Sebastián Laguna — Hecho con{' '}
+          &copy; {new Date().getFullYear()} {profile.name} — {t('footer.hecho', language)}{' '}
           <span style={s.accent}>React + TypeScript</span>
         </p>
       </div>

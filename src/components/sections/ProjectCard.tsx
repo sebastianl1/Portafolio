@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { t } from '../../i18n/translations'
 import type { Project } from '../../types/portfolio'
 import { Card } from '../ui/Card'
 import { Tag } from '../ui/Tag'
@@ -100,6 +102,7 @@ const s: Record<string, React.CSSProperties> = {
 }
 
 export function ProjectCard({ project, onPreview, index }: Props) {
+  const { language } = useLanguage()
   const [accent, bg] = palette[hashId(project.id) % palette.length]
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
@@ -114,7 +117,7 @@ export function ProjectCard({ project, onPreview, index }: Props) {
           observer.unobserve(el)
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     )
     observer.observe(el)
     return () => observer.disconnect()
@@ -171,7 +174,7 @@ export function ProjectCard({ project, onPreview, index }: Props) {
           <div data-overlay style={s.overlay}>
             <span style={{ fontSize: '1.2rem' }}>🔍</span>
             <span style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.72rem' }}>
-              Vista previa
+              {t('projects.vista-previa', language)}
             </span>
           </div>
         </div>
@@ -200,7 +203,7 @@ export function ProjectCard({ project, onPreview, index }: Props) {
             <polyline points="15 3 21 3 21 9" />
             <line x1="10" y1="14" x2="21" y2="3" />
           </svg>
-          Ver proyecto
+          {t('projects.ver-proyecto', language)}
         </Button>
       </Card>
     </div>
