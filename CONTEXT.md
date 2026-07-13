@@ -69,7 +69,7 @@ portfolio/
 
 - **Iframes**: Algunos sitios pueden bloquear la carga via `X-Frame-Options` o `Content-Security-Policy`. El modal tiene fallback con mensaje de error y botón a GitHub.
 - **GitHub Pages**: No soporta SPA routing nativo (solo sirve archivos estáticos). El portafolio es de una sola página, por lo que no hay problema.
-- **Base URL**: Configurado con `base: '/portfolio/'` en vite.config.ts. Si cambia el nombre del repo, actualizar ahí.
+- **Base URL**: Configurado con `base: '/Portafolio/'` en vite.config.ts.
 
 ## Comandos recordatorios
 
@@ -79,17 +79,18 @@ npm run build    # Build de producción
 npm run deploy   # Publicar en GitHub Pages
 ```
 
-### Nota sobre Termux
+## Deploy a GitHub Pages
 
-Los scripts usan rutas directas a `node_modules` porque el entorno Termux no resuelve `#!/usr/bin/env node`. Si clonas en otro sistema (Linux/Mac/Windows), los scripts deben cambiarse a:
+Configuración en GitHub:
+1. Ir al repo → **Settings** → **Pages**
+2. **Source:** `Deploy from a branch`
+3. **Branch:** `main` / `docs`
 
-```json
-"start": "vite",
-"build": "tsc -b && vite build",
-"deploy": "gh-pages -d dist"
+```bash
+npm run build                    # Build → carpeta docs/
+git add docs/ && git commit -m "deploy"
+git push origin main             # GitHub Pages actualiza automáticamente
 ```
-
-O simplemente ejecutar los comandos directamente en la terminal si el PATH lo permite.
 
 ## Próximos pasos (cuando retomes)
 
