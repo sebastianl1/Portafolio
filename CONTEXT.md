@@ -16,13 +16,15 @@
 portfolio/
 ├── public/
 │   ├── favicon.svg
-│   └── projects/          ← Screenshots de proyectos (agregar manualmente)
+│   ├── projects/          ← Screenshots de proyectos (agregar manualmente)
+│   └── certificates/      ← PDFs de certificados (agregar manualmente)
 ├── src/
 │   ├── components/
 │   │   ├── ui/            ← Atómicos: Button, Card, Tag, Skeleton
 │   │   ├── layout/        ← Navbar, Section, Footer
-│   │   └── sections/      ← Hero, About, Skills, Projects, ProjectCard, ProjectModal, Contact
-│   ├── data/              ← Datos editables: profile, skills, projects
+│   │   ├── sections/      ← Hero, Formation, Projects, ProjectCard, ProjectModal, Contact
+│   │   └── SocialFloating.tsx  ← Botones redes sociales fijos
+│   ├── data/              ← Datos editables: profile, skills, projects, courses
 │   ├── hooks/             ← useScrollReveal
 │   ├── styles/            ← animations.css
 │   ├── types/             ← portfolio.ts
@@ -38,17 +40,33 @@ portfolio/
 
 - **Sin librerías externas de UI** — Todo el CSS es vanilla con variables de tema.
 - **Datos separados de componentes** — Modifica `src/data/` para cambiar contenido, no los componentes.
-- **Estilo**: Tema oscuro, acento verde `#00f5d4`, glassmorphism en navbar, animaciones al hacer scroll.
+- **Estilo**: Tema oscuro, acento verde `#00f5d4`, glassmorphism, animaciones al hacer scroll.
 - **Nombres de archivos**: PascalCase para componentes, camelCase para hooks/data.
-- **Skills**: Son áreas de conocimiento (no skills técnicos). Cada una tiene `id, title, description, icon, subtopics[]`. Subtopic vacío = área sin desglose aún. Las tarjetas son expandibles al hacer clic.
+- **FormationItem**: Cada ítem de formación tiene `id, title, institution, duration, description, competencies[], knowledgeAreaIds[], type`. Se renderiza como card expandible con descripción + competencias + tags de áreas relacionadas.
+- **KnowledgeArea**: Usado internamente para relacionar formación con áreas de conocimiento.
 
 ## Estado actual
+
+### Hero
+- Avatar circular con SVG persona (reemplazable por foto)
+- Nombre + bio centrados
+- Tags compactos debajo: Programación · Ciberseguridad · Matemáticas · Procesos Químicos · Electrónica y Solar · Inglés Técnico
+
+### SocialFloating
+- Botones fijos en esquina inferior derecha
+- WhatsApp · Gmail · GitHub (íconos SVG)
+- Horizontal, glassmorphism, hover al acento
+
+### Secciones visibles en navbar
+1. **Trayectoria** — Formación técnica expandible + formación independiente + certificados en grid
+2. **Proyectos** — Grid de cards con preview (thumbnail/placeholder + iframe fallback)
+3. **Contacto** — Links sociales
 
 ### Proyectos listados
 
 | Proyecto     | ID            | Deployado                    | Thumbnail |
 | ------------ | ------------- | ---------------------------- | --------- |
-| SCADA SPy    | `spy-sena`    | https://sebastianl1.github.io/Web_prueba/ | No        |
+| SCADA SPy    | `spy-sena`    | https://sebastianl1.github.io/Web_prueba/ | Placeholder con iniciales |
 
 ### Proyectos pendientes (para agregar)
 
@@ -59,16 +77,32 @@ portfolio/
 - `ia/cortana-companion` — Three.js
 - `mejora_personal` — Flutter
 
-### Para agregar un proyecto:
+### Certificados
+- Grid de tarjetas compactas en sección "CERTIFICADOS FORMACIÓN INDEPENDIENTE"
+- Cada card: 📄 + título + institución + botón "Ver PDF"
+- PDFs guardados en `public/certificates/`
+- Datos en `src/data/courses.ts` (editar para agregar certificados)
 
+### Navbar
+- Logo `SL` en badge cuadrado con borde acento
+- Links: Trayectoria · Proyectos · Contacto
+- Contenedor con borde sutil que brilla al hover
+- Fondo glass al hacer scroll
+
+## Para agregar un proyecto:
 1. Desplegar proyecto en GitHub Pages
 2. Agregar entrada en `src/data/projects.ts`
 3. (Opcional) Agregar screenshot en `public/projects/<id>.png`
+4. Asignar `thumbnail: '/projects/<id>.png'` en el objeto del proyecto
+
+## Para agregar un certificado:
+1. Guardar PDF en `public/certificates/<id>.pdf`
+2. Agregar entrada en `src/data/courses.ts` con `certificateUrl: '/certificates/<id>.pdf'`
 
 ## Limitaciones conocidas
 
-- **Iframes**: Algunos sitios pueden bloquear la carga via `X-Frame-Options` o `Content-Security-Policy`. El modal tiene fallback con mensaje de error y botón a GitHub.
-- **GitHub Pages**: No soporta SPA routing nativo (solo sirve archivos estáticos). El portafolio es de una sola página, por lo que no hay problema.
+- **Iframes**: Algunos sitios bloquean la carga via `X-Frame-Options`. El modal tiene fallback con botón a GitHub.
+- **GitHub Pages**: No soporta SPA routing nativo. El portafolio es single-page, sin problema.
 - **Base URL**: Configurado con `base: '/Portafolio/'` en vite.config.ts.
 
 ## Comandos recordatorios
@@ -81,24 +115,18 @@ npm run deploy   # Publicar en GitHub Pages
 
 ## Deploy a GitHub Pages
 
-Configuración en GitHub (una sola vez):
-1. https://github.com/sebastianl1/Portafolio/settings/pages
-2. **Source:** `Deploy from a branch`
-3. **Branch:** `gh-pages` / `/ (root)`
-
 ```bash
-npm run build                      # Build → carpeta dist/
-npm run deploy                     # Publica a gh-pages branch automáticamente
+npm run build && npm run deploy
 ```
 
-## Próximos pasos (cuando retomes)
+## Próximos pasos
 
-1. Editar `src/data/profile.ts` con tu nombre real y links de contacto
-2. Tomar screenshots de los proyectos y ponerlos en `public/projects/`
-3. Agregar más proyectos a `src/data/projects.ts` a medida que los despliegues
-4. Personalizar el favicon si lo deseas
-5. Ejecutar `npm run deploy` cuando todo esté listo
+1. Completar `src/data/profile.ts` con WhatsApp y email reales
+2. Agregar thumbnails de proyectos en `public/projects/`
+3. Llenar `src/data/courses.ts` con certificados reales (PDFs en `public/certificates/`)
+4. Agregar más proyectos a `src/data/projects.ts` al desplegarlos
+5. Ejecutar `npm run build && npm run deploy`
 
 ---
 
-_Última actualización: Julio 2026_
+_Última actualización: Julio 2026 — Sesión: Hero restructurado, formación expandible, navbar mejorado, thumbnails, certificados en grid, SocialFloating_
