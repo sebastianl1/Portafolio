@@ -220,40 +220,7 @@ export function Formation() {
         )}
       </div>
 
-      {/* ─── Áreas de Conocimiento ─── */}
-      <div>
-        <p
-          style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.7rem',
-            color: 'var(--accent)',
-            letterSpacing: 2,
-            marginBottom: 12,
-          }}
-        >
-          ÁREAS DE CONOCIMIENTO
-        </p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-          {knowledgeAreas.map((area) => (
-            <span
-              key={area.id}
-              style={{
-                padding: '5px 12px',
-                borderRadius: 999,
-                fontSize: '0.78rem',
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border)',
-                color: 'var(--text-primary)',
-                fontFamily: 'var(--font-mono)',
-                cursor: 'default',
-              }}
-              title={area.subtopics.join(', ')}
-            >
-              {area.icon} {area.title}
-            </span>
-          ))}
-        </div>
-      </div>
+
     </Section>
   )
 }
