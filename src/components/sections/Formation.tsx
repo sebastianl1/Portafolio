@@ -86,8 +86,6 @@ function FormationCard({ item }: { item: FormationItem }) {
 }
 
 export function Formation() {
-  const [expandedCourse, setExpandedCourse] = useState<string | null>(null)
-
   const technical = profile.formation.filter((f) => f.type === 'technical')
   const independent = profile.formation.filter((f) => f.type === 'independent')
 
@@ -144,78 +142,70 @@ export function Formation() {
             marginBottom: 12,
           }}
         >
-          PROGRAMAS ESPECIALIZADOS
+          CERTIFICADOS FORMACIÓN INDEPENDIENTE (PROGRAMAS ESPECIALIZADOS)
         </p>
         {courses.length === 0 ? (
           <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
             Próximamente...
           </p>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {courses.map((course) => {
-              const isOpen = expandedCourse === course.id
-              return (
-                <div
-                  key={course.id}
-                  style={{
-                    borderRadius: 'var(--radius)',
-                    border: '1px solid var(--border)',
-                    overflow: 'hidden',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => setExpandedCourse(isOpen ? null : course.id)}
-                >
-                  <div
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+              gap: 12,
+            }}
+          >
+            {courses.map((course) => (
+              <div
+                key={course.id}
+                style={{
+                  borderRadius: 'var(--radius)',
+                  border: '1px solid var(--border)',
+                  padding: '16px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 8,
+                  background: 'var(--bg-card)',
+                }}
+              >
+                <span style={{ fontSize: '1.5rem', lineHeight: 1 }}>📄</span>
+                <div>
+                  <div style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.4 }}>
+                    {course.title}
+                  </div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', marginTop: 4 }}>
+                    {course.institution}
+                  </div>
+                </div>
+                {course.certificateUrl && (
+                  <button
+                    onClick={() => window.open(course.certificateUrl, '_blank')}
                     style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      padding: '12px 16px',
+                      width: '100%',
+                      padding: '6px 0',
+                      borderRadius: 6,
+                      border: '1px solid var(--accent)',
+                      background: 'transparent',
+                      color: 'var(--accent)',
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '0.75rem',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      marginTop: 'auto',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'var(--accent-dim)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent'
                     }}
                   >
-                    <div>
-                      <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-                        {course.title}
-                      </div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', marginTop: 2 }}>
-                        {course.institution}
-                      </div>
-                    </div>
-                    <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>
-                      {isOpen ? '▲' : '▼'}
-                    </span>
-                  </div>
-                  {isOpen && (
-                    <div style={{ padding: '0 16px 12px', borderTop: '1px solid var(--border)', paddingTop: 10 }}>
-                      <p style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', lineHeight: 1.6, marginBottom: 10 }}>
-                        {course.description}
-                      </p>
-                      {course.certificateUrl && (
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            window.open(course.certificateUrl, '_blank')
-                          }}
-                          style={{
-                            padding: '6px 14px',
-                            borderRadius: 999,
-                            border: '1px solid var(--accent)',
-                            background: 'transparent',
-                            color: 'var(--accent)',
-                            fontFamily: 'var(--font-sans)',
-                            fontSize: '0.78rem',
-                            fontWeight: 600,
-                            cursor: 'pointer',
-                          }}
-                        >
-                          Ver certificado
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )
-            })}
+                    Ver PDF
+                  </button>
+                )}
+              </div>
+            ))}
           </div>
         )}
       </div>
