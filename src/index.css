@@ -96,15 +96,19 @@ img {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-primary);
+  border-left: 1px solid rgba(0, 245, 212, 0.06);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--text-muted);
-  border-radius: 3px;
+  background: linear-gradient(180deg, var(--accent), transparent 80%);
+  border-radius: 4px;
+  border: 1px solid rgba(0, 245, 212, 0.2);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-secondary);
+  background: var(--accent);
+  border-color: rgba(0, 245, 212, 0.5);
+  box-shadow: 0 0 8px var(--accent-glow);
 }

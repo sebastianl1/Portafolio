@@ -82,11 +82,12 @@ export function ProjectModal({ project, onClose }: Props) {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
     }
-    document.addEventListener('keydown', handleKey)
+    const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+    document.addEventListener('keydown', handleKey)
     return () => {
+      document.body.style.overflow = prev
       document.removeEventListener('keydown', handleKey)
-      document.body.style.overflow = ''
     }
   }, [onClose])
 

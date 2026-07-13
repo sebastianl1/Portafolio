@@ -26,7 +26,7 @@ const ui: Record<string, { en: string; es: string }> = {
   /* Formation sub-labels */
   'formation.tecnica': { en: 'TECHNICAL EDUCATION', es: 'FORMACIÓN TÉCNICA Y TECNOLÓGICA' },
   'formation.independiente': { en: 'SELF-DIRECTED LEARNING', es: 'FORMACIÓN INDEPENDIENTE' },
-  'formation.certificados': { en: 'CERTIFICATES', es: 'CERTIFICADOS' },
+  'formation.certificados': { en: 'INDEPENDENT CERTIFICATES (SPECIALIZED PROGRAMS)', es: 'CERTIFICADOS FORMACIÓN INDEPENDIENTE (PROGRAMAS ESPECIALIZADOS)' },
   'formation.proximamente': { en: 'Coming soon...', es: 'Próximamente...' },
 
   /* Certificates */
