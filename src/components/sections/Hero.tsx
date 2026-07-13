@@ -1,5 +1,4 @@
 import { profile } from '../../data/profile'
-import { Button } from '../ui/Button'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 
 export function Hero() {
@@ -17,50 +16,37 @@ export function Hero() {
         textAlign: 'center',
       }}
     >
-      <p
+      <div
         style={{
-          fontFamily: 'var(--font-mono)',
-          color: 'var(--accent)',
-          fontSize: '0.8rem',
-          marginBottom: 10,
-          letterSpacing: 2,
+          width: 140,
+          height: 140,
+          borderRadius: '50%',
+          margin: '0 auto 24px',
+          background: 'var(--bg-card)',
+          border: '2px solid var(--border)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'var(--text-muted)',
+          overflow: 'hidden',
         }}
       >
-        Hola, mi nombre es
-      </p>
+        <svg width="64" height="64" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" opacity="0.6">
+          <circle cx="50" cy="32" r="18" />
+          <path d="M18 82c0-18 14-32 32-32s32 14 32 32" />
+        </svg>
+      </div>
 
       <h1
         style={{
           fontSize: 'clamp(1.6rem, 4vw, 2.2rem)',
           fontWeight: 800,
           lineHeight: 1.15,
-          marginBottom: 6,
+          marginBottom: 20,
         }}
       >
         {profile.name}
       </h1>
-
-      <h2
-        style={{
-          fontSize: 'clamp(0.9rem, 2vw, 1.05rem)',
-          fontWeight: 600,
-          color: 'var(--text-secondary)',
-          marginBottom: 6,
-        }}
-      >
-        {profile.title}
-      </h2>
-
-      <p
-        style={{
-          fontFamily: 'var(--font-mono)',
-          color: 'var(--text-muted)',
-          fontSize: '0.8rem',
-          marginBottom: 28,
-        }}
-      >
-        {profile.tagline}
-      </p>
 
       <p
         style={{
@@ -68,23 +54,11 @@ export function Hero() {
           fontSize: '0.9rem',
           lineHeight: 1.7,
           maxWidth: 640,
-          margin: '0 auto 28px',
+          margin: '0 auto',
         }}
       >
         {profile.bio}
       </p>
-
-      <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-        <Button onClick={() => document.getElementById('projects')?.scrollIntoView()}>
-          Ver proyectos
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => document.getElementById('contact')?.scrollIntoView()}
-        >
-          Contacto
-        </Button>
-      </div>
     </section>
   )
 }

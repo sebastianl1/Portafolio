@@ -5,6 +5,7 @@ import { Formation } from './components/sections/Formation'
 import { Projects } from './components/sections/Projects'
 import { Contact } from './components/sections/Contact'
 import { BackgroundCanvas } from './components/BackgroundCanvas'
+import { SocialFloating } from './components/SocialFloating'
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Contact />
         </main>
         <Footer />
+        <SocialFloating />
       </div>
     </>
   )

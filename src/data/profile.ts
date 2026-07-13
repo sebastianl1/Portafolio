@@ -75,5 +75,7 @@ export const profile: Profile = {
   bio: 'Soy un profesional multidisciplinario con sólida formación técnica y experiencia en áreas que integran la industria química, la electrónica y la energía solar fotovoltaica. Mi enfoque combina el conocimiento científico con la programación y la seguridad informática, lo que me permite aportar soluciones innovadoras y eficientes en proyectos industriales y tecnológicos.',
   social: {
     github: 'https://github.com/sebastianl1',
+    whatsapp: '',
+    email: '',
   },
 }

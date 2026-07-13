@@ -46,5 +46,6 @@ export interface Profile {
     github?: string
     linkedin?: string
     email?: string
+    whatsapp?: string
   }
 }
