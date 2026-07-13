@@ -296,7 +296,7 @@ export function Formation() {
                 </div>
                 {course.certificateUrl && (
                   <button
-                    onClick={() => window.open(course.certificateUrl, '_blank')}
+                    onClick={() => window.open(import.meta.env.BASE_URL + course.certificateUrl, '_blank')}
                     style={s.pdfBtn}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = 'var(--accent-dim)'

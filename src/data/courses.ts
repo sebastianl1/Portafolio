@@ -1,15 +1,15 @@
 import type { Course } from '../types/portfolio'
 
 // ─── Agrega aquí tus programas especializados ─────────────────
-// Cuando tengas el certificado en PDF/imagen, pon la URL en certificateUrl
-// y se mostrará un botón "Ver certificado" al expandir el curso.
+// Guarda el PDF en public/certificates/<id>.pdf y asigna certificateUrl.
+// Formatos: PDF, PNG, JPG — todos funcionan en el botón "Ver PDF".
 
 export const courses: Course[] = [
-  // {
-  //   id: 'curso-1',
-  //   title: 'Nombre del programa',
-  //   institution: 'Institución',
-  //   description: 'Descripción del contenido y habilidades adquiridas.',
-  //   certificateUrl: '/courses/certificado-1.pdf',
-  // },
+  {
+    id: 'ciberseguridad-ua',
+    title: 'Ciberseguridad',
+    institution: 'Universidad de los Andes',
+    description: 'Programa especializado en fundamentos de ciberseguridad, análisis de vulnerabilidades y protección de sistemas informáticos.',
+    certificateUrl: 'certificates/Ciberseguridad_UA.pdf',
+  },
 ]
