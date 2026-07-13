@@ -44,14 +44,11 @@ export function ProjectModal({ project, onClose }: Props) {
       <div
         style={{
           width: '100%',
-          maxWidth: 1100,
-          maxHeight: '90vh',
+          maxWidth: 360,
           background: 'var(--bg-secondary)',
           borderRadius: 'var(--radius-lg)',
           border: '1px solid var(--border)',
           overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
         }}
       >
         <div
@@ -59,24 +56,22 @@ export function ProjectModal({ project, onClose }: Props) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '16px 24px',
+            padding: '12px 16px',
             borderBottom: '1px solid var(--border)',
           }}
         >
-          <div>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 700 }}>{project.title}</h3>
-          </div>
+          <span style={{ fontSize: '0.9rem', fontWeight: 700 }}>{project.title}</span>
           <button
             onClick={onClose}
             style={{
               background: 'none',
               border: 'none',
               color: 'var(--text-secondary)',
-              fontSize: '1.5rem',
+              fontSize: '1.2rem',
               cursor: 'pointer',
-              padding: '4px 8px',
-              borderRadius: 6,
-              transition: 'all 0.2s',
+              padding: '2px 6px',
+              borderRadius: 4,
+              lineHeight: 1,
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = 'var(--accent)'
@@ -91,16 +86,10 @@ export function ProjectModal({ project, onClose }: Props) {
           </button>
         </div>
 
-        <div
-          style={{
-            flex: 1,
-            position: 'relative',
-            minHeight: 300,
-          }}
-        >
+        <div style={{ position: 'relative', height: 200 }}>
           {loading && !error && (
-            <div style={{ position: 'absolute', inset: 0, padding: 24 }}>
-              <Skeleton height="100%" borderRadius="var(--radius)" />
+            <div style={{ position: 'absolute', inset: 0 }}>
+              <Skeleton height="100%" />
             </div>
           )}
 
@@ -112,14 +101,14 @@ export function ProjectModal({ project, onClose }: Props) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: '100%',
-                padding: 48,
-                gap: 16,
+                padding: 24,
+                gap: 12,
                 textAlign: 'center',
               }}
             >
-              <span style={{ fontSize: '3rem' }}>⚠️</span>
-              <p style={{ color: 'var(--text-secondary)' }}>
-                No se pudo cargar la vista previa del proyecto.
+              <span style={{ fontSize: '2rem' }}>⚠️</span>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+                Vista previa no disponible
               </p>
               {project.githubUrl && (
                 <Button
@@ -137,7 +126,6 @@ export function ProjectModal({ project, onClose }: Props) {
               style={{
                 width: '100%',
                 height: '100%',
-                minHeight: '70vh',
                 border: 'none',
                 display: loading ? 'none' : 'block',
               }}
@@ -148,6 +136,32 @@ export function ProjectModal({ project, onClose }: Props) {
               }}
             />
           )}
+        </div>
+
+        <div style={{ padding: '10px 16px', borderTop: '1px solid var(--border)' }}>
+          <button
+            onClick={() => window.open(project.iframeUrl, '_blank')}
+            style={{
+              width: '100%',
+              padding: '10px 24px',
+              borderRadius: 'var(--radius)',
+              background: 'var(--accent)',
+              color: '#0a0a0f',
+              fontFamily: 'var(--font-sans)',
+              fontSize: '0.9rem',
+              fontWeight: 600,
+              border: 'none',
+              cursor: 'pointer',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = '0 0 20px var(--accent-glow)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = 'none'
+            }}
+          >
+            Abrir proyecto
+          </button>
         </div>
       </div>
     </div>

@@ -13,7 +13,7 @@ export function Hero() {
       style={{
         maxWidth: 'var(--max-width)',
         margin: '0 auto',
-        padding: '120px 24px 60px',
+        padding: '120px 24px 48px',
         textAlign: 'center',
       }}
     >
@@ -22,7 +22,7 @@ export function Hero() {
           fontFamily: 'var(--font-mono)',
           color: 'var(--accent)',
           fontSize: '0.8rem',
-          marginBottom: 12,
+          marginBottom: 10,
           letterSpacing: 2,
         }}
       >
@@ -31,10 +31,10 @@ export function Hero() {
 
       <h1
         style={{
-          fontSize: 'clamp(2rem, 5vw, 3rem)',
+          fontSize: 'clamp(1.6rem, 4vw, 2.2rem)',
           fontWeight: 800,
-          lineHeight: 1.1,
-          marginBottom: 8,
+          lineHeight: 1.15,
+          marginBottom: 6,
         }}
       >
         {profile.name}
@@ -42,10 +42,10 @@ export function Hero() {
 
       <h2
         style={{
-          fontSize: 'clamp(1rem, 2.5vw, 1.3rem)',
+          fontSize: 'clamp(0.9rem, 2vw, 1.05rem)',
           fontWeight: 600,
           color: 'var(--text-secondary)',
-          marginBottom: 8,
+          marginBottom: 6,
         }}
       >
         {profile.title}
@@ -54,9 +54,9 @@ export function Hero() {
       <p
         style={{
           fontFamily: 'var(--font-mono)',
-          color: 'var(--accent)',
-          fontSize: '0.85rem',
-          marginBottom: 24,
+          color: 'var(--text-muted)',
+          fontSize: '0.8rem',
+          marginBottom: 28,
         }}
       >
         {profile.tagline}
@@ -65,70 +65,14 @@ export function Hero() {
       <p
         style={{
           color: 'var(--text-secondary)',
-          fontSize: '0.95rem',
+          fontSize: '0.9rem',
           lineHeight: 1.7,
-          maxWidth: 680,
+          maxWidth: 640,
           margin: '0 auto 28px',
         }}
       >
         {profile.bio}
       </p>
-
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 20,
-          marginBottom: 28,
-        }}
-      >
-        <div>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--accent)', marginBottom: 8, letterSpacing: 1 }}>
-            FORMACIÓN ACADÉMICA
-          </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center' }}>
-            {profile.formation.map((f) => (
-              <span
-                key={f}
-                style={{
-                  padding: '4px 14px',
-                  borderRadius: 999,
-                  fontSize: '0.78rem',
-                  background: 'var(--bg-card)',
-                  border: '1px solid var(--border)',
-                  color: 'var(--text-primary)',
-                }}
-              >
-                {f}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--accent)', marginBottom: 8, letterSpacing: 1 }}>
-            COMPETENCIAS
-          </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'center' }}>
-            {profile.competencies.map((c) => (
-              <span
-                key={c}
-                style={{
-                  padding: '4px 14px',
-                  borderRadius: 999,
-                  fontSize: '0.78rem',
-                  background: 'var(--accent-dim)',
-                  color: 'var(--text-secondary)',
-                  fontFamily: 'var(--font-mono)',
-                }}
-              >
-                {c}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
 
       <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
         <Button onClick={() => document.getElementById('projects')?.scrollIntoView()}>

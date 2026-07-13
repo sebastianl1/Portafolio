@@ -16,12 +16,30 @@ export interface KnowledgeArea {
   subtopics: string[]
 }
 
+export interface Course {
+  id: string
+  title: string
+  institution: string
+  description: string
+  certificateUrl?: string
+}
+
+export interface FormationItem {
+  id: string
+  title: string
+  institution: string
+  duration: string
+  description: string
+  competencies: string[]
+  knowledgeAreaIds: string[]
+  type: 'technical' | 'independent'
+}
+
 export interface Profile {
   name: string
   title: string
   tagline: string
-  formation: string[]
-  competencies: string[]
+  formation: FormationItem[]
   bio: string
   avatar?: string
   social: {
