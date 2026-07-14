@@ -200,13 +200,39 @@ export function Navbar() {
   }, [])
 
   useEffect(() => {
-    if (!isMobile) setMobileOpen(false)
+    if (!isMobile) {
+      const id = requestAnimationFrame(() => setMobileOpen(false))
+      return () => cancelAnimationFrame(id)
+    }
   }, [isMobile])
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [mobileOpen])
+
+  useEffect(() => {
+    if (!mobileOpen || !isMobile) return
+    const menu = document.getElementById('mobile-menu')
+    if (!menu) return
+    const focusable = menu.querySelectorAll<HTMLElement>('a, button')
+    const first = focusable[0]
+    const last = focusable[focusable.length - 1]
+    first?.focus()
+
+    const onTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last?.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first?.focus()
+      }
+    }
+    document.addEventListener('keydown', onTab)
+    return () => document.removeEventListener('keydown', onTab)
+  }, [mobileOpen, isMobile])
 
   const linkEls = (isMobileStyle: boolean) =>
     links.map((link) => {
@@ -263,6 +289,8 @@ export function Navbar() {
           {isMobile ? (
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileOpen}
               style={s.hamburger}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = 'var(--accent)'
@@ -321,7 +349,7 @@ export function Navbar() {
       </nav>
 
       {isMobile && mobileOpen && (
-        <div style={s.mobileMenu}>
+        <div id="mobile-menu" style={s.mobileMenu}>
           {linkEls(true)}
           <button
             onClick={toggleLanguage}

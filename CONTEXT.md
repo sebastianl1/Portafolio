@@ -16,20 +16,22 @@
 portfolio/
 ├── public/
 │   ├── favicon.svg
-│   ├── projects/          ← Screenshots de proyectos (agregar manualmente)
-│   └── certificates/      ← PDFs de certificados (agregar manualmente)
+│   ├── projects/              ← Screenshots de proyectos (agregar manualmente)
+│   └── certificates/          ← PDFs de certificados (agregar manualmente)
 ├── src/
 │   ├── components/
-│   │   ├── ui/            ← Atómicos: Button, Card, Tag, Skeleton
-│   │   ├── layout/        ← Navbar, Section, Footer
-│   │   ├── sections/      ← Hero, Formation, Projects, ProjectCard, ProjectModal, Contact
-│   │   └── SocialFloating.tsx  ← Botones redes sociales fijos
-│   ├── data/              ← Datos editables: profile, skills, projects, courses
-│   ├── hooks/             ← useScrollReveal
-│   ├── styles/            ← animations.css
-│   ├── types/             ← portfolio.ts
-│   ├── App.tsx            ← Orquesta secciones
-│   └── main.tsx           ← Entry point
+│   │   ├── ui/                ← Atómicos: Button, Card, Tag, Skeleton
+│   │   ├── layout/            ← Navbar, Section, Footer
+│   │   ├── sections/          ← Hero, Formation, Projects, ProjectCard, ProjectModal, Contact
+│   │   └── SocialFloating.tsx ← Botones redes sociales fijos
+│   ├── contexts/              ← LanguageContext (EN/ES toggle)
+│   ├── data/                  ← Datos editables: profile, skills, projects, courses
+│   ├── hooks/                 ← useScrollReveal, useMediaQuery
+│   ├── i18n/                  ← translations.ts (mapa plano EN/ES)
+│   ├── styles/                ← animations.css
+│   ├── types/                 ← portfolio.ts
+│   ├── App.tsx                ← Orquesta secciones
+│   └── main.tsx               ← Entry point
 ├── index.html
 ├── vite.config.ts
 ├── tsconfig.json
@@ -40,81 +42,85 @@ portfolio/
 
 - **Sin librerías externas de UI** — Todo el CSS es vanilla con variables de tema.
 - **Datos separados de componentes** — Modifica `src/data/` para cambiar contenido, no los componentes.
-- **Estilo**: Tema oscuro, acento verde `#00f5d4`, glassmorphism, animaciones al hacer scroll.
+- **Estilo**: Tema oscuro, acento verde `#00f5d4`, secondary accent `#c8c8d4` (neutral silver), glassmorphism, animaciones al hacer scroll.
 - **Nombres de archivos**: PascalCase para componentes, camelCase para hooks/data.
-- **FormationItem**: Cada ítem de formación tiene `id, title, institution, duration, description, competencies[], knowledgeAreaIds[], type`. Se renderiza como card expandible con descripción + competencias + tags de áreas relacionadas.
-- **KnowledgeArea**: Usado internamente para relacionar formación con áreas de conocimiento. Definidas en `src/data/skills.ts`.
-- **Thumbnail path**: Guardar en `public/projects/<id>.png` y en `projects.ts` poner `thumbnail: 'projects/<id>.png'` (sin `/` inicial). El componente usa `import.meta.env.BASE_URL` para resolver la ruta correcta (funciona en dev y GitHub Pages).
-- **Modal de proyectos**: Siempre muestra el iframe con la previsualización en vivo (con loader + fallback si el sitio bloquea iframes). La thumbnail solo se muestra en la card, no en el modal.
+- **Fuentes**: Inter (sans), JetBrains Mono (mono), Playfair Display (display) — vía Google Fonts en `index.html`.
+- **Estilos inline**: Todos los componentes usan objetos `const s: Record<string, React.CSSProperties>` fuera del componente.
+- **Idiomas**: Inglés por defecto, toggle EN/ES en navbar vía `LanguageContext` + `translations.ts` con función `t(key, lang)`.
+- **i18n en datos**: `profile.ts`, `projects.ts`, `skills.ts` exportan getters `getProfile(lang)`, `getProjects(lang)`, `getKnowledgeAreas(lang)` que devuelven data bilingüe.
+- **Thumbnail path**: En `projects.ts` poner `thumbnail: 'projects/<id>.png'` (sin `/` inicial). El componente usa `import.meta.env.BASE_URL` para resolver la ruta.
 
 ## Estado actual
 
 ### Hero
 ```
-        [Avatar 130px circular]
-         (SVG persona temporal)
+        [Avatar 150px con borde gradiente rotatorio]
+                (SVG persona temporal)
 
-         Sebastián Laguna
+    Juan Sebastián Laguna Beleño
 
-    Bio... (texto centrado, max-width 600px)
+      Bio... (texto justificado, max-width 760px)
 
-    ● Programación  ● Ciberseguridad  ● Matemáticas
-    ● Procesos Químicos  ● Electrónica y Solar  ● Inglés Técnico
+    ● Programming  ● Cybersecurity  ● Mathematics
+    ● Chemical Processes  ● Electronics & Solar  ● Technical English
 ```
-- Tags hardcodeados en `Hero.tsx` (no usan `knowledgeAreas` directamente)
+- Tags hardcodeados en `Hero.tsx`
+- En mobile: avatar + texto apilados y centrados, avatar 120px
 
 ### SocialFloating (`src/components/SocialFloating.tsx`)
-- Botones fijos en esquina inferior derecha (bottom-right)
-- WhatsApp · Gmail · GitHub — horizontal, glassmorphism
-- Los que no tengan URL configurada se ven atenuados (opacity 0.3, sin pointer-events)
-- Configurar URLs en `src/data/profile.ts` → `social.whatsapp`, `social.email`, `social.github`
+- Botones fijos en esquina inferior derecha
+- WhatsApp · Gmail · GitHub con tooltips
+- Los que no tengan URL configurada se ven atenuados
+- En mobile: botones más pequeños (38px), más cerca del borde
 
 ### Navbar (`src/components/layout/Navbar.tsx`)
 - Logo: badge `SL` con borde acento
-- Links: Trayectoria · Proyectos · Contacto
-- Al hacer scroll: fondo oscuro `rgba(10,10,15,0.92)` + blur + borderBottom
-- Contenedor de links: borde sutil `rgba(0,245,212,0.04)` que brilla al hover (`0.2` + boxShadow glow)
+- Links: Background · Projects · Contact
+- Scroll progress bar (2px gradiente en top edge)
+- Al hacer scroll: fondo oscuro `rgba(10,10,15,0.97)` + blur + borderBottom
+- Botón EN/ES al lado de los links
+- **Mobile (≤768px)**: hamburger menu (☰/✕) con menú desplegable
 
 ### Trayectoria (`src/components/sections/Formation.tsx`)
 
 #### 1. Formación Técnica y Tecnológica
-- Cards expandibles con: descripción + lista de competencias + tags de áreas relacionadas
+- Timeline vertical con dots verdes, cards expandibles (grid-template-rows)
 - Datos en `src/data/profile.ts` → `formation[]` con `type: 'technical'`
-- Items actuales:
-  - Tecnólogo en Procesos de la Industria Química (SENA, 27 meses, competencias del pensum)
-  - Técnico en Electrónica (pendiente de institución y pensum)
-  - Técnico en Mantenimiento e Instalación de Sistemas Eléctricos con Energía Solar Fotovoltaica (pendiente)
 
 #### 2. Formación Independiente
-- Card expandible con competencias autodidactas
+- Timeline con dots grises, misma estructura expandible
 - `type: 'independent'`
 
 #### 3. Certificados Formación Independiente
-- Grid de tarjetas compactas (`repeat(auto-fill, minmax(200px, 1fr))`)
-- Cada card: 📄 + título + institución + botón "Ver PDF"
+- **Buscador** en tiempo real por título/institución
+- **Filtro por categoría** (pills: Todas / Cybersecurity / Programming / etc.)
+- Grid de tarjetas compactas `repeat(auto-fill, minmax(200px, 1fr))`
+- Cada card clickeable → abre PDF en nueva pestaña
+- Categorías disponibles: cybersecurity, programming, electronics, solar, chemical, english, other
 - PDFs en `public/certificates/`, datos en `src/data/courses.ts`
-- Campos: `id, title, institution, description, certificateUrl`
+- Campos: `id, title, institution, description, certificateUrl, category?`
+- **En mobile**: cards en horizontal, grid 1 columna con `minmax(160px, 1fr)`
 
 ### Proyectos (`src/components/sections/Projects.tsx`)
 
-- Grid: `repeat(auto-fill, minmax(260px, 1fr))`, gap 16px
-- Cada card (ProjectCard): preview 96px con thumbnail (o placeholder con iniciales), título, descripción truncada (80 chars), tags, botón "Ver proyecto"
+- Grid: `repeat(auto-fill, minmax(280px, 1fr))`, gap 20px
+- Cada card (ProjectCard): preview 110px con thumbnail (o placeholder con iniciales), título, descripción truncada (80 chars), tags, botón "View project"
 - Modal (ProjectModal): iframe 480px de alto con loader, fallback si no carga
+- **Mobile (≤768px)**: grid 1 columna, thumbnails 90px, modal iframe 320px
 
-### Proyectos listados
+### Contact (`src/components/sections/Contact.tsx`)
+- Dos columnas: "Let's talk." + links sociales
+- **Mobile**: 1 columna, texto centrado
+
+### Footer (`src/components/layout/Footer.tsx`)
+- Tres columnas: brand + navegación + redes
+- **Mobile**: 1 columna, centrado
+
+## Proyectos listados
 
 | Proyecto     | ID            | Deployado                    | Thumbnail           |
 | ------------ | ------------- | ---------------------------- | ------------------- |
 | SCADA SPy    | `spy-sena`    | https://sebastianl1.github.io/Web_prueba/ | `projects/scada.jpg` |
-
-### Proyectos pendientes (para agregar)
-
-- `pythoneer-academy` — Flutter + FastAPI
-- `auditforge` — Flutter + Python
-- `hmi-diagram-editor` — React + Konva
-- `app-movies` — Flutter
-- `ia/cortana-companion` — Three.js
-- `mejora_personal` — Flutter
 
 ## Para agregar un proyecto:
 1. Desplegar proyecto en GitHub Pages
@@ -124,7 +130,9 @@ portfolio/
 
 ## Para agregar un certificado:
 1. Guardar PDF en `public/certificates/<id>.pdf`
-2. Agregar entrada en `src/data/courses.ts` con `certificateUrl: '/certificates/<id>.pdf'`
+2. Agregar entrada en `src/data/courses.ts` con:
+   - `id`, `title`, `institution`, `description`, `certificateUrl: 'certificates/<id>.pdf'`
+   - `category`: una de `cybersecurity`, `programming`, `electronics`, `solar`, `chemical`, `english`, `other`
 
 ## Tipos (`src/types/portfolio.ts`)
 
@@ -132,9 +140,17 @@ portfolio/
 |-----------------|-----------|
 | `Project`       | id, title, description, tags[], iframeUrl, githubUrl?, thumbnail? |
 | `KnowledgeArea` | id, title, description, icon, subtopics[] |
-| `Course`        | id, title, institution, description, certificateUrl? |
+| `Course`        | id, title, institution, description, certificateUrl?, category? |
 | `FormationItem` | id, title, institution, duration, description, competencies[], knowledgeAreaIds[], type ('technical' \| 'independent') |
 | `Profile`       | name, title, tagline, formation[], bio, social { github?, linkedin?, email?, whatsapp? } |
+
+## Hooks
+
+| Hook              | Archivo                       | Propósito |
+|-------------------|-------------------------------|-----------|
+| `useScrollReveal` | `src/hooks/useScrollReveal.ts` | IntersectionObserver para animaciones al hacer scroll |
+| `useMediaQuery`   | `src/hooks/useMediaQuery.ts`   | Detectar tamaño de pantalla para responsive inline styles |
+| `useLanguage`     | `src/contexts/LanguageContext.tsx` | Estado global de idioma (EN/ES) + toggle |
 
 ## Limitaciones conocidas
 
@@ -142,12 +158,13 @@ portfolio/
 - **GitHub Pages**: No soporta SPA routing nativo. El portafolio es single-page, sin problema.
 - **Base URL**: `base: '/Portafolio/'` en vite.config.ts. Usar `import.meta.env.BASE_URL` para rutas de assets en producción.
 - **Termux**: Shebangs de `node` no funcionan. Usar `node ./node_modules/<bin>` directamente.
+- **PDFs**: El navegador renderiza PDFs nativamente en iframe/new tab. Algunos navegadores antiguos pueden descargar el archivo en vez de mostrarlo.
 
 ## Comandos recordatorios
 
 ```bash
 npm start                              # Desarrollo local
-node ./node_modules/typescript/bin/tsc -b && node ./node_modules/vite/bin/vite.js build   # Build
+node ./node_modules/typescript/bin/tsc -b && node ./node_modules/vite/bin/vite.js build   # Build completo
 node ./node_modules/vite/bin/vite.js build   # Build (solo Vite, sin typecheck)
 npm run deploy                         # Publicar en GitHub Pages
 ```
@@ -161,11 +178,11 @@ node ./node_modules/typescript/bin/tsc -b && node ./node_modules/vite/bin/vite.j
 ## Próximos pasos
 
 1. Completar `src/data/profile.ts` — agregar WhatsApp (`social.whatsapp`) y email reales
-2. Llenar `src/data/courses.ts` con certificados reales (guardar PDFs en `public/certificates/`)
+2. Llenar `src/data/courses.ts` con más certificados reales (guardar PDFs en `public/certificates/`)
 3. Cuando el usuario provea los pensums, editar `description` y `competencies` de los técnicos en `profile.ts`
 4. Agregar más proyectos a `src/data/projects.ts` al desplegarlos
 5. Ejecutar `npm run build && npm run deploy` después de cada cambio
 
 ---
 
-_Última actualización: Julio 2026 — Sesión completa: Hero restructurado (avatar + bio + tags), Formation expandible (técnica + independiente + certificados grid), Navbar mejorado (SL badge + glow), SocialFloating (WhatsApp/Gmail/GitHub), ProjectCard con thumbnail real (scada.jpg), Modal con iframe siempre, CONTEXT.md actualizado_
+_Última actualización: Julio 2026 — Sesión completa: Sistema bilingüe EN/ES, scrollbar verde con glow, responsive design completo (mobile/tablet/desktop), certificados con filtros y buscador, scroll modal fix, CONTEXT.md actualizado_

@@ -75,3 +75,14 @@
   0%, 100% { border-color: rgba(0, 245, 212, 0.15); }
   50% { border-color: rgba(0, 245, 212, 0.4); }
 }
+
+@keyframes borderPulseDash {
+  0%, 100% {
+    border-color: rgba(0, 245, 212, 0.2);
+    box-shadow: 0 0 8px rgba(0, 245, 212, 0.03);
+  }
+  50% {
+    border-color: rgba(0, 245, 212, 0.5);
+    box-shadow: 0 0 20px rgba(0, 245, 212, 0.08);
+  }
+}

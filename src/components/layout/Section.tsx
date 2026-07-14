@@ -48,7 +48,6 @@ export function Section({ id, title, children }: Props) {
           style={s.heading}
         >
           {title}
-          <span style={s.accent}>.</span>
         </h2>
       )}
       {title && (

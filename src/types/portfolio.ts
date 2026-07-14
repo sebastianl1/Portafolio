@@ -22,6 +22,7 @@ export interface Course {
   institution: string
   description: string
   certificateUrl?: string
+  category?: string
 }
 
 export interface FormationItem {

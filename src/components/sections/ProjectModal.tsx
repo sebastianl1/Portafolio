@@ -113,22 +113,47 @@ export function ProjectModal({ project, onClose }: Props) {
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
+      if (e.key === 'Tab') {
+        const modal = document.getElementById('project-modal')
+        if (!modal) return
+        const focusable = modal.querySelectorAll<HTMLElement>('button, a, [tabindex]:not([tabindex="-1"])')
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last?.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault()
+          first?.focus()
+        }
+      }
     }
     document.addEventListener('keydown', handleKey)
-    return () => document.removeEventListener('keydown', handleKey)
+    const timer = setTimeout(() => {
+      const closeBtn = document.querySelector('[data-modal-close]') as HTMLElement
+      closeBtn?.focus()
+    }, 50)
+    return () => {
+      clearTimeout(timer)
+      document.removeEventListener('keydown', handleKey)
+    }
   }, [onClose])
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={project.title}
       style={isMobile ? s.backdropMobile : s.backdrop}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose()
       }}
     >
-      <div style={s.modal}>
+      <div id="project-modal" style={s.modal}>
         <div style={isMobile ? s.headerMobile : s.header}>
           <span style={{ fontSize: isMobile ? '0.82rem' : '0.9rem', fontWeight: 700 }}>{project.title}</span>
           <button
+            data-modal-close
             onClick={onClose}
             style={s.closeBtn}
             onMouseEnter={(e) => {

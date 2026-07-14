@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { t } from '../i18n/translations'
 import { getProfile } from '../data/profile'
@@ -30,6 +30,18 @@ function useSocialLinks() {
       ),
     },
     {
+      id: 'linkedin',
+      href: profile.social.linkedin ?? '',
+      labelKey: 'contact.linkedin',
+      svg: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+          <rect x="2" y="9" width="4" height="12" />
+          <circle cx="4" cy="4" r="2" />
+        </svg>
+      ),
+    },
+    {
       id: 'github',
       href: profile.social.github ?? '',
       labelKey: 'social.github',
@@ -53,15 +65,6 @@ const s: Record<string, React.CSSProperties> = {
     gap: 10,
     zIndex: 100,
   },
-  containerMobile: {
-    position: 'fixed',
-    bottom: 16,
-    right: 16,
-    display: 'flex',
-    flexDirection: 'row',
-    gap: 8,
-    zIndex: 100,
-  },
   link: {
     display: 'flex',
     alignItems: 'center',
@@ -69,21 +72,6 @@ const s: Record<string, React.CSSProperties> = {
     width: 44,
     height: 44,
     borderRadius: 12,
-    border: '1px solid var(--border)',
-    color: 'var(--text-muted)',
-    textDecoration: 'none',
-    transition: 'all var(--transition)',
-    backdropFilter: 'blur(12px)',
-    WebkitBackdropFilter: 'blur(12px)',
-    position: 'relative',
-  },
-  linkMobile: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 38,
-    height: 38,
-    borderRadius: 10,
     border: '1px solid var(--border)',
     color: 'var(--text-muted)',
     textDecoration: 'none',
@@ -120,73 +108,245 @@ const s: Record<string, React.CSSProperties> = {
     transform: 'translateY(4px)',
     transition: 'all var(--transition)',
   },
+  // Mobile FAB styles
+  fabWrapper: {
+    position: 'fixed',
+    bottom: 'max(16px, env(safe-area-inset-bottom, 16px))',
+    right: 'max(16px, env(safe-area-inset-right, 16px))',
+    zIndex: 100,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 8,
+  },
+  fab: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    border: '1px solid var(--border-accent)',
+    background: 'var(--accent-dim)',
+    color: 'var(--accent)',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    transition: 'all var(--transition)',
+    position: 'relative',
+    boxShadow: '0 0 16px var(--accent-glow)',
+  },
+  fabLink: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    border: '1px solid var(--border)',
+    color: 'var(--text-muted)',
+    textDecoration: 'none',
+    background: 'var(--bg-glass)',
+    backdropFilter: 'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
+    transition: 'all var(--transition)',
+  },
 }
+
+const BOTTOM_OFFSET = 150
 
 export function SocialFloating() {
   const { language } = useLanguage()
   const links = useSocialLinks()
   const [mounted, setMounted] = useState(false)
   const [tooltip, setTooltip] = useState<string | null>(null)
+  const [nearBottom, setNearBottom] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
   const isMobile = useMediaQuery('(max-width: 768px)')
+  const fabRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 500)
     return () => clearTimeout(timer)
   }, [])
 
+  useEffect(() => {
+    const onScroll = () => {
+      const scrollBottom = window.innerHeight + window.scrollY
+      const pageHeight = document.documentElement.scrollHeight
+      setNearBottom(scrollBottom >= pageHeight - BOTTOM_OFFSET)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  useEffect(() => {
+    if (!mobileOpen) return
+    const handleOutside = (e: MouseEvent | TouchEvent) => {
+      if (fabRef.current && !fabRef.current.contains(e.target as Node)) {
+        setMobileOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleOutside)
+    document.addEventListener('touchstart', handleOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleOutside)
+      document.removeEventListener('touchstart', handleOutside)
+    }
+  }, [mobileOpen])
+
+  // Desktop: row of buttons
+  if (!isMobile) {
+    return (
+      <div
+        style={{
+          ...s.container,
+          opacity: mounted && !nearBottom ? 1 : 0,
+          transform: mounted && !nearBottom ? 'translateX(0)' : 'translateX(20px)',
+          pointerEvents: mounted && !nearBottom ? 'auto' as const : 'none' as const,
+          transition: 'opacity 0.4s ease, transform 0.4s ease',
+        }}
+      >
+        {links.map((link) => {
+          const active = !!link.href
+          return (
+            <a
+              key={link.id}
+              href={active ? link.href : undefined}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={t(link.labelKey, language)}
+              tabIndex={active ? 0 : -1}
+              style={{
+                ...s.link,
+                ...(active ? s.linkActive : s.linkInactive),
+              }}
+              onMouseEnter={(e) => {
+                if (!active) return
+                e.currentTarget.style.color = 'var(--accent)'
+                e.currentTarget.style.borderColor = 'var(--accent)'
+                e.currentTarget.style.background = 'var(--accent-dim)'
+                e.currentTarget.style.transform = 'translateY(-3px)'
+                setTooltip(link.id)
+              }}
+              onMouseLeave={(e) => {
+                if (!active) return
+                e.currentTarget.style.color = 'var(--text-muted)'
+                e.currentTarget.style.borderColor = 'var(--border)'
+                e.currentTarget.style.background = 'var(--bg-glass)'
+                e.currentTarget.style.transform = 'none'
+                setTooltip(null)
+              }}
+            >
+              {link.svg}
+              <span
+                style={{
+                  ...s.tooltip,
+                  opacity: tooltip === link.id ? 1 : 0,
+                  transform: tooltip === link.id ? 'translateY(0)' : 'translateY(4px)',
+                }}
+              >
+                {t(link.labelKey, language)}
+              </span>
+            </a>
+          )
+        })}
+      </div>
+    )
+  }
+
+  // Mobile: FAB with expand
+  const show = mounted && !nearBottom
+
   return (
     <div
+      ref={fabRef}
       style={{
-        ...(isMobile ? s.containerMobile : s.container),
-        opacity: mounted ? 1 : 0,
-        transform: mounted ? 'translateX(0)' : 'translateX(20px)',
+        ...s.fabWrapper,
+        opacity: show ? 1 : 0,
+        transform: show ? 'translateX(0)' : 'translateX(20px)',
+        pointerEvents: show ? 'auto' as const : 'none' as const,
         transition: 'opacity 0.4s ease, transform 0.4s ease',
       }}
     >
-      {links.map((link) => {
-        const active = !!link.href
-        return (
-          <a
-            key={link.id}
-            href={active ? link.href : undefined}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={t(link.labelKey, language)}
-            tabIndex={active ? 0 : -1}
-            style={{
-              ...(isMobile ? s.linkMobile : s.link),
-              ...(active ? s.linkActive : s.linkInactive),
-            }}
-            onMouseEnter={(e) => {
-              if (!active) return
-              e.currentTarget.style.color = 'var(--accent)'
-              e.currentTarget.style.borderColor = 'var(--accent)'
-              e.currentTarget.style.background = 'var(--accent-dim)'
-              e.currentTarget.style.transform = 'translateY(-3px)'
-              setTooltip(link.id)
-            }}
-            onMouseLeave={(e) => {
-              if (!active) return
-              e.currentTarget.style.color = 'var(--text-muted)'
-              e.currentTarget.style.borderColor = 'var(--border)'
-              e.currentTarget.style.background = 'var(--bg-glass)'
-              e.currentTarget.style.transform = 'none'
-              setTooltip(null)
-            }}
-          >
-            {link.svg}
-            <span
-              style={{
-                ...s.tooltip,
-                opacity: tooltip === link.id ? 1 : 0,
-                transform: tooltip === link.id ? 'translateY(0)' : 'translateY(4px)',
-              }}
-            >
-              {t(link.labelKey, language)}
-            </span>
-          </a>
-        )
-      })}
+      {mobileOpen && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {links.map((link, i) => {
+            const active = !!link.href
+            return (
+              <a
+                key={link.id}
+                href={active ? link.href : undefined}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={t(link.labelKey, language)}
+                tabIndex={active ? 0 : -1}
+                onClick={() => setMobileOpen(false)}
+                style={{
+                  ...s.fabLink,
+                  opacity: 0,
+                  animation: `fadeInUp 0.25s ease forwards`,
+                  animationDelay: `${i * 60}ms`,
+                  ...(active
+                    ? { cursor: 'pointer', pointerEvents: 'auto' as const }
+                    : { opacity: 0.25, cursor: 'default', pointerEvents: 'none' as const }),
+                }}
+                onMouseEnter={(e) => {
+                  if (!active) return
+                  e.currentTarget.style.color = 'var(--accent)'
+                  e.currentTarget.style.borderColor = 'var(--accent)'
+                  e.currentTarget.style.background = 'var(--accent-dim)'
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                }}
+                onMouseLeave={(e) => {
+                  if (!active) return
+                  e.currentTarget.style.color = 'var(--text-muted)'
+                  e.currentTarget.style.borderColor = 'var(--border)'
+                  e.currentTarget.style.background = 'var(--bg-glass)'
+                  e.currentTarget.style.transform = 'none'
+                }}
+              >
+                {link.svg}
+              </a>
+            )
+          })}
+        </div>
+      )}
+
+      <button
+        onClick={() => setMobileOpen(!mobileOpen)}
+        aria-label={mobileOpen ? 'Close social links' : 'Open social links'}
+        aria-expanded={mobileOpen}
+        style={s.fab}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'var(--accent-dim-strong)'
+          e.currentTarget.style.transform = 'translateY(-2px)'
+          e.currentTarget.style.boxShadow = '0 0 24px var(--accent-glow)'
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'var(--accent-dim)'
+          e.currentTarget.style.transform = 'none'
+          e.currentTarget.style.boxShadow = '0 0 16px var(--accent-glow)'
+        }}
+      >
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          style={{
+            transition: 'transform 0.3s ease',
+            transform: mobileOpen ? 'rotate(45deg)' : 'rotate(0deg)',
+          }}
+        >
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+      </button>
     </div>
   )
 }

@@ -31,6 +31,19 @@ const ui: Record<string, { en: string; es: string }> = {
 
   /* Certificates */
   'cert.ver-pdf': { en: 'View PDF', es: 'Ver PDF' },
+  'cert.abrir': { en: 'Open PDF', es: 'Abrir PDF' },
+  'cert.todas': { en: 'All', es: 'Todas' },
+  'cert.search': { en: 'Search certificates...', es: 'Buscar certificados...' },
+  'cert.sin-resultados': { en: 'No certificates match your search.', es: 'Ningún certificado coincide con tu búsqueda.' },
+
+  /* Certificate categories */
+  'cat.cybersecurity': { en: 'Cybersecurity', es: 'Ciberseguridad' },
+  'cat.programming': { en: 'Programming', es: 'Programación' },
+  'cat.electronics': { en: 'Electronics', es: 'Electrónica' },
+  'cat.solar': { en: 'Solar Energy', es: 'Energía Solar' },
+  'cat.chemical': { en: 'Chemical Processes', es: 'Procesos Químicos' },
+  'cat.english': { en: 'English', es: 'Inglés' },
+  'cat.other': { en: 'Other', es: 'Otros' },
 
   /* Projects */
   'projects.proximamente': { en: 'Coming soon...', es: 'Próximamente...' },
@@ -59,6 +72,12 @@ const ui: Record<string, { en: string; es: string }> = {
   'footer.redes': { en: 'Social', es: 'Redes' },
   'footer.inicio': { en: 'Home', es: 'Inicio' },
   'footer.hecho': { en: 'Made with', es: 'Hecho con' },
+
+  /* Work in Progress */
+  'wip.projects-title': { en: 'More Projects Coming Soon', es: 'Más proyectos próximamente' },
+  'wip.projects-desc': { en: "I'm actively developing new projects that will be added here as soon as they're ready. Stay tuned!", es: 'Estoy desarrollando activamente nuevos proyectos que se agregarán aquí tan pronto estén listos. ¡Mantente al tanto!' },
+  'wip.certs-title': { en: 'More Certificates on the Way', es: 'Más certificados en camino' },
+  'wip.certs-desc': { en: "I'm gathering and organizing more certificates and specialized programs to share here.", es: 'Estoy reuniendo y organizando más certificados y programas especializados para compartir aquí.' },
 
   /* Social Floating */
   'social.whatsapp': { en: 'WhatsApp', es: 'WhatsApp' },

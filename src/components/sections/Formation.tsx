@@ -1,13 +1,16 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { t } from '../../i18n/translations'
 import { getProfile } from '../../data/profile'
 import { getKnowledgeAreas } from '../../data/skills'
 import { courses } from '../../data/courses'
 import { Section } from '../layout/Section'
+import { WorkInProgress } from '../ui/WorkInProgress'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 import { useMediaQuery } from '../../hooks/useMediaQuery'
-import type { FormationItem } from '../../types/portfolio'
+import type { FormationItem, Course } from '../../types/portfolio'
+
+const categoryKeys = ['cybersecurity', 'programming', 'electronics', 'solar', 'chemical', 'english', 'other']
 
 const s: Record<string, React.CSSProperties> = {
   sectionLabel: {
@@ -185,6 +188,47 @@ const s: Record<string, React.CSSProperties> = {
     fontFamily: 'var(--font-mono)',
     whiteSpace: 'nowrap' as const,
   },
+  // --- Certificate section styles ---
+  searchRow: {
+    display: 'flex',
+    gap: 8,
+    marginBottom: 14,
+    maxWidth: 400,
+  },
+  searchInput: {
+    width: '100%',
+    padding: '8px 14px',
+    borderRadius: 'var(--radius)',
+    border: '1px solid var(--border)',
+    background: 'var(--bg-card)',
+    color: 'var(--text-primary)',
+    fontFamily: 'var(--font-sans)',
+    fontSize: '0.82rem',
+    outline: 'none',
+    transition: 'all var(--transition)',
+  },
+  filterRow: {
+    display: 'flex',
+    flexWrap: 'wrap' as const,
+    gap: 4,
+    marginBottom: 18,
+  },
+  filterPill: {
+    padding: '5px 12px',
+    borderRadius: 999,
+    border: '1px solid var(--border)',
+    background: 'transparent',
+    color: 'var(--text-secondary)',
+    fontFamily: 'var(--font-mono)',
+    fontSize: '0.72rem',
+    cursor: 'pointer',
+    transition: 'all var(--transition)',
+  },
+  filterPillActive: {
+    background: 'var(--accent-dim)',
+    borderColor: 'var(--accent)',
+    color: 'var(--accent)',
+  },
   certGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
@@ -192,7 +236,7 @@ const s: Record<string, React.CSSProperties> = {
   },
   certGridMobile: {
     display: 'grid',
-    gridTemplateColumns: '1fr',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
     gap: 10,
   },
   certCard: {
@@ -203,8 +247,8 @@ const s: Record<string, React.CSSProperties> = {
     flexDirection: 'column' as const,
     gap: 10,
     background: 'var(--bg-card)',
+    cursor: 'pointer',
     transition: 'all var(--transition)',
-    cursor: 'default',
   },
   certCardMobile: {
     borderRadius: 'var(--radius)',
@@ -215,8 +259,8 @@ const s: Record<string, React.CSSProperties> = {
     alignItems: 'center',
     gap: 12,
     background: 'var(--bg-card)',
+    cursor: 'pointer',
     transition: 'all var(--transition)',
-    cursor: 'default',
   },
   certIcon: {
     fontSize: '1.6rem',
@@ -261,10 +305,11 @@ const s: Record<string, React.CSSProperties> = {
     flexShrink: 0,
     transition: 'all var(--transition)',
   },
-  comingSoon: {
+  noResults: {
     color: 'var(--text-muted)',
     fontSize: '0.85rem',
     fontFamily: 'var(--font-mono)',
+    padding: '24px 0',
   },
 }
 
@@ -355,12 +400,82 @@ function FormationCard({ item, index }: { item: FormationItem; index: number }) 
   )
 }
 
+function CertCard({ course }: { course: Course }) {
+  const { language } = useLanguage()
+  const isMobile = useMediaQuery('(max-width: 768px)')
+
+  const openPdf = () => {
+    if (course.certificateUrl) {
+      window.open(import.meta.env.BASE_URL + course.certificateUrl, '_blank')
+    }
+  }
+
+  return (
+    <div
+      style={isMobile ? s.certCardMobile : s.certCard}
+      onClick={openPdf}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = 'var(--border-accent)'
+        e.currentTarget.style.transform = 'translateY(-2px)'
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = 'var(--border)'
+        e.currentTarget.style.transform = 'none'
+      }}
+    >
+      <span style={s.certIcon}>📄</span>
+      <div style={isMobile ? { flex: 1 } : undefined}>
+        <div style={s.certTitle}>{course.title}</div>
+        <div style={s.certInst}>{course.institution}</div>
+      </div>
+      {course.certificateUrl && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation()
+            openPdf()
+          }}
+          style={isMobile ? s.pdfBtnMobile : s.pdfBtn}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'var(--accent-dim)'
+            e.currentTarget.style.boxShadow = '0 0 12px var(--accent-glow)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'transparent'
+            e.currentTarget.style.boxShadow = 'none'
+          }}
+        >
+          {t('cert.ver-pdf', language)}
+        </button>
+      )}
+    </div>
+  )
+}
+
 export function Formation() {
   const { language } = useLanguage()
   const profile = getProfile(language)
   const isMobile = useMediaQuery('(max-width: 768px)')
+  const [filterCat, setFilterCat] = useState('all')
+  const [search, setSearch] = useState('')
+
   const technical = profile.formation.filter((f) => f.type === 'technical')
   const independent = profile.formation.filter((f) => f.type === 'independent')
+
+  const filteredCourses = useMemo(() => {
+    let result = courses
+    if (filterCat !== 'all') {
+      result = result.filter((c) => c.category === filterCat)
+    }
+    if (search.trim()) {
+      const q = search.toLowerCase()
+      result = result.filter(
+        (c) =>
+          c.title.toLowerCase().includes(q) ||
+          c.institution.toLowerCase().includes(q),
+      )
+    }
+    return result
+  }, [filterCat, search])
 
   const timelineStyle = isMobile ? s.timelineMobile : s.timeline
   const timelineLineStyle = isMobile ? s.timelineLineMobile : s.timelineLine
@@ -391,37 +506,71 @@ export function Formation() {
 
       <div style={{ marginBottom: 32 }}>
         <p style={s.sectionLabel}>{t('formation.certificados', language)}</p>
-        {courses.length === 0 ? (
-          <p style={s.comingSoon}>{t('formation.proximamente', language)}</p>
-        ) : (
-          <div style={isMobile ? s.certGridMobile : s.certGrid}>
-            {courses.map((course) => (
-              <div key={course.id} style={isMobile ? s.certCardMobile : s.certCard}>
-                <span style={s.certIcon}>📄</span>
-                <div style={isMobile ? { flex: 1 } : undefined}>
-                  <div style={s.certTitle}>{course.title}</div>
-                  <div style={s.certInst}>{course.institution}</div>
-                </div>
-                {course.certificateUrl && (
+
+        {courses.length > 0 ? (
+          <>
+            <div style={s.searchRow}>
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder={t('cert.search', language)}
+                style={s.searchInput}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--accent)'
+                  e.currentTarget.style.boxShadow = '0 0 12px var(--accent-glow)'
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--border)'
+                  e.currentTarget.style.boxShadow = 'none'
+                }}
+              />
+            </div>
+
+            <div style={s.filterRow}>
+              <button
+                onClick={() => setFilterCat('all')}
+                style={{
+                  ...s.filterPill,
+                  ...(filterCat === 'all' ? s.filterPillActive : {}),
+                }}
+              >
+                {t('cert.todas', language)}
+              </button>
+              {categoryKeys.map((key) => {
+                const hasCerts = courses.some((c) => c.category === key)
+                if (!hasCerts) return null
+                return (
                   <button
-                    onClick={() => window.open(import.meta.env.BASE_URL + course.certificateUrl, '_blank')}
-                    style={isMobile ? s.pdfBtnMobile : s.pdfBtn}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'var(--accent-dim)'
-                      e.currentTarget.style.boxShadow = '0 0 12px var(--accent-glow)'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'transparent'
-                      e.currentTarget.style.boxShadow = 'none'
+                    key={key}
+                    onClick={() => setFilterCat(key)}
+                    style={{
+                      ...s.filterPill,
+                      ...(filterCat === key ? s.filterPillActive : {}),
                     }}
                   >
-                    {t('cert.ver-pdf', language)}
+                    {t(`cat.${key}`, language)}
                   </button>
-                )}
+                )
+              })}
+            </div>
+
+            {filteredCourses.length === 0 ? (
+              <p style={s.noResults}>{t('cert.sin-resultados', language)}</p>
+            ) : (
+              <div style={isMobile ? s.certGridMobile : s.certGrid}>
+                {filteredCourses.map((course) => (
+                  <CertCard key={course.id} course={course} />
+                ))}
               </div>
-            ))}
-          </div>
-        )}
+            )}
+          </>
+        ) : null}
+
+        <WorkInProgress
+          title={t('wip.certs-title', language)}
+          description={t('wip.certs-desc', language)}
+        />
       </div>
     </Section>
   )

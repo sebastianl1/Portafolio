@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { useMediaQuery } from '../hooks/useMediaQuery'
 
 const formulas = [
   // Matemáticas
@@ -34,8 +35,11 @@ interface Particle {
 
 export function BackgroundCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const isMobile = useMediaQuery('(max-width: 768px)')
 
   useEffect(() => {
+    if (isMobile) return
+
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -52,7 +56,8 @@ export function BackgroundCanvas() {
     resize()
     window.addEventListener('resize', resize)
 
-    const count = Math.min(30, Math.floor(window.innerWidth / 50))
+    const particleCount = isMobile ? 10 : 30
+    const count = Math.min(particleCount, Math.floor(window.innerWidth / 50))
 
     particles = Array.from({ length: count }, () => ({
       x: Math.random() * canvas.width,
@@ -99,7 +104,7 @@ export function BackgroundCanvas() {
       cancelAnimationFrame(animId)
       window.removeEventListener('resize', resize)
     }
-  }, [])
+  }, [isMobile])
 
   return (
     <canvas

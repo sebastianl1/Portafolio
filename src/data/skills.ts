@@ -36,7 +36,7 @@ const skillsData: Record<Language, KnowledgeArea[]> = {
       title: 'Electronics & Solar Energy',
       description: 'Technician in electronics and installation of photovoltaic solar electrical systems.',
       icon: '☀️',
-      subtopics: ['General electronics', 'Photovoltaic systems', 'Electrical installations', 'Maintenance'],
+      subtopics: ['General electronics · Arduino · PIC', 'Power electronics', 'Photovoltaic systems', 'Solar pumping', 'RETIE · RETILAP regulations'],
     },
     {
       id: 'languages',
@@ -80,7 +80,7 @@ const skillsData: Record<Language, KnowledgeArea[]> = {
       title: 'Electrónica y Energía Solar',
       description: 'Técnico en electrónica y en instalación de sistemas eléctricos con energía solar fotovoltaica.',
       icon: '☀️',
-      subtopics: ['Electrónica general', 'Sistemas fotovoltaicos', 'Instalaciones eléctricas', 'Mantenimiento'],
+      subtopics: ['Electrónica general · Arduino · PIC', 'Electrónica de potencia', 'Sistemas fotovoltaicos', 'Bombeo solar', 'Normativa RETIE · RETILAP'],
     },
     {
       id: 'languages',

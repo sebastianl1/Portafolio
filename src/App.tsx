@@ -6,6 +6,8 @@ import { Projects } from './components/sections/Projects'
 import { Contact } from './components/sections/Contact'
 import { BackgroundCanvas } from './components/BackgroundCanvas'
 import { SocialFloating } from './components/SocialFloating'
+import { ScrollToTop } from './components/ScrollToTop'
+import { ErrorBoundary } from './components/ErrorBoundary'
 
 export default function App() {
   return (
@@ -14,13 +16,14 @@ export default function App() {
       <div style={{ position: 'relative', zIndex: 1 }}>
         <Navbar />
         <main>
-          <Hero />
-          <Formation />
-          <Projects />
-          <Contact />
+          <ErrorBoundary><Hero /></ErrorBoundary>
+          <ErrorBoundary><Formation /></ErrorBoundary>
+          <ErrorBoundary><Projects /></ErrorBoundary>
+          <ErrorBoundary><Contact /></ErrorBoundary>
         </main>
         <Footer />
         <SocialFloating />
+        <ScrollToTop />
       </div>
     </>
   )

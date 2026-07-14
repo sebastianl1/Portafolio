@@ -112,7 +112,6 @@ export function Contact() {
         <div style={isMobile ? s.leftMobile : s.left}>
           <h3 style={s.heading}>
             {t('contact.hablemos', language)}
-            <span style={s.gradient}>.</span>
           </h3>
           <p style={isMobile ? s.subtitleMobile : s.subtitle}>
             {t('contact.subtitle', language)}
