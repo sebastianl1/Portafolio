@@ -14,7 +14,9 @@
 
   /* ─── Acentos ─── */
   --accent: #00f5d4;
+  --accent-rgb: 0, 245, 212;
   --accent-neutral: #c8c8d4;
+  --accent-neutral-rgb: 200, 200, 212;
   --accent-neutral-dim: rgba(200, 200, 212, 0.12);
   --accent-dim: rgba(0, 245, 212, 0.12);
   --accent-dim-strong: rgba(0, 245, 212, 0.2);
@@ -29,6 +31,10 @@
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.4);
   --shadow-accent: 0 4px 24px rgba(0, 245, 212, 0.08);
+
+  /* ─── Body gradient ─── */
+  --bg-gradient-1: rgba(200, 200, 212, 0.03);
+  --bg-gradient-2: rgba(0, 245, 212, 0.03);
 
   /* ─── Radii ─── */
   --radius-sm: 6px;
@@ -53,23 +59,42 @@
 
 /* ─── Tema claro ─── */
 .light {
-  --bg-primary: #f5f5f7;
+  /* Background — cálido crema/papel, tarjetas blancas contrastan bien */
+  --bg-primary: #faf7f2;
   --bg-secondary: #ffffff;
-  --bg-tertiary: #e8e8ed;
+  --bg-tertiary: #f0ece6;
   --bg-card: #ffffff;
-  --bg-glass: rgba(255, 255, 255, 0.85);
-  --bg-glass-solid: rgba(255, 255, 255, 0.97);
+  --bg-glass: rgba(255, 255, 255, 0.9);
+  --bg-glass-solid: rgba(255, 255, 255, 0.98);
 
-  --text-primary: #1a1a2e;
-  --text-secondary: #6b6b80;
-  --text-muted: #a0a0b8;
+  /* Texto — alto contraste */
+  --text-primary: #1c1c1c;
+  --text-secondary: #5c5c5c;
+  --text-muted: #8c8c8c;
 
-  --border: rgba(0, 0, 0, 0.08);
-  --border-accent: rgba(0, 245, 212, 0.25);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  /* Acentos — teal profundo, buena legibilidad sobre fondo claro */
+  --accent: #00a884;
+  --accent-rgb: 0, 168, 132;
+  --accent-neutral: #b8b8c8;
+  --accent-neutral-rgb: 184, 184, 200;
+  --accent-neutral-dim: rgba(184, 184, 200, 0.15);
+  --accent-dim: rgba(0, 168, 132, 0.1);
+  --accent-dim-strong: rgba(0, 168, 132, 0.18);
+  --accent-glow: rgba(0, 168, 132, 0.12);
+  --accent-glow-strong: rgba(0, 168, 132, 0.2);
+  --accent-gradient: linear-gradient(135deg, #00a884, #b8b8c8);
+
+  /* Bordes y sombras — más notorios para separar cards del fondo */
+  --border: rgba(0, 0, 0, 0.1);
+  --border-accent: rgba(0, 168, 132, 0.25);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.1);
-  --shadow-accent: 0 4px 24px rgba(0, 245, 212, 0.12);
+  --shadow-accent: 0 4px 24px rgba(0, 168, 132, 0.1);
+
+  /* Body gradient sutil */
+  --bg-gradient-1: rgba(200, 200, 212, 0.06);
+  --bg-gradient-2: rgba(0, 168, 132, 0.05);
 }
 
 html {
@@ -108,8 +133,8 @@ a:focus-visible {
 body {
   font-family: var(--font-sans);
   background: var(--bg-primary);
-  background-image: radial-gradient(ellipse at 20% 50%, rgba(200, 200, 212, 0.03) 0%, transparent 50%),
-                    radial-gradient(ellipse at 80% 50%, rgba(0, 245, 212, 0.03) 0%, transparent 50%);
+  background-image: radial-gradient(ellipse at 20% 50%, var(--bg-gradient-1) 0%, transparent 50%),
+                    radial-gradient(ellipse at 80% 50%, var(--bg-gradient-2) 0%, transparent 50%);
   color: var(--text-primary);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
@@ -141,15 +166,15 @@ img {
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-primary);
-  border-left: 1px solid rgba(0, 245, 212, 0.06);
+  border-left: 1px solid var(--border-accent);
 }
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, var(--accent), transparent 80%);
   border-radius: 4px;
-  border: 1px solid rgba(0, 245, 212, 0.2);
+  border: 1px solid var(--border-accent);
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
-  border-color: rgba(0, 245, 212, 0.5);
+  border-color: var(--accent);
   box-shadow: 0 0 8px var(--accent-glow);
 }

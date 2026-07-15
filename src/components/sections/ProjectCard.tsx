@@ -14,7 +14,7 @@ interface Props {
 }
 
 const palette = [
-  ['#00f5d4', '#0a2a2a'],
+  ['#00b894', '#0a2a2a'],
   ['#c8c8d4', '#1a1a24'],
   ['#6ee7b7', '#0a2a1a'],
   ['#f87171', '#2a0a0a'],

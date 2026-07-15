@@ -281,7 +281,7 @@ export function Hero() {
                 : {}),
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(0, 245, 212, 0.3)'
+              e.currentTarget.style.borderColor = 'var(--accent)'
               e.currentTarget.style.transform = 'translateY(-2px)'
             }}
             onMouseLeave={(e) => {

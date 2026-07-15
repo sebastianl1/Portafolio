@@ -49,6 +49,11 @@ function createRipple(e: React.MouseEvent<HTMLButtonElement>) {
   const x = e.clientX - rect.left - size / 2
   const y = e.clientY - rect.top - size / 2
 
+  const accent = getComputedStyle(btn).getPropertyValue('--accent').trim() || '#00f5d4'
+  const hexToRgb = (hex: string) => {
+    const v = parseInt(hex.slice(1), 16)
+    return `${(v >> 16) & 255}, ${(v >> 8) & 255}, ${v & 255}`
+  }
   const ripple = document.createElement('span')
   ripple.className = 'ripple-effect'
   ripple.style.cssText = `
@@ -58,7 +63,7 @@ function createRipple(e: React.MouseEvent<HTMLButtonElement>) {
     left: ${x}px;
     top: ${y}px;
     border-radius: 50%;
-    background: rgba(0, 245, 212, 0.3);
+    background: rgba(${hexToRgb(accent)}, 0.35);
     transform: scale(0);
     animation: rippleAnim 0.5s ease-out;
     pointer-events: none;

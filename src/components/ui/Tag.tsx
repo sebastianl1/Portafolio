@@ -17,7 +17,7 @@ export function Tag({ label, accent }: Props) {
         color: c,
         fontFamily: 'var(--font-mono)',
         whiteSpace: 'nowrap',
-        border: `1px solid ${accent ? `${accent}30` : 'rgba(0, 245, 212, 0.08)'}`,
+        border: `1px solid ${accent ? `${accent}30` : 'var(--border-accent)'}`,
       }}
     >
       {label}

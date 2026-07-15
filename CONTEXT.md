@@ -42,7 +42,7 @@ portfolio/
 
 - **Sin librerías externas de UI** — Todo el CSS es vanilla con variables de tema.
 - **Datos separados de componentes** — Modifica `src/data/` para cambiar contenido, no los componentes.
-- **Estilo**: Tema oscuro, acento verde `#00f5d4`, secondary accent `#c8c8d4` (neutral silver), glassmorphism, animaciones al hacer scroll.
+- **Estilo**: Tema oscuro (default) y tema claro toggleable. Acento verde `#00f5d4` (dark) / `#00a884` (light), secondary accent `#c8c8d4` (neutral silver), glassmorphism, animaciones al hacer scroll.
 - **Nombres de archivos**: PascalCase para componentes, camelCase para hooks/data.
 - **Fuentes**: Inter (sans), JetBrains Mono (mono), Playfair Display (display) — vía Google Fonts en `index.html`.
 - **Estilos inline**: Todos los componentes usan objetos `const s: Record<string, React.CSSProperties>` fuera del componente.
@@ -134,6 +134,23 @@ portfolio/
    - `id`, `title`, `institution`, `description`, `certificateUrl: 'certificates/<id>.pdf'`
    - `category`: una de `cybersecurity`, `programming`, `electronics`, `solar`, `chemical`, `english`, `other`
 
+## Sistema de temas
+
+El tema claro se activa vía clase `.light` en `<html>`, gestionado por `ThemeContext.tsx`.
+Los colores del tema claro se rediseñaron para ser cohesivos:
+
+| Modo | `--bg-primary` | `--accent` | `--bg-card` | 
+|------|---------------|------------|-------------|
+| Dark | `#0a0a0f` (negro) | `#00f5d4` (neon) | `#1a1a2e` |
+| Light | `#faf7f2` (crema) | `#00a884` (teal) | `#ffffff` |
+
+**Variables extra** para uso en `rgba()` dinámico:
+- `--accent-rgb`: `0, 245, 212` (dark) / `0, 168, 132` (light)
+- `--accent-neutral-rgb`: `200, 200, 212` (dark) / `184, 184, 200` (light)
+- `--bg-gradient-1` / `--bg-gradient-2`: colores del gradient radial del `body`, se adaptan al tema
+
+**Regla**: Todos los componentes deben usar `var(--*)` en vez de valores hardcodeados de `#00f5d4`. Donde no es posible (canvas, ripple JS), se lee `--accent` vía `getComputedStyle()`.
+
 ## Tipos (`src/types/portfolio.ts`)
 
 | Interfaz        | Propósito |
@@ -185,4 +202,4 @@ node ./node_modules/typescript/bin/tsc -b && node ./node_modules/vite/bin/vite.j
 
 ---
 
-_Última actualización: Julio 2026 — Sesión completa: Sistema bilingüe EN/ES, scrollbar verde con glow, responsive design completo (mobile/tablet/desktop), certificados con filtros y buscador, scroll modal fix, CONTEXT.md actualizado_
+_Última actualización: Julio 2026 — Modo claro rediseñado (paleta cálida crema + teal), todas las referencias hardcodeadas de `#00f5d4` reemplazadas por `var(--*)` o `getComputedStyle()`, variables `--accent-rgb` y `--bg-gradient-*` agregadas_

@@ -14,7 +14,7 @@ const categoryKeys = ['cybersecurity', 'programming', 'electronics', 'solar', 'c
 
 const categoryColors: Record<string, string> = {
   cybersecurity: '#f87171',
-  programming: '#00f5d4',
+  programming: '#00b894',
   electronics: '#fbbf24',
   solar: '#fb923c',
   chemical: '#a78bfa',

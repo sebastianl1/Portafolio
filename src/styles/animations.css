@@ -72,18 +72,18 @@
 }
 
 @keyframes borderGlow {
-  0%, 100% { border-color: rgba(0, 245, 212, 0.15); }
-  50% { border-color: rgba(0, 245, 212, 0.4); }
+  0%, 100% { border-color: var(--border-accent); }
+  50% { border-color: var(--accent); }
 }
 
 @keyframes borderPulseDash {
   0%, 100% {
-    border-color: rgba(0, 245, 212, 0.2);
-    box-shadow: 0 0 8px rgba(0, 245, 212, 0.03);
+    border-color: var(--border-accent);
+    box-shadow: 0 0 8px var(--accent-glow);
   }
   50% {
-    border-color: rgba(0, 245, 212, 0.5);
-    box-shadow: 0 0 20px rgba(0, 245, 212, 0.08);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px var(--accent-glow-strong);
   }
 }
 
@@ -120,7 +120,7 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: radial-gradient(circle at var(--ripple-x, 50%) var(--ripple-y, 50%), rgba(0, 245, 212, 0.3) 0%, transparent 60%);
+  background: radial-gradient(circle at var(--ripple-x, 50%) var(--ripple-y, 50%), rgba(var(--accent-rgb), 0.3) 0%, transparent 60%);
   opacity: 0;
   pointer-events: none;
   animation: rippleAnim 0.5s ease-out;

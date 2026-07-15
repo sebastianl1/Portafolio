@@ -81,7 +81,7 @@ const s: Record<string, React.CSSProperties> = {
     padding: '3px',
     borderRadius: 'var(--radius)',
     background: 'rgba(255, 255, 255, 0.03)',
-    border: '1px solid rgba(0, 245, 212, 0.04)',
+    border: '1px solid var(--accent-dim)',
     transition: 'all var(--transition)',
     alignItems: 'center',
   },
@@ -336,11 +336,11 @@ export function Navbar() {
             <div
               style={s.linkContainer}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(0, 245, 212, 0.2)'
-                e.currentTarget.style.boxShadow = '0 0 20px rgba(0, 245, 212, 0.05)'
+                e.currentTarget.style.borderColor = 'var(--accent-dim-strong)'
+                e.currentTarget.style.boxShadow = '0 0 20px var(--accent-glow)'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(0, 245, 212, 0.04)'
+                e.currentTarget.style.borderColor = 'var(--accent-dim)'
                 e.currentTarget.style.boxShadow = 'none'
               }}
             >

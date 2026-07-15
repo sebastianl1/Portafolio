@@ -54,6 +54,10 @@ export function BackgroundCanvas() {
     resize()
     window.addEventListener('resize', resize)
 
+    const style = getComputedStyle(document.documentElement)
+    const accent = style.getPropertyValue('--accent').trim() || '#00f5d4'
+    const neutral = style.getPropertyValue('--accent-neutral').trim() || '#c8c8d4'
+
     const count = isMobile
       ? Math.min(10, Math.floor(window.innerWidth / 60))
       : Math.min(25, Math.floor(window.innerWidth / 50))
@@ -67,7 +71,7 @@ export function BackgroundCanvas() {
       drift: (Math.random() - 0.5) * 0.3,
       opacity: isMobile ? 0.12 + Math.random() * 0.10 : 0.10 + Math.random() * 0.10,
       phase: Math.random() * Math.PI * 2,
-      color: Math.random() > 0.5 ? '#00f5d4' : '#c8c8d4',
+      color: Math.random() > 0.5 ? accent : neutral,
     }))
 
     const time = { value: 0 }
