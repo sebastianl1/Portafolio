@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { t } from '../../i18n/translations'
 import { getProfile } from '../../data/profile'
@@ -183,6 +183,7 @@ export function Hero() {
   const ctaRef = useRef<HTMLDivElement>(null)
   const tagsRef = useRef<HTMLDivElement>(null)
   const isMobile = useMediaQuery('(max-width: 768px)')
+  const [highlightIdx, setHighlightIdx] = useState(-1)
 
   useEffect(() => {
     if (!visible) return
@@ -200,6 +201,18 @@ export function Hero() {
         { opacity: 1, transform: 'translateY(0) scale(1)' },
       ], { duration: 300, delay: 200 + i * 60, fill: 'forwards', easing: 'ease-out' })
     })
+  }, [visible])
+
+  useEffect(() => {
+    if (!visible) return
+    const interval = setInterval(() => {
+      setHighlightIdx((prev: number) => (prev + 1) % tagKeys.length)
+    }, 2000)
+    const timer = setTimeout(() => setHighlightIdx(0), 600)
+    return () => {
+      clearInterval(interval)
+      clearTimeout(timer)
+    }
   }, [visible])
 
   const sectionStyle = isMobile
@@ -221,14 +234,24 @@ export function Hero() {
               <svg
                 width={isMobile ? 60 : 76}
                 height={isMobile ? 60 : 76}
-                viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                viewBox="0 0 100 100" fill="none"
                 style={{ color: 'var(--text-muted)', opacity: 0.7 }}
               >
+                <circle cx="50" cy="50" r="46" stroke="var(--accent)" strokeWidth="1.5" opacity="0.3" strokeDasharray="4 4">
+                  <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="20s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="50" cy="50" r="38" stroke="var(--accent-gradient)" strokeWidth="1" opacity="0.2" strokeDasharray="2 6">
+                  <animateTransform attributeName="transform" type="rotate" from="360 50 50" to="0 50 50" dur="15s" repeatCount="indefinite" />
+                </circle>
                 <circle cx="50" cy="30" r="16" stroke="var(--accent)" strokeWidth="2" />
                 <path d="M18 88c0-18 14-32 32-32s32 14 32 32" stroke="var(--accent)" opacity="0.6" />
                 <path d="M34 42l-8-4M66 42l8-4" stroke="var(--accent-neutral)" strokeWidth="1.5" opacity="0.5" />
-                <circle cx="26" cy="38" r="2" fill="var(--accent)" opacity="0.4" />
-                <circle cx="74" cy="38" r="2" fill="var(--accent)" opacity="0.4" />
+                <circle cx="26" cy="38" r="2" fill="var(--accent)" opacity="0.5">
+                  <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="74" cy="38" r="2" fill="var(--accent)" opacity="0.5">
+                  <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" begin="1s" repeatCount="indefinite" />
+                </circle>
                 <path d="M50 46v8M44 50h12" stroke="var(--accent-neutral)" strokeWidth="1.2" opacity="0.3" />
               </svg>
             </div>
@@ -245,13 +268,24 @@ export function Hero() {
         {tagKeys.map((key, i) => (
           <span
             key={key}
-            style={{ ...s.tag, transitionDelay: `${i * 50}ms` }}
+            style={{
+              ...s.tag,
+              transitionDelay: `${i * 50}ms`,
+              ...(highlightIdx === i
+                ? {
+                    borderColor: 'var(--accent)',
+                    color: 'var(--accent)',
+                    background: 'var(--accent-dim)',
+                    boxShadow: '0 0 12px var(--accent-glow)',
+                  }
+                : {}),
+            }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = 'rgba(0, 245, 212, 0.3)'
               e.currentTarget.style.transform = 'translateY(-2px)'
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'var(--border)'
+              e.currentTarget.style.borderColor = highlightIdx === i ? 'var(--accent)' : 'var(--border)'
               e.currentTarget.style.transform = 'none'
             }}
           >

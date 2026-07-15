@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes } from 'react'
+import { useCallback, type ButtonHTMLAttributes } from 'react'
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'ghost' | 'outline'
@@ -19,6 +19,8 @@ const base: React.CSSProperties = {
   transition: 'all var(--transition)',
   lineHeight: 1.3,
   whiteSpace: 'nowrap',
+  position: 'relative',
+  overflow: 'hidden',
 }
 
 const variants: Record<string, React.CSSProperties> = {
@@ -37,13 +39,50 @@ const variants: Record<string, React.CSSProperties> = {
   },
 }
 
-export function Button({ variant = 'primary', className = '', children, style, ...rest }: Props) {
+function createRipple(e: React.MouseEvent<HTMLButtonElement>) {
+  const btn = e.currentTarget
+  const existing = btn.querySelector('.ripple-effect')
+  if (existing) existing.remove()
+
+  const rect = btn.getBoundingClientRect()
+  const size = Math.max(rect.width, rect.height)
+  const x = e.clientX - rect.left - size / 2
+  const y = e.clientY - rect.top - size / 2
+
+  const ripple = document.createElement('span')
+  ripple.className = 'ripple-effect'
+  ripple.style.cssText = `
+    position: absolute;
+    width: ${size}px;
+    height: ${size}px;
+    left: ${x}px;
+    top: ${y}px;
+    border-radius: 50%;
+    background: rgba(0, 245, 212, 0.3);
+    transform: scale(0);
+    animation: rippleAnim 0.5s ease-out;
+    pointer-events: none;
+  `
+  btn.appendChild(ripple)
+  ripple.addEventListener('animationend', () => ripple.remove())
+}
+
+export function Button({ variant = 'primary', className = '', children, style, onClick, ...rest }: Props) {
   const mergedStyle = { ...base, ...variants[variant], ...style } as React.CSSProperties
+
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      createRipple(e)
+      onClick?.(e)
+    },
+    [onClick],
+  )
 
   return (
     <button
       className={className}
       style={mergedStyle}
+      onClick={handleClick}
       onMouseEnter={(e) => {
         if (variant === 'primary') {
           e.currentTarget.style.boxShadow = '0 0 20px var(--accent-glow)'

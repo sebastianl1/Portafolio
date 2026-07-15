@@ -206,7 +206,7 @@ export function ProjectCard({ project, onPreview, index }: Props) {
 
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 10 }}>
           {project.tags.map((tag) => (
-            <Tag key={tag} label={tag} />
+            <Tag key={tag} label={tag} accent={accent} />
           ))}
         </div>
 

@@ -84,7 +84,7 @@ const profileData: Record<Language, Profile> = {
     bio: 'Chemical Process Technologist with complementary training in electronics, solar photovoltaic energy, and software development. My profile integrates technical-industrial knowledge with full-stack programming, cybersecurity, and Linux systems administration. Passionate about automation, process control, and information security, I constantly seek to learn and apply new technologies to solve real-world problems. I have an advanced English level that allows me to read technical documentation, understand international regulations, and communicate in multicultural environments.',
     social: {
       github: 'https://github.com/sebastianl1',
-      linkedin: 'https://linkedin.com/in/sebastianl1',
+      linkedin: 'https://www.linkedin.com/in/juan-sebastian-laguna-bele%C3%B1o-0a22bb363',
       whatsapp: '573224200609',
       email: 'sebasbele11@gmail.com',
     },
@@ -172,7 +172,7 @@ const profileData: Record<Language, Profile> = {
     bio: 'Tecnólogo en Procesos de la Industria Química con formación complementaria en electrónica, energía solar fotovoltaica y desarrollo de software. Mi perfil integra el conocimiento técnico-industrial con habilidades en programación full-stack, ciberseguridad y administración de sistemas Linux. Apasionado por la automatización, el control de procesos y la seguridad informática, busco constantemente aprender y aplicar nuevas tecnologías para resolver problemas del mundo real. Cuento con nivel de inglés avanzado que me permite leer documentación técnica, comprender normativas internacionales y comunicarme en entornos multiculturales.',
     social: {
       github: 'https://github.com/sebastianl1',
-      linkedin: 'https://linkedin.com/in/sebastianl1',
+      linkedin: 'https://www.linkedin.com/in/juan-sebastian-laguna-bele%C3%B1o-0a22bb363',
       whatsapp: '573224200609',
       email: 'sebasbele11@gmail.com',
     },

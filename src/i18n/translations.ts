@@ -3,6 +3,7 @@ import type { Language } from '../contexts/LanguageContext'
 const ui: Record<string, { en: string; es: string }> = {
   /* Navbar */
   'nav.trayectoria': { en: 'Background', es: 'Trayectoria' },
+  'nav.skills': { en: 'Skills', es: 'Habilidades' },
   'nav.proyectos': { en: 'Projects', es: 'Proyectos' },
   'nav.contacto': { en: 'Contact', es: 'Contacto' },
 
@@ -20,13 +21,14 @@ const ui: Record<string, { en: string; es: string }> = {
 
   /* Section titles */
   'section.formacion': { en: 'Background', es: 'Trayectoria' },
+  'section.skills': { en: 'Skills', es: 'Habilidades' },
   'section.proyectos': { en: 'Projects', es: 'Proyectos' },
   'section.contacto': { en: 'Contact', es: 'Contacto' },
 
   /* Formation sub-labels */
-  'formation.tecnica': { en: 'TECHNICAL EDUCATION', es: 'FORMACIÓN TÉCNICA Y TECNOLÓGICA' },
-  'formation.independiente': { en: 'SELF-DIRECTED LEARNING', es: 'FORMACIÓN INDEPENDIENTE' },
-  'formation.certificados': { en: 'INDEPENDENT CERTIFICATES (SPECIALIZED PROGRAMS)', es: 'CERTIFICADOS FORMACIÓN INDEPENDIENTE (PROGRAMAS ESPECIALIZADOS)' },
+  'formation.tecnica': { en: 'Technical Education', es: 'Formación Técnica y Tecnológica' },
+  'formation.independiente': { en: 'Self-Directed Learning', es: 'Formación Independiente' },
+  'formation.certificados': { en: 'Independent Certificates (Specialized Programs)', es: 'Certificados Formación Independiente (Programas Especializados)' },
   'formation.proximamente': { en: 'Coming soon...', es: 'Próximamente...' },
 
   /* Certificates */

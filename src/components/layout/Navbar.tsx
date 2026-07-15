@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useLanguage } from '../../contexts/LanguageContext'
+import { useTheme } from '../../contexts/ThemeContext'
 import { t } from '../../i18n/translations'
 import { useMediaQuery } from '../../hooks/useMediaQuery'
 
 const links = [
   { key: 'nav.trayectoria', href: '#formation' },
+  { key: 'nav.skills', href: '#skills' },
   { key: 'nav.proyectos', href: '#projects' },
   { key: 'nav.contacto', href: '#contact' },
 ]
@@ -112,7 +114,20 @@ const s: Record<string, React.CSSProperties> = {
     cursor: 'pointer',
     transition: 'all var(--transition)',
     letterSpacing: 0.5,
-    marginLeft: 8,
+    marginLeft: 6,
+  },
+  themeToggle: {
+    padding: '6px 8px',
+    borderRadius: 6,
+    fontSize: '0.82rem',
+    border: '1px solid var(--border)',
+    background: 'transparent',
+    color: 'var(--text-muted)',
+    cursor: 'pointer',
+    transition: 'all var(--transition)',
+    lineHeight: 1,
+    display: 'flex',
+    alignItems: 'center',
   },
   hamburger: {
     background: 'none',
@@ -165,6 +180,7 @@ const s: Record<string, React.CSSProperties> = {
 
 export function Navbar() {
   const { language, toggleLanguage } = useLanguage()
+  const { theme, toggleTheme } = useTheme()
   const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState('')
   const [progress, setProgress] = useState(0)
@@ -330,6 +346,21 @@ export function Navbar() {
             >
               {linkEls(false)}
               <button
+                onClick={toggleTheme}
+                style={s.themeToggle}
+                aria-label="Toggle theme"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--accent)'
+                  e.currentTarget.style.color = 'var(--accent)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--border)'
+                  e.currentTarget.style.color = 'var(--text-muted)'
+                }}
+              >
+                {theme === 'dark' ? '☀' : '☾'}
+              </button>
+              <button
                 onClick={toggleLanguage}
                 style={s.langToggle}
                 onMouseEnter={(e) => {
@@ -351,6 +382,21 @@ export function Navbar() {
       {isMobile && mobileOpen && (
         <div id="mobile-menu" style={s.mobileMenu}>
           {linkEls(true)}
+          <button
+            onClick={toggleTheme}
+            style={s.mobileLangBtn}
+            aria-label="Toggle theme"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'var(--accent)'
+              e.currentTarget.style.color = 'var(--accent)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border)'
+              e.currentTarget.style.color = 'var(--text-muted)'
+            }}
+          >
+            {theme === 'dark' ? '☀ Light' : '☾ Dark'}
+          </button>
           <button
             onClick={toggleLanguage}
             style={s.mobileLangBtn}

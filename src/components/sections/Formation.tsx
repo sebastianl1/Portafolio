@@ -12,6 +12,16 @@ import type { FormationItem, Course } from '../../types/portfolio'
 
 const categoryKeys = ['cybersecurity', 'programming', 'electronics', 'solar', 'chemical', 'english', 'other']
 
+const categoryColors: Record<string, string> = {
+  cybersecurity: '#f87171',
+  programming: '#00f5d4',
+  electronics: '#fbbf24',
+  solar: '#fb923c',
+  chemical: '#a78bfa',
+  english: '#60a5fa',
+  other: '#c8c8d4',
+}
+
 const s: Record<string, React.CSSProperties> = {
   sectionLabel: {
     fontFamily: 'var(--font-mono)',
@@ -403,6 +413,7 @@ function FormationCard({ item, index }: { item: FormationItem; index: number }) 
 function CertCard({ course }: { course: Course }) {
   const { language } = useLanguage()
   const isMobile = useMediaQuery('(max-width: 768px)')
+  const catColor = course.category ? categoryColors[course.category] : categoryColors.other
 
   const openPdf = () => {
     if (course.certificateUrl) {
@@ -412,18 +423,30 @@ function CertCard({ course }: { course: Course }) {
 
   return (
     <div
-      style={isMobile ? s.certCardMobile : s.certCard}
+      style={{
+        ...(isMobile ? s.certCardMobile : s.certCard),
+        borderLeft: `3px solid ${catColor}`,
+      }}
       onClick={openPdf}
       onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = 'var(--border-accent)'
+        e.currentTarget.style.borderColor = catColor
+        e.currentTarget.style.borderLeftColor = catColor
         e.currentTarget.style.transform = 'translateY(-2px)'
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.borderColor = 'var(--border)'
+        e.currentTarget.style.borderLeftColor = catColor
         e.currentTarget.style.transform = 'none'
       }}
     >
-      <span style={s.certIcon}>📄</span>
+      <span
+        style={{
+          ...s.certIcon,
+          color: catColor,
+        }}
+      >
+        📄
+      </span>
       <div style={isMobile ? { flex: 1 } : undefined}>
         <div style={s.certTitle}>{course.title}</div>
         <div style={s.certInst}>{course.institution}</div>
@@ -434,10 +457,14 @@ function CertCard({ course }: { course: Course }) {
             e.stopPropagation()
             openPdf()
           }}
-          style={isMobile ? s.pdfBtnMobile : s.pdfBtn}
+          style={{
+            ...(isMobile ? s.pdfBtnMobile : s.pdfBtn),
+            borderColor: catColor,
+            color: catColor,
+          }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.background = 'var(--accent-dim)'
-            e.currentTarget.style.boxShadow = '0 0 12px var(--accent-glow)'
+            e.currentTarget.style.background = `${catColor}20`
+            e.currentTarget.style.boxShadow = `0 0 12px ${catColor}40`
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.background = 'transparent'
