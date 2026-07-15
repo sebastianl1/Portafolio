@@ -38,8 +38,6 @@ export function BackgroundCanvas() {
   const isMobile = useMediaQuery('(max-width: 768px)')
 
   useEffect(() => {
-    if (isMobile) return
-
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -56,17 +54,18 @@ export function BackgroundCanvas() {
     resize()
     window.addEventListener('resize', resize)
 
-    const particleCount = isMobile ? 10 : 30
-    const count = Math.min(particleCount, Math.floor(window.innerWidth / 50))
+    const count = isMobile
+      ? Math.min(10, Math.floor(window.innerWidth / 60))
+      : Math.min(25, Math.floor(window.innerWidth / 50))
 
     particles = Array.from({ length: count }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height * 1.5 - canvas.height * 0.25,
       text: formulas[Math.floor(Math.random() * formulas.length)],
-      size: 10 + Math.random() * 8,
-      speed: 0.1 + Math.random() * 0.25,
+      size: isMobile ? 11 + Math.random() * 6 : 12 + Math.random() * 8,
+      speed: 0.15 + Math.random() * 0.2,
       drift: (Math.random() - 0.5) * 0.3,
-      opacity: 0.03 + Math.random() * 0.06,
+      opacity: isMobile ? 0.12 + Math.random() * 0.10 : 0.10 + Math.random() * 0.10,
       phase: Math.random() * Math.PI * 2,
       color: Math.random() > 0.5 ? '#00f5d4' : '#c8c8d4',
     }))
@@ -87,7 +86,7 @@ export function BackgroundCanvas() {
           p.text = formulas[Math.floor(Math.random() * formulas.length)]
         }
 
-        ctx.globalAlpha = p.opacity + Math.sin(time.value * 2 + p.phase) * 0.02
+        ctx.globalAlpha = p.opacity + Math.sin(time.value * 2 + p.phase) * 0.03
         ctx.font = `${p.size}px "Times New Roman", serif`
         ctx.fillStyle = p.color
         ctx.textAlign = 'center'
