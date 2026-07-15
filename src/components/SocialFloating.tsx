@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { t } from '../i18n/translations'
 import { getProfile } from '../data/profile'
-import { useMediaQuery } from '../hooks/useMediaQuery'
 
 function useSocialLinks() {
   const { language } = useLanguage()
@@ -56,73 +55,20 @@ function useSocialLinks() {
 }
 
 const s: Record<string, React.CSSProperties> = {
-  container: {
+  wrapper: {
     position: 'fixed',
-    bottom: 28,
-    right: 28,
-    display: 'flex',
-    flexDirection: 'row',
-    gap: 10,
-    zIndex: 100,
-  },
-  link: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    border: '1px solid var(--border)',
-    color: 'var(--text-muted)',
-    textDecoration: 'none',
-    transition: 'all var(--transition)',
-    backdropFilter: 'blur(12px)',
-    WebkitBackdropFilter: 'blur(12px)',
-    position: 'relative',
-  },
-  linkActive: {
-    background: 'var(--bg-glass)',
-    cursor: 'pointer',
-    pointerEvents: 'auto' as const,
-  },
-  linkInactive: {
-    background: 'transparent',
-    opacity: 0.25,
-    cursor: 'default',
-    pointerEvents: 'none' as const,
-  },
-  tooltip: {
-    position: 'absolute',
-    bottom: 'calc(100% + 8px)',
-    right: 0,
-    padding: '4px 10px',
-    borderRadius: 6,
-    background: 'var(--bg-card)',
-    border: '1px solid var(--border)',
-    color: 'var(--text-secondary)',
-    fontSize: '0.7rem',
-    fontFamily: 'var(--font-mono)',
-    whiteSpace: 'nowrap',
-    pointerEvents: 'none',
-    opacity: 0,
-    transform: 'translateY(4px)',
-    transition: 'all var(--transition)',
-  },
-  // Mobile FAB styles
-  fabWrapper: {
-    position: 'fixed',
-    bottom: 'max(16px, env(safe-area-inset-bottom, 16px))',
-    right: 'max(16px, env(safe-area-inset-right, 16px))',
+    bottom: 'max(24px, env(safe-area-inset-bottom, 24px))',
+    right: 'max(24px, env(safe-area-inset-right, 24px))',
     zIndex: 100,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: 8,
+    gap: 10,
   },
   fab: {
-    width: 40,
-    height: 40,
-    borderRadius: 12,
+    width: 44,
+    height: 44,
+    borderRadius: 14,
     border: '1px solid var(--border-accent)',
     background: 'var(--accent-dim)',
     color: 'var(--accent)',
@@ -133,16 +79,15 @@ const s: Record<string, React.CSSProperties> = {
     backdropFilter: 'blur(12px)',
     WebkitBackdropFilter: 'blur(12px)',
     transition: 'all var(--transition)',
-    position: 'relative',
     boxShadow: '0 0 16px var(--accent-glow)',
   },
-  fabLink: {
+  link: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 40,
-    height: 40,
-    borderRadius: 10,
+    width: 44,
+    height: 44,
+    borderRadius: 12,
     border: '1px solid var(--border)',
     color: 'var(--text-muted)',
     textDecoration: 'none',
@@ -159,11 +104,9 @@ export function SocialFloating() {
   const { language } = useLanguage()
   const links = useSocialLinks()
   const [mounted, setMounted] = useState(false)
-  const [tooltip, setTooltip] = useState<string | null>(null)
   const [nearBottom, setNearBottom] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const isMobile = useMediaQuery('(max-width: 768px)')
-  const fabRef = useRef<HTMLDivElement>(null)
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 500)
@@ -181,10 +124,10 @@ export function SocialFloating() {
   }, [])
 
   useEffect(() => {
-    if (!mobileOpen) return
+    if (!open) return
     const handleOutside = (e: MouseEvent | TouchEvent) => {
-      if (fabRef.current && !fabRef.current.contains(e.target as Node)) {
-        setMobileOpen(false)
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false)
       }
     }
     document.addEventListener('mousedown', handleOutside)
@@ -193,84 +136,23 @@ export function SocialFloating() {
       document.removeEventListener('mousedown', handleOutside)
       document.removeEventListener('touchstart', handleOutside)
     }
-  }, [mobileOpen])
+  }, [open])
 
-  // Desktop: row of buttons
-  if (!isMobile) {
-    return (
-      <div
-        style={{
-          ...s.container,
-          opacity: mounted && !nearBottom ? 1 : 0,
-          transform: mounted && !nearBottom ? 'translateX(0)' : 'translateX(20px)',
-          pointerEvents: mounted && !nearBottom ? 'auto' as const : 'none' as const,
-          transition: 'opacity 0.4s ease, transform 0.4s ease',
-        }}
-      >
-        {links.map((link) => {
-          const active = !!link.href
-          return (
-            <a
-              key={link.id}
-              href={active ? link.href : undefined}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={t(link.labelKey, language)}
-              tabIndex={active ? 0 : -1}
-              style={{
-                ...s.link,
-                ...(active ? s.linkActive : s.linkInactive),
-              }}
-              onMouseEnter={(e) => {
-                if (!active) return
-                e.currentTarget.style.color = 'var(--accent)'
-                e.currentTarget.style.borderColor = 'var(--accent)'
-                e.currentTarget.style.background = 'var(--accent-dim)'
-                e.currentTarget.style.transform = 'translateY(-3px)'
-                setTooltip(link.id)
-              }}
-              onMouseLeave={(e) => {
-                if (!active) return
-                e.currentTarget.style.color = 'var(--text-muted)'
-                e.currentTarget.style.borderColor = 'var(--border)'
-                e.currentTarget.style.background = 'var(--bg-glass)'
-                e.currentTarget.style.transform = 'none'
-                setTooltip(null)
-              }}
-            >
-              {link.svg}
-              <span
-                style={{
-                  ...s.tooltip,
-                  opacity: tooltip === link.id ? 1 : 0,
-                  transform: tooltip === link.id ? 'translateY(0)' : 'translateY(4px)',
-                }}
-              >
-                {t(link.labelKey, language)}
-              </span>
-            </a>
-          )
-        })}
-      </div>
-    )
-  }
-
-  // Mobile: FAB with expand
   const show = mounted && !nearBottom
 
   return (
     <div
-      ref={fabRef}
+      ref={ref}
       style={{
-        ...s.fabWrapper,
+        ...s.wrapper,
         opacity: show ? 1 : 0,
         transform: show ? 'translateX(0)' : 'translateX(20px)',
         pointerEvents: show ? 'auto' as const : 'none' as const,
         transition: 'opacity 0.4s ease, transform 0.4s ease',
       }}
     >
-      {mobileOpen && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      {open && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {links.map((link, i) => {
             const active = !!link.href
             return (
@@ -281,9 +163,9 @@ export function SocialFloating() {
                 rel="noopener noreferrer"
                 aria-label={t(link.labelKey, language)}
                 tabIndex={active ? 0 : -1}
-                onClick={() => setMobileOpen(false)}
+                onClick={() => setOpen(false)}
                 style={{
-                  ...s.fabLink,
+                  ...s.link,
                   opacity: 0,
                   animation: `fadeInUp 0.25s ease forwards`,
                   animationDelay: `${i * 60}ms`,
@@ -314,9 +196,9 @@ export function SocialFloating() {
       )}
 
       <button
-        onClick={() => setMobileOpen(!mobileOpen)}
-        aria-label={mobileOpen ? 'Close social links' : 'Open social links'}
-        aria-expanded={mobileOpen}
+        onClick={() => setOpen(!open)}
+        aria-label={open ? 'Close social links' : 'Open social links'}
+        aria-expanded={open}
         style={s.fab}
         onMouseEnter={(e) => {
           e.currentTarget.style.background = 'var(--accent-dim-strong)'
@@ -330,8 +212,8 @@ export function SocialFloating() {
         }}
       >
         <svg
-          width="18"
-          height="18"
+          width="20"
+          height="20"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -340,7 +222,7 @@ export function SocialFloating() {
           strokeLinejoin="round"
           style={{
             transition: 'transform 0.3s ease',
-            transform: mobileOpen ? 'rotate(45deg)' : 'rotate(0deg)',
+            transform: open ? 'rotate(45deg)' : 'rotate(0deg)',
           }}
         >
           <line x1="12" y1="5" x2="12" y2="19" />
