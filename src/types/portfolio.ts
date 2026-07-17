@@ -33,7 +33,7 @@ export interface FormationItem {
   description: string
   competencies: string[]
   knowledgeAreaIds: string[]
-  type: 'technical' | 'independent'
+  type: 'technical' | 'independent' | 'professional'
 }
 
 export interface Profile {

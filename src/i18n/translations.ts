@@ -26,6 +26,7 @@ const ui: Record<string, { en: string; es: string }> = {
   'section.contacto': { en: 'Contact', es: 'Contacto' },
 
   /* Formation sub-labels */
+  'formation.profesional': { en: 'Professional Education', es: 'Formación Profesional' },
   'formation.tecnica': { en: 'Technical Education', es: 'Formación Técnica y Tecnológica' },
   'formation.independiente': { en: 'Self-Directed Learning', es: 'Formación Independiente' },
   'formation.certificados': { en: 'Independent Certificates (Specialized Programs)', es: 'Certificados Formación Independiente (Programas Especializados)' },

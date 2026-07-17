@@ -8,6 +8,24 @@ const profileData: Record<Language, Profile> = {
     tagline: 'Software · Cybersecurity · Industry · Electronics · Solar',
     formation: [
       {
+        id: 'ingenieria-quimica',
+        title: 'Chemical Engineering Student (6th Semester)',
+        institution: 'Universidad Nacional de Colombia',
+        duration: '6th semester',
+        description:
+          'Currently pursuing a bachelor\'s degree in Chemical Engineering at the Universidad Nacional de Colombia — the most prestigious higher education institution in the country. The program provides a strong foundation in transport phenomena, thermodynamics, reaction engineering, process control, and plant design, with a focus on industrial application and scientific research.',
+        competencies: [
+          'Apply principles of mass and energy balances to chemical processes',
+          'Understand thermodynamics and kinetics of chemical reactions',
+          'Model fluid flow and heat transfer in industrial equipment',
+          'Design and simulate separation processes (distillation, absorption, extraction)',
+          'Implement process control strategies and instrumentation',
+          'Analyze and optimize chemical processes from a technical and economic perspective',
+        ],
+        knowledgeAreaIds: ['chemical-processes', 'algorithms-math'],
+        type: 'professional',
+      },
+      {
         id: 'quimica',
         title: 'Chemical Process Technologist',
         institution: 'SENA — Industrial Management Center',
@@ -81,7 +99,7 @@ const profileData: Record<Language, Profile> = {
         type: 'independent',
       },
     ],
-    bio: 'Chemical Process Technologist with complementary training in electronics, solar photovoltaic energy, and software development. My profile integrates technical-industrial knowledge with full-stack programming, cybersecurity, and Linux systems administration. Passionate about automation, process control, and information security, I constantly seek to learn and apply new technologies to solve real-world problems. I have an advanced English level that allows me to read technical documentation, understand international regulations, and communicate in multicultural environments.',
+    bio: 'Chemical Engineering student at Universidad Nacional de Colombia and Chemical Process Technologist with complementary training in electronics, solar photovoltaic energy, and software development. My profile integrates academic engineering fundamentals with technical-industrial experience in full-stack programming, cybersecurity, and Linux systems administration. Passionate about automation, process control, and information security, I constantly seek to learn and apply new technologies to solve real-world problems. I have an advanced English level that allows me to read technical documentation, understand international regulations, and communicate in multicultural environments.',
     social: {
       github: 'https://github.com/sebastianl1',
       linkedin: 'https://www.linkedin.com/in/juan-sebastian-laguna-bele%C3%B1o-0a22bb363',
@@ -94,6 +112,24 @@ const profileData: Record<Language, Profile> = {
     title: 'Tecnólogo en Procesos de la Industria Química',
     tagline: 'Software · Ciberseguridad · Industria · Electrónica · Solar',
     formation: [
+      {
+        id: 'ingenieria-quimica',
+        title: 'Estudiante de Ingeniería Química (6to Semestre)',
+        institution: 'Universidad Nacional de Colombia',
+        duration: '6to semestre',
+        description:
+          'Actualmente cursando Ingeniería Química en la Universidad Nacional de Colombia — la institución de educación superior más prestigiosa del país. El programa proporciona una base sólida en fenómenos de transporte, termodinámica, ingeniería de reacciones, control de procesos y diseño de plantas, con enfoque en aplicación industrial e investigación científica.',
+        competencies: [
+          'Aplicar principios de balances de masa y energía a procesos químicos',
+          'Comprender termodinámica y cinética de reacciones químicas',
+          'Modelar flujo de fluidos y transferencia de calor en equipos industriales',
+          'Diseñar y simular procesos de separación (destilación, absorción, extracción)',
+          'Implementar estrategias de control de procesos e instrumentación',
+          'Analizar y optimizar procesos químicos desde una perspectiva técnica y económica',
+        ],
+        knowledgeAreaIds: ['chemical-processes', 'algorithms-math'],
+        type: 'professional',
+      },
       {
         id: 'quimica',
         title: 'Tecnólogo en Procesos de la Industria Química',
@@ -169,7 +205,7 @@ const profileData: Record<Language, Profile> = {
         type: 'independent',
       },
     ],
-    bio: 'Tecnólogo en Procesos de la Industria Química con formación complementaria en electrónica, energía solar fotovoltaica y desarrollo de software. Mi perfil integra el conocimiento técnico-industrial con habilidades en programación full-stack, ciberseguridad y administración de sistemas Linux. Apasionado por la automatización, el control de procesos y la seguridad informática, busco constantemente aprender y aplicar nuevas tecnologías para resolver problemas del mundo real. Cuento con nivel de inglés avanzado que me permite leer documentación técnica, comprender normativas internacionales y comunicarme en entornos multiculturales.',
+    bio: 'Estudiante de Ingeniería Química en la Universidad Nacional de Colombia y Tecnólogo en Procesos de la Industria Química con formación complementaria en electrónica, energía solar fotovoltaica y desarrollo de software. Mi perfil integra fundamentos académicos de ingeniería con experiencia técnico-industrial en programación full-stack, ciberseguridad y administración de sistemas Linux. Apasionado por la automatización, el control de procesos y la seguridad informática, busco constantemente aprender y aplicar nuevas tecnologías para resolver problemas del mundo real. Cuento con nivel de inglés avanzado que me permite leer documentación técnica, comprender normativas internacionales y comunicarme en entornos multiculturales.',
     social: {
       github: 'https://github.com/sebastianl1',
       linkedin: 'https://www.linkedin.com/in/juan-sebastian-laguna-bele%C3%B1o-0a22bb363',

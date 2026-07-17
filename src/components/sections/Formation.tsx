@@ -485,6 +485,7 @@ export function Formation() {
   const [filterCat, setFilterCat] = useState('all')
   const [search, setSearch] = useState('')
 
+  const professional = profile.formation.filter((f) => f.type === 'professional')
   const technical = profile.formation.filter((f) => f.type === 'technical')
   const independent = profile.formation.filter((f) => f.type === 'independent')
 
@@ -509,6 +510,16 @@ export function Formation() {
 
   return (
     <Section id="formation" title={t('section.formacion', language)}>
+      <div style={{ marginBottom: 40 }}>
+        <p style={s.sectionLabel}>{t('formation.profesional', language)}</p>
+        <div style={timelineStyle}>
+          <div style={timelineLineStyle} />
+          {professional.map((item, i) => (
+            <FormationCard key={item.id} item={item} index={i} />
+          ))}
+        </div>
+      </div>
+
       <div style={{ marginBottom: 40 }}>
         <p style={s.sectionLabel}>{t('formation.tecnica', language)}</p>
         <div style={timelineStyle}>
