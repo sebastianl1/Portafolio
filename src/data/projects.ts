@@ -19,8 +19,8 @@ const projectsData: Record<Language, Project[]> = {
       description:
         'Tool for designing P&ID diagrams, HMI interfaces, and technical PDFs for industrial systems, focused on chemical engineering processes.',
       tags: ['P&ID', 'HMI', 'Chemical Engineering', 'Process Design'],
-      iframeUrl: 'https://sebastianl1.github.io/Hmi_editor/',
-      githubUrl: 'https://github.com/sebastianl1/Procces-',
+      iframeUrl: 'https://hmi-editor.pages.dev/',
+      githubUrl: 'https://hmi-editor.pages.dev/',
       thumbnail: 'projects/hmi.jpg',
     },
   ],
@@ -41,8 +41,8 @@ const projectsData: Record<Language, Project[]> = {
       description:
         'Herramienta para diseñar diagramas P&ID, interfaces HMI y PDFs técnicos para sistemas industriales, enfocado en procesos de ingeniería química.',
       tags: ['P&ID', 'HMI', 'Ingeniería Química', 'Diseño de Procesos'],
-      iframeUrl: 'https://sebastianl1.github.io/Hmi_editor/',
-      githubUrl: 'https://github.com/sebastianl1/Procces-',
+      iframeUrl: 'https://hmi-editor.pages.dev/',
+      githubUrl: 'https://hmi-editor.pages.dev/',
       thumbnail: 'projects/hmi.jpg',
     },
   ],
