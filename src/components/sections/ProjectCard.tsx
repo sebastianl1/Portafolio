@@ -144,6 +144,7 @@ export function ProjectCard({ project, onPreview, index }: Props) {
     <div
       ref={ref}
       style={{
+        height: '100%',
         opacity: 0,
         transform: 'translateY(16px)',
         transition: 'opacity 0.5s ease, transform 0.5s ease',
@@ -151,7 +152,7 @@ export function ProjectCard({ project, onPreview, index }: Props) {
         ...(visible ? { opacity: 1, transform: 'translateY(0)' } : {}),
       }}
     >
-      <Card>
+      <Card style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <div
           style={isMobile ? s.thumbMobile : s.thumb}
           onClick={() => onPreview(project)}
@@ -213,7 +214,7 @@ export function ProjectCard({ project, onPreview, index }: Props) {
         <Button
           variant="primary"
           onClick={() => window.open(project.iframeUrl, '_blank')}
-          style={{ width: '100%' }}
+          style={{ width: '100%', marginTop: 'auto' }}
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />

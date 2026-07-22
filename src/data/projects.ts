@@ -23,6 +23,16 @@ const projectsData: Record<Language, Project[]> = {
       githubUrl: 'https://hmi-editor.pages.dev/',
       thumbnail: 'projects/hmi.jpg',
     },
+    {
+      id: 'fractalab2',
+      title: 'FractaLab Sl',
+      description:
+        'Interactive laboratory for chaos theory and nonlinear dynamics. Bifurcation diagrams, Mandelbrot set isomorphism, 3D phase space, Lyapunov exponents, cobweb plots, and real engineering applications.',
+      tags: ['Chaos Theory', 'Mandelbrot', 'Nonlinear Dynamics', 'React', 'TypeScript', 'Mathematics'],
+      iframeUrl: 'https://sebastianl1.github.io/Fractalab/',
+      githubUrl: 'https://github.com/sebastianl1/FractaLab',
+      thumbnail: 'projects/fractal.jpg',
+    },
   ],
   es: [
     {
@@ -44,6 +54,16 @@ const projectsData: Record<Language, Project[]> = {
       iframeUrl: 'https://hmi-editor.pages.dev/',
       githubUrl: 'https://hmi-editor.pages.dev/',
       thumbnail: 'projects/hmi.jpg',
+    },
+    {
+      id: 'fractalab2',
+      title: 'FractaLab Sl',
+      description:
+        'Laboratorio interactivo de teoría del caos y dinámicas no lineales. Diagramas de bifurcación, isomorfismo con Mandelbrot, espacio de fases 3D, exponentes de Lyapunov, diagramas de telaraña y aplicaciones reales en ingeniería.',
+      tags: ['Teoría del Caos', 'Mandelbrot', 'Dinámicas No Lineales', 'React', 'TypeScript', 'Matemáticas'],
+      iframeUrl: 'https://sebastianl1.github.io/Fractalab/',
+      githubUrl: 'https://github.com/sebastianl1/FractaLab',
+      thumbnail: 'projects/fractal.jpg',
     },
   ],
 }
