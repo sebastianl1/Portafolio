@@ -155,7 +155,13 @@ export function ProjectCard({ project, onPreview, index }: Props) {
       <Card style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <div
           style={isMobile ? s.thumbMobile : s.thumb}
-          onClick={() => onPreview(project)}
+          onClick={() => {
+            if (project.iframeUrl.startsWith('https://github.com/')) {
+              window.open(project.iframeUrl, '_blank')
+            } else {
+              onPreview(project)
+            }
+          }}
           onMouseEnter={(e) => {
             const img = e.currentTarget.querySelector('img') as HTMLElement
             if (img) img.style.transform = 'scale(1.05)'

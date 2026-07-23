@@ -33,6 +33,16 @@ const projectsData: Record<Language, Project[]> = {
       githubUrl: 'https://github.com/sebastianl1/FractaLab',
       thumbnail: 'projects/fractal.jpg',
     },
+    {
+      id: 'antigravity',
+      title: 'Antigravity CLI',
+      description:
+        'Native Termux script to run Antigravity CLI — Google\'s terminal AI coding agent — directly on Android. No proot, no chroot, no dependencies beyond Termux itself.',
+      tags: ['Termux', 'Android', 'Bash', 'AI', 'CLI'],
+      iframeUrl: 'https://github.com/sebastianl1/antigravity_termux',
+      githubUrl: 'https://github.com/sebastianl1/antigravity_termux.git',
+      thumbnail: 'projects/antigravity.jpg',
+    },
   ],
   es: [
     {
@@ -64,6 +74,16 @@ const projectsData: Record<Language, Project[]> = {
       iframeUrl: 'https://sebastianl1.github.io/Fractalab/',
       githubUrl: 'https://github.com/sebastianl1/FractaLab',
       thumbnail: 'projects/fractal.jpg',
+    },
+    {
+      id: 'antigravity',
+      title: 'Antigravity CLI',
+      description:
+        'Script nativo para Termux que ejecuta Antigravity CLI — el agente de IA de Google para terminal — directamente en Android. Sin proot, sin chroot, sin dependencias más allá de Termux.',
+      tags: ['Termux', 'Android', 'Bash', 'IA', 'CLI'],
+      iframeUrl: 'https://github.com/sebastianl1/antigravity_termux',
+      githubUrl: 'https://github.com/sebastianl1/antigravity_termux.git',
+      thumbnail: 'projects/antigravity.jpg',
     },
   ],
 }
