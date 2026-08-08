@@ -18,6 +18,13 @@ const skillsData: Record<Language, KnowledgeArea[]> = {
       subtopics: ['Auditing & pentesting', 'Metasploit', 'Authentication & authorization', 'Vulnerability analysis'],
     },
     {
+      id: 'ai-local-llms',
+      title: 'AI & Local LLMs',
+      description: 'Running local large language models and AI agents on edge devices (Android/Termux).',
+      icon: '🤖',
+      subtopics: ['Local LLMs · Ollama', 'WebGPU · Transformers.js', 'Termux tooling', 'AI agents CLI', 'Bash · Python'],
+    },
+    {
       id: 'algorithms-math',
       title: 'Algorithms & Mathematics',
       description: 'Algorithm handling, advanced mathematics and basic sciences applied to industry.',
@@ -60,6 +67,13 @@ const skillsData: Record<Language, KnowledgeArea[]> = {
       description: 'Auditorías de seguridad, pentesting y protección de sistemas informáticos.',
       icon: '🔒',
       subtopics: ['Auditorías y pentesting', 'Metasploit', 'Autenticación y autorización', 'Análisis de vulnerabilidades'],
+    },
+    {
+      id: 'ai-local-llms',
+      title: 'IA y LLMs locales',
+      description: 'Ejecución de modelos de lenguaje locales y agentes de IA en dispositivos (Android/Termux).',
+      icon: '🤖',
+      subtopics: ['LLMs locales · Ollama', 'WebGPU · Transformers.js', 'Herramientas Termux', 'Agentes CLI de IA', 'Bash · Python'],
     },
     {
       id: 'algorithms-math',

@@ -34,14 +34,44 @@ const projectsData: Record<Language, Project[]> = {
       thumbnail: 'projects/fractal.jpg',
     },
     {
-      id: 'antigravity',
-      title: 'Antigravity CLI',
+      id: 'randi',
+      title: 'RANDI — Local AI Assistant for Termux',
       description:
-        'Native Termux script to run Antigravity CLI — Google\'s terminal AI coding agent — directly on Android. No proot, no chroot, no dependencies beyond Termux itself.',
-      tags: ['Termux', 'Android', 'Bash', 'AI', 'CLI'],
-      iframeUrl: 'https://github.com/sebastianl1/antigravity_termux',
-      githubUrl: 'https://github.com/sebastianl1/antigravity_termux.git',
+        'Run local LLMs (DeepSeek, Qwen, Gemma) on your Android device with Ollama and WebGPU. TUI chat, web interface, vision, voice and image generation. 100% offline after downloading models.',
+      tags: ['Termux', 'AI', 'LLM', 'Ollama', 'Python', 'WebGPU'],
+      iframeUrl: 'https://sebastianl1.github.io/randi_IA/',
+      githubUrl: 'https://github.com/sebastianl1/randi_IA',
+      thumbnail: 'projects/randi.jpg',
+    },
+    {
+      id: 'antigravity',
+      title: 'Antigravity CLI for Termux',
+      description:
+        'Native installer for Google\'s Antigravity CLI (agy) — a terminal AI coding agent — running directly on Android. No proot, no VMs, with multi-source download and SHA256 verification.',
+      tags: ['Termux', 'Android', 'AI', 'Bash', 'CLI'],
+      iframeUrl: 'https://sebastianl1.github.io/antigravity-termux/',
+      githubUrl: 'https://github.com/sebastianl1/antigravity-termux',
       thumbnail: 'projects/antigravity.jpg',
+    },
+    {
+      id: 'opencode-termux',
+      title: 'OpenCode for Termux',
+      description:
+        'Native installer for OpenCode CLI on Android ARM64. Official glibc binary launched through Termux\'s glibc layer with a native C launcher. Multi-source download (vendor, mirror, npm, termuxvoid).',
+      tags: ['Termux', 'Android', 'AI', 'CLI', 'C', 'Bash'],
+      iframeUrl: 'https://sebastianl1.github.io/opencode-termux/',
+      githubUrl: 'https://github.com/sebastianl1/opencode-termux',
+      thumbnail: 'projects/opencode.jpg',
+    },
+    {
+      id: 'claude-code-termux',
+      title: 'Claude Code for Termux',
+      description:
+        'Native installer for Anthropic\'s Claude Code on Android ARM64. Official binary run through Termux\'s glibc layer with a native launcher. SHA256-verified downloads with npm + mirror fallback.',
+      tags: ['Termux', 'Android', 'AI', 'Claude', 'C', 'Bash'],
+      iframeUrl: 'https://sebastianl1.github.io/claude-code-termux/',
+      githubUrl: 'https://github.com/sebastianl1/claude-code-termux',
+      thumbnail: 'projects/claude.jpg',
     },
   ],
   es: [
@@ -76,14 +106,44 @@ const projectsData: Record<Language, Project[]> = {
       thumbnail: 'projects/fractal.jpg',
     },
     {
-      id: 'antigravity',
-      title: 'Antigravity CLI',
+      id: 'randi',
+      title: 'RANDI — Asistente IA local para Termux',
       description:
-        'Script nativo para Termux que ejecuta Antigravity CLI — el agente de IA de Google para terminal — directamente en Android. Sin proot, sin chroot, sin dependencias más allá de Termux.',
-      tags: ['Termux', 'Android', 'Bash', 'IA', 'CLI'],
-      iframeUrl: 'https://github.com/sebastianl1/antigravity_termux',
-      githubUrl: 'https://github.com/sebastianl1/antigravity_termux.git',
+        'Ejecuta LLMs locales (DeepSeek, Qwen, Gemma) en tu dispositivo Android con Ollama y WebGPU. Chat TUI, interfaz web, visión, voz y generación de imágenes. 100% offline tras descargar los modelos.',
+      tags: ['Termux', 'IA', 'LLM', 'Ollama', 'Python', 'WebGPU'],
+      iframeUrl: 'https://sebastianl1.github.io/randi_IA/',
+      githubUrl: 'https://github.com/sebastianl1/randi_IA',
+      thumbnail: 'projects/randi.jpg',
+    },
+    {
+      id: 'antigravity',
+      title: 'Antigravity CLI para Termux',
+      description:
+        'Instalador nativo de Antigravity CLI (agy) — el agente de IA de Google para terminal — directamente en Android. Sin proot, sin VMs, con descarga multi-fuente y verificación SHA256.',
+      tags: ['Termux', 'Android', 'IA', 'Bash', 'CLI'],
+      iframeUrl: 'https://sebastianl1.github.io/antigravity-termux/',
+      githubUrl: 'https://github.com/sebastianl1/antigravity-termux',
       thumbnail: 'projects/antigravity.jpg',
+    },
+    {
+      id: 'opencode-termux',
+      title: 'OpenCode para Termux',
+      description:
+        'Instalador nativo de OpenCode CLI en Android ARM64. Binario oficial glibc lanzado a través de la capa glibc de Termux con un launcher nativo en C. Descarga multi-fuente (vendor, mirror, npm, termuxvoid).',
+      tags: ['Termux', 'Android', 'IA', 'CLI', 'C', 'Bash'],
+      iframeUrl: 'https://sebastianl1.github.io/opencode-termux/',
+      githubUrl: 'https://github.com/sebastianl1/opencode-termux',
+      thumbnail: 'projects/opencode.jpg',
+    },
+    {
+      id: 'claude-code-termux',
+      title: 'Claude Code para Termux',
+      description:
+        'Instalador nativo de Claude Code de Anthropic en Android ARM64. Binario oficial ejecutado a través de la capa glibc de Termux con un launcher nativo. Descargas verificadas por SHA256 con fallback npm + mirror.',
+      tags: ['Termux', 'Android', 'IA', 'Claude', 'C', 'Bash'],
+      iframeUrl: 'https://sebastianl1.github.io/claude-code-termux/',
+      githubUrl: 'https://github.com/sebastianl1/claude-code-termux',
+      thumbnail: 'projects/claude.jpg',
     },
   ],
 }
