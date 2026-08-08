@@ -1,0 +1,21 @@
+# Sebastián Laguna — Portafolio
+
+> Tecnólogo en Procesos de la Industria Química, estudiante de Ingeniería Química, desarrollador full-stack, ciberseguridad y sistemas. Creo software, automatización, IA local y soluciones para Android/Termux.
+
+## Perfil
+
+- **Nombre**: Juan Sebastián Laguna Beleño
+- **Áreas**: Software · Ciberseguridad · IA · Industria · Electrónica · Solar
+- **Enlace**: https://sebastianl1.github.io/Portafolio/
+
+## Proyectos
+
+- **RANDI — Asistente IA local para Termux**: LLMs locales (DeepSeek, Qwen, Gemma) con Ollama y WebGPU en Android. Chat TUI, interfaz web, visión y voz, 100% offline. https://sebastianl1.github.io/randi_IA/
+- **Antigravity CLI para Termux**: instalador nativo de Antigravity CLI (agy) en Android. Sin proot, descarga multi-fuente y verificación SHA256. https://sebastianl1.github.io/antigravity-termux/
+- **OpenCode para Termux**: instalador nativo de OpenCode CLI en Android ARM64 con launcher C y capa glibc. https://sebastianl1.github.io/opencode-termux/
+- **Claude Code para Termux**: instalador nativo de Claude Code en Android ARM64 con launcher nativo y verificación SHA256. https://sebastianl1.github.io/claude-code-termux/
+
+## Contacto
+
+- GitHub: https://github.com/sebastianl1
+- LinkedIn: https://www.linkedin.com/in/juan-sebastian-laguna-bele%C3%B1o-925345160
