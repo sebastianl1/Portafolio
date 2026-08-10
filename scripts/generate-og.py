@@ -82,7 +82,6 @@ for sym, x, y, size in [("∑", 60, 150, 90), ("∫", 1060, 380, 110), ("φ", 80
 # ── Cabecera ──
 d.rounded_rectangle([60, 56, 106, 102], radius=12, fill=(0, 245, 212, 40), outline=(0, 245, 212, 200), width=2)
 d.text((83, 66), "SL", font=F_SANS_B, fill=TEAL)
-d.text((120, 76), "Tecnólogo · Desarrollador Full-Stack · Ciberseguridad", font=F_MONO_S, fill=MUTED)
 
 # Chips de áreas (esquina superior derecha)
 chips = ["Software", "Ciberseguridad", "IA", "Químico", "Ingeniero", "Industria", "Electrónica", "Solar"]
