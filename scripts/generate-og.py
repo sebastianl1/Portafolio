@@ -82,11 +82,10 @@ for sym, x, y, size in [("∑", 60, 150, 90), ("∫", 1060, 380, 110), ("φ", 80
 # ── Cabecera ──
 d.rounded_rectangle([60, 56, 106, 102], radius=12, fill=(0, 245, 212, 40), outline=(0, 245, 212, 200), width=2)
 d.text((83, 66), "SL", font=F_SANS_B, fill=TEAL)
-d.text((120, 66), "Sebastián Laguna", font=F_SANS_B, fill=WHITE)
-d.text((120, 104), "Tecnólogo · Desarrollador Full-Stack · Ciberseguridad", font=F_MONO_S, fill=MUTED)
+d.text((120, 76), "Tecnólogo · Desarrollador Full-Stack · Ciberseguridad", font=F_MONO_S, fill=MUTED)
 
 # Chips de áreas (esquina superior derecha)
-chips = ["Software", "Ciberseguridad", "IA", "Industria", "Electrónica", "Solar"]
+chips = ["Software", "Ciberseguridad", "IA", "Químico", "Ingeniero", "Industria", "Electrónica", "Solar"]
 x = W - 60
 y = 60
 row = []
@@ -111,7 +110,7 @@ d.text(((W - nw) / 2, 210), name, font=nf, fill=WHITE)
 d.rounded_rectangle([(W - 220) / 2, 322, (W + 220) / 2, 326], radius=2, fill=(0, 245, 212, 200))
 
 sub = "Tecnólogo en Procesos de la Industria Química"
-sub2 = "Desarrollador Full-Stack · IA local · Energía Solar"
+sub2 = "Ingeniero Químico · Desarrollador Full-Stack · IA · Energía Solar"
 sw = F_SANS.getbbox(sub)[2] - F_SANS.getbbox(sub)[0]
 d.text(((W - sw) / 2, 352), sub, font=F_SANS, fill=SILVER)
 sw2 = F_SANS_S.getbbox(sub2)[2] - F_SANS_S.getbbox(sub2)[0]
@@ -126,6 +125,10 @@ d.text((60, 512), tech, font=F_MONO, fill=TEAL)
 url = "sebastianl1.github.io/Portafolio"
 uw = F_MONO.getbbox(url)[2] - F_MONO.getbbox(url)[0]
 d.text((W - 60 - uw, 512), url, font=F_MONO, fill=TEAL)
+
+phone = "+57 310 619 7255"
+pw = F_MONO_S.getbbox(phone)[2] - F_MONO_S.getbbox(phone)[0]
+d.text((W - 60 - pw, 548), phone, font=F_MONO_S, fill=SILVER)
 
 contacts = "GitHub · LinkedIn · WhatsApp · Telegram"
 d.text((60, 552), contacts, font=F_MONO_S, fill=MUTED)
