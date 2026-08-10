@@ -138,3 +138,59 @@
   max-width: var(--max-width);
   margin: 0 auto;
 }
+
+/* ─── Cinematic reveals (epic-design) ─── */
+/* Nombre del hero: wipe de arriba a abajo */
+.name-wipe {
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(0.18em);
+  transition: clip-path 0.9s cubic-bezier(0.4, 0, 0.2, 1), transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.name-wipe.visible {
+  clip-path: inset(0 0 0 0);
+  transform: translateY(0);
+}
+
+/* Título de sección: wipe de derecha a izquierda (curtain) */
+.title-curtain {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.title-curtain.visible {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Avatar flotando + glow pulsante */
+.float-loop {
+  animation: float 6s ease-in-out infinite;
+}
+.glow-pulse {
+  animation: glowPulse 3.5s ease-in-out infinite;
+}
+
+/* Dots de timeline con pulso */
+.dot-pulse {
+  animation: dotPulse 2.5s ease-in-out infinite;
+}
+@keyframes dotPulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+  50% { box-shadow: 0 0 0 6px var(--accent-dim); }
+}
+
+/* ─── Accesibilidad: reduced-motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal, .reveal-stagger, .reveal-slide-right {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .name-wipe, .title-curtain {
+    clip-path: none !important;
+    transform: none !important;
+  }
+}

@@ -228,8 +228,11 @@ export function Hero() {
     >
       <div style={isMobile ? s.heroRowMobile : s.heroRow}>
         <div style={s.avatarCol}>
-          <div style={isMobile ? s.avatarWrapperMobile : s.avatarWrapper}>
-            <div style={s.avatarBorder} />
+          <div
+            className="float-loop"
+            style={isMobile ? s.avatarWrapperMobile : s.avatarWrapper}
+          >
+            <div className="glow-pulse" style={s.avatarBorder} />
             <div style={s.avatarInner}>
               <svg
                 width={isMobile ? 60 : 76}
@@ -259,7 +262,7 @@ export function Hero() {
         </div>
 
         <div style={s.textCol}>
-          <h1 style={s.name}>{profile.name}</h1>
+          <h1 className={`name-wipe ${visible ? 'visible' : ''}`} style={s.name}>{profile.name}</h1>
           <p style={isMobile ? s.bioMobile : s.bio}>{profile.bio}</p>
         </div>
       </div>

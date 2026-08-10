@@ -102,6 +102,11 @@ html {
   scroll-padding-top: var(--nav-height);
 }
 
+section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 700px;
+}
+
 @media (max-width: 768px) {
   :root {
     --section-py: 48px;

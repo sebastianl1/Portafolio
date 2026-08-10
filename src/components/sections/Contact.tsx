@@ -3,12 +3,22 @@ import { t } from '../../i18n/translations'
 import { getProfile } from '../../data/profile'
 import { Section } from '../layout/Section'
 import { useMediaQuery } from '../../hooks/useMediaQuery'
+import { ShareButtons } from '../ui/ShareButtons'
 
 const socialLinks = [
   { key: 'github' as const, labelKey: 'contact.github', descKey: 'contact.github-desc', icon: '🐙' },
   { key: 'linkedin' as const, labelKey: 'contact.linkedin', descKey: 'contact.linkedin-desc', icon: '💼' },
+  { key: 'whatsapp' as const, labelKey: 'contact.whatsapp', descKey: 'contact.whatsapp-desc', icon: '💬' },
+  { key: 'telegram' as const, labelKey: 'contact.telegram', descKey: 'contact.telegram-desc', icon: '✈️' },
   { key: 'email' as const, labelKey: 'contact.email', descKey: 'contact.email-desc', icon: '✉️' },
 ]
+
+function resolveUrl(key: string, value: string): string {
+  if (key === 'email') return `mailto:${value}`
+  if (key === 'whatsapp') return `https://wa.me/${value}`
+  if (key === 'telegram') return `https://t.me/${value}`
+  return value
+}
 
 const s: Record<string, React.CSSProperties> = {
   grid: {
@@ -122,12 +132,14 @@ export function Contact() {
           {available.map(({ key, labelKey, descKey, icon }) => {
             const url = profile.social[key]
             if (!url) return null
+            const href = resolveUrl(key, url)
+            const external = key !== 'email'
             return (
               <a
                 key={key}
-                href={key === 'email' ? `mailto:${url}` : url}
-                target={key === 'email' ? undefined : '_blank'}
-                rel="noopener noreferrer"
+                href={href}
+                target={external ? '_blank' : undefined}
+                rel={external ? 'noopener noreferrer' : undefined}
                 style={s.link}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = 'var(--accent)'
@@ -148,6 +160,16 @@ export function Contact() {
               </a>
             )
           })}
+
+          <div style={{ marginTop: 22 }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.78rem', fontFamily: 'var(--font-mono)', marginBottom: 10 }}>
+              {t('share.portfolio', language)}
+            </p>
+            <ShareButtons
+              url={typeof window !== 'undefined' ? window.location.href : 'https://sebastianl1.github.io/Portafolio/'}
+              title={`${profile.name} — Portafolio`}
+            />
+          </div>
         </div>
       </div>
     </Section>

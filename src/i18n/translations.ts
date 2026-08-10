@@ -67,8 +67,22 @@ const ui: Record<string, { en: string; es: string }> = {
   'contact.github-desc': { en: 'Open source & projects', es: 'Código abierto y proyectos' },
   'contact.linkedin': { en: 'LinkedIn', es: 'LinkedIn' },
   'contact.linkedin-desc': { en: 'Professional profile', es: 'Perfil profesional' },
+  'contact.whatsapp': { en: 'WhatsApp', es: 'WhatsApp' },
+  'contact.whatsapp-desc': { en: 'Chat with me', es: 'Escríbeme' },
+  'contact.telegram': { en: 'Telegram', es: 'Telegram' },
+  'contact.telegram-desc': { en: 'Chat with me', es: 'Escríbeme' },
   'contact.email': { en: 'Email', es: 'Email' },
   'contact.email-desc': { en: 'Send me a message', es: 'Envíame un mensaje' },
+
+  /* Share */
+  'share.portfolio': { en: 'Share this portfolio', es: 'Comparte este portafolio' },
+  'share.project': { en: 'Share this project', es: 'Compartir proyecto' },
+  'share.copy': { en: 'Copy link', es: 'Copiar enlace' },
+  'share.copied': { en: 'Link copied!', es: '¡Enlace copiado!' },
+  'share.whatsapp': { en: 'Share on WhatsApp', es: 'Compartir en WhatsApp' },
+  'share.telegram': { en: 'Share on Telegram', es: 'Compartir en Telegram' },
+  'share.x': { en: 'Share on X', es: 'Compartir en X' },
+  'share.linkedin': { en: 'Share on LinkedIn', es: 'Compartir en LinkedIn' },
 
   /* Footer */
   'footer.navegacion': { en: 'Navigation', es: 'Navegación' },
@@ -84,6 +98,7 @@ const ui: Record<string, { en: string; es: string }> = {
 
   /* Social Floating */
   'social.whatsapp': { en: 'WhatsApp', es: 'WhatsApp' },
+  'social.telegram': { en: 'Telegram', es: 'Telegram' },
   'social.gmail': { en: 'Gmail', es: 'Gmail' },
   'social.github': { en: 'GitHub', es: 'GitHub' },
 }

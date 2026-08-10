@@ -48,5 +48,6 @@ export interface Profile {
     linkedin?: string
     email?: string
     whatsapp?: string
+    telegram?: string
   }
 }

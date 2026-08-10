@@ -4,6 +4,7 @@ import { t } from '../../i18n/translations'
 import type { Project } from '../../types/portfolio'
 import { Skeleton } from '../ui/Skeleton'
 import { Button } from '../ui/Button'
+import { ShareButtons } from '../ui/ShareButtons'
 import { useMediaQuery } from '../../hooks/useMediaQuery'
 
 interface Props {
@@ -236,6 +237,13 @@ export function ProjectModal({ project, onClose }: Props) {
               {t('modal.ver-github', language)}
             </Button>
           )}
+        </div>
+
+        <div style={{ padding: '0 18px 14px', display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+          <span style={{ color: 'var(--text-muted)', fontSize: '0.72rem', fontFamily: 'var(--font-mono)' }}>
+            {t('share.project', language)}
+          </span>
+          <ShareButtons url={project.iframeUrl} title={project.title} />
         </div>
       </div>
     </div>

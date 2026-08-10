@@ -103,7 +103,8 @@ const profileData: Record<Language, Profile> = {
     social: {
       github: 'https://github.com/sebastianl1',
       linkedin: 'https://www.linkedin.com/in/juan-sebastian-laguna-beleño-925345160?utm_source=share_via&utm_content=profile&utm_medium=member_android',
-      whatsapp: '573224200609',
+      whatsapp: '573106197255',
+      telegram: '573106197255',
       email: 'sebasbele11@gmail.com',
     },
   },
@@ -209,7 +210,8 @@ const profileData: Record<Language, Profile> = {
     social: {
       github: 'https://github.com/sebastianl1',
       linkedin: 'https://www.linkedin.com/in/juan-sebastian-laguna-beleño-925345160?utm_source=share_via&utm_content=profile&utm_medium=member_android',
-      whatsapp: '573224200609',
+      whatsapp: '573106197255',
+      telegram: '573106197255',
       email: 'sebasbele11@gmail.com',
     },
   },

@@ -44,7 +44,7 @@ export function Section({ id, title, children }: Props) {
     >
       {title && (
         <h2
-          className={`reveal ${visible ? 'visible' : ''}`}
+          className={`title-curtain ${visible ? 'visible' : ''}`}
           style={s.heading}
         >
           {title}

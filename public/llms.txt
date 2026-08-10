@@ -10,12 +10,18 @@
 
 ## Proyectos
 
-- **RANDI — Asistente IA local para Termux**: LLMs locales (DeepSeek, Qwen, Gemma) con Ollama y WebGPU en Android. Chat TUI, interfaz web, visión y voz, 100% offline. https://sebastianl1.github.io/randi_IA/
-- **Antigravity CLI para Termux**: instalador nativo de Antigravity CLI (agy) en Android. Sin proot, descarga multi-fuente y verificación SHA256. https://sebastianl1.github.io/antigravity-termux/
-- **OpenCode para Termux**: instalador nativo de OpenCode CLI en Android ARM64 con launcher C y capa glibc. https://sebastianl1.github.io/opencode-termux/
-- **Claude Code para Termux**: instalador nativo de Claude Code en Android ARM64 con launcher nativo y verificación SHA256. https://sebastianl1.github.io/claude-code-termux/
+- **SCADA SPy v1.0**: https://sebastianl1.github.io/Spy_scada/
+- **Proccesф**: https://hmi-editor.pages.dev/
+- **FractaLab Sl**: https://sebastianl1.github.io/Fractalab/
+- **RANDI — Asistente IA local para Termux**: https://sebastianl1.github.io/randi_IA/
+- **Antigravity CLI para Termux**: https://sebastianl1.github.io/antigravity-termux/
+- **OpenCode para Termux**: https://sebastianl1.github.io/opencode-termux/
+- **Claude Code para Termux**: https://sebastianl1.github.io/claude-code-termux/
 
 ## Contacto
 
 - GitHub: https://github.com/sebastianl1
 - LinkedIn: https://www.linkedin.com/in/juan-sebastian-laguna-bele%C3%B1o-925345160
+- WhatsApp: https://wa.me/573106197255
+- Telegram: https://t.me/573106197255
+- Email: sebasbele11@gmail.com

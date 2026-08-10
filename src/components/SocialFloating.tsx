@@ -18,6 +18,17 @@ function useSocialLinks() {
       ),
     },
     {
+      id: 'telegram',
+      href: profile.social.telegram ? `https://t.me/${profile.social.telegram}` : '',
+      labelKey: 'social.telegram',
+      svg: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="m22 3-3 18-8-7-4-1-3-5 5 1 11-6z" />
+          <path d="m11 18 4 4 1-5" />
+        </svg>
+      ),
+    },
+    {
       id: 'email',
       href: profile.social.email ? `mailto:${profile.social.email}` : '',
       labelKey: 'social.gmail',

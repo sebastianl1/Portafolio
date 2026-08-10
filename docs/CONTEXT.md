@@ -120,7 +120,33 @@ portfolio/
 
 | Proyecto     | ID            | Deployado                    | Thumbnail           |
 | ------------ | ------------- | ---------------------------- | ------------------- |
-| SCADA SPy    | `spy-sena`    | https://sebastianl1.github.io/Web_prueba/ | `projects/scada.jpg` |
+| SCADA SPy    | `spy-sena`    | https://sebastianl1.github.io/Spy_scada/ | `projects/scada.jpg` |
+| Proccesф     | `proccess-phi`| https://hmi-editor.pages.dev (Cloudflare) | `projects/hmi.jpg` |
+| FractaLab    | `fractalab2`  | https://sebastianl1.github.io/Fractalab/ | `projects/fractal.jpg` |
+| RANDI        | `randi`       | https://sebastianl1.github.io/randi_IA/ | `projects/randi.jpg` |
+| Antigravity  | `antigravity` | https://sebastianl1.github.io/antigravity-termux/ | `projects/antigravity.jpg` |
+| OpenCode     | `opencode-termux` | https://sebastianl1.github.io/opencode-termux/ | `projects/opencode.jpg` |
+| Claude Code  | `claude-code-termux` | https://sebastianl1.github.io/claude-code-termux/ | `projects/claude.jpg` |
+
+## SEO dinámico
+
+- `scripts/generate-seo.mjs` (se ejecuta antes de cada `npm run build`) parsea
+  `src/data/projects.ts` y genera:
+  - JSON-LD **ItemList** en `index.html` (marcador `<!-- PROJECTS_JSONLD -->`).
+  - `public/sitemap.xml` (raíz + proyectos).
+  - `public/llms.txt` (lista completa de proyectos).
+- Si añades un proyecto a `projects.ts`, el SEO se regenera solo en el build.
+
+## Tema
+
+- **Siempre oscuro al cargar**: `ThemeContext.getInitialTheme()` devuelve `'dark'`
+  (ignora `localStorage` y `prefers-color-scheme`). El toggle claro/oscuro sigue
+  funcionando durante la sesión.
+
+## Deploy
+
+- **GitHub Actions** (`.github/workflows/deploy.yml`): build + Pages al pushear a `main`.
+- `npm run deploy` (gh-pages) queda como fallback manual.
 
 ## Para agregar un proyecto:
 1. Desplegar proyecto en GitHub Pages
@@ -181,15 +207,16 @@ Los colores del tema claro se rediseñaron para ser cohesivos:
 
 ```bash
 npm start                              # Desarrollo local
-node ./node_modules/typescript/bin/tsc -b && node ./node_modules/vite/bin/vite.js build   # Build completo
-node ./node_modules/vite/bin/vite.js build   # Build (solo Vite, sin typecheck)
-npm run deploy                         # Publicar en GitHub Pages
+npm run build                          # generate-seo -> tsc -b -> vite build
+npm run lint                           # eslint src/
+npm run deploy                         # Fallback: publicar dist/ a gh-pages
 ```
 
 ## Deploy a GitHub Pages
 
 ```bash
-node ./node_modules/typescript/bin/tsc -b && node ./node_modules/vite/bin/vite.js build && npm run deploy
+npm run build                          # compila dist/
+git push origin main                   # el workflow Actions publica dist/ en Pages
 ```
 
 ## Próximos pasos

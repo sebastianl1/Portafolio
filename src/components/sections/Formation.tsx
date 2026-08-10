@@ -345,7 +345,7 @@ function FormationCard({ item, index }: { item: FormationItem; index: number }) 
       className={`reveal-stagger ${visible ? 'visible' : ''}`}
       style={{ position: 'relative', transitionDelay: `${index * 100}ms` }}
     >
-      <div style={dotStyle} />
+      <div className="dot-pulse" style={dotStyle} />
       <div
         style={s.card}
         onClick={() => setIsOpen(!isOpen)}

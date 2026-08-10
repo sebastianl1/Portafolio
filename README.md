@@ -28,7 +28,7 @@ full-stack, ciberseguridad y sistemas.
 | Bundler     | Vite 6              |
 | Estilos     | CSS vanilla + variables |
 | i18n        | Español / English (toggle) |
-| Despliegue  | GitHub Pages (rama `gh-pages`) |
+| Despliegue  | GitHub Pages (GitHub Actions) |
 
 ## Ejecutar localmente
 
@@ -40,9 +40,14 @@ npm run dev        # servidor de desarrollo
 ## Build y deploy
 
 ```bash
-npm run build      # tsc -b && vite build -> dist/
-npm run deploy     # publica dist/ a la rama gh-pages
+npm run build      # generate-seo -> tsc -b -> vite build (dist/)
+npm run lint       # eslint src/
 ```
+
+- **GitHub Actions**: el workflow `.github/workflows/deploy.yml` compila y publica
+  `dist/` en Pages al pushear a `main` (requiere Settings → Pages → Source:
+  **GitHub Actions**).
+- `npm run deploy` (gh-pages) queda como **fallback manual** en caso de emergencia.
 
 ## Estructura
 
@@ -74,6 +79,9 @@ portfolio/
 - **OpenCode para Termux** — Instalador nativo de la terminal de IA OpenCode.
 - **Claude Code para Termux** — Instalador nativo de la terminal de IA de Anthropic.
 - **SCADA SPy** · **Proccesф (P&ID/HMI)** · **FractaLab** — Automatización industrial, caos y matemáticas.
+
+> Nota: algunos proyectos se despliegan en GitHub Pages y otros en Cloudflare Pages
+> (p. ej. Proccesф → `hmi-editor.pages.dev`); se mantienen tal cual.
 
 ## Contacto
 

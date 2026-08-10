@@ -149,7 +149,24 @@ export function ProjectCard({ project, onPreview, index }: Props) {
         transform: 'translateY(16px)',
         transition: 'opacity 0.5s ease, transform 0.5s ease',
         transitionDelay: `${index * 100}ms`,
+        willChange: visible ? 'transform' : 'auto',
         ...(visible ? { opacity: 1, transform: 'translateY(0)' } : {}),
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transition =
+          'opacity 0.5s ease, transform 0.12s ease-out, box-shadow 0.3s ease'
+      }}
+      onMouseMove={(e) => {
+        const r = e.currentTarget.getBoundingClientRect()
+        const px = (e.clientX - r.left) / r.width - 0.5
+        const py = (e.clientY - r.top) / r.height - 0.5
+        e.currentTarget.style.transform = `perspective(800px) rotateY(${px * 8}deg) rotateX(${-py * 8}deg) translateY(-3px)`
+        e.currentTarget.style.boxShadow = '0 0 24px var(--accent-glow), 0 16px 40px rgba(0,0,0,0.45)'
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = visible ? 'translateY(0)' : 'translateY(16px)'
+        e.currentTarget.style.boxShadow = ''
+        e.currentTarget.style.transition = 'opacity 0.5s ease, transform 0.5s ease'
       }}
     >
       <Card style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
