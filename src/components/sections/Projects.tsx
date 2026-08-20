@@ -32,6 +32,11 @@ const s: Record<string, React.CSSProperties> = {
   },
   wrapper: {
     position: 'relative',
+    padding: '0 56px',
+  },
+  wrapperMobile: {
+    position: 'relative',
+    padding: '0 44px',
   },
   viewport: {
     overflow: 'hidden',
@@ -58,23 +63,24 @@ const s: Record<string, React.CSSProperties> = {
     boxShadow: '0 4px 16px rgba(0,0,0,0.25)',
   } as React.CSSProperties,
   arrowLeft: {
-    left: -18,
+    left: 0,
   } as React.CSSProperties,
   arrowRight: {
-    right: -18,
+    right: 0,
   } as React.CSSProperties,
   arrowMobileLeft: {
-    left: 6,
+    left: 4,
   } as React.CSSProperties,
   arrowMobileRight: {
-    right: 6,
+    right: 4,
   } as React.CSSProperties,
   dots: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 8,
-    marginTop: 22,
+    gap: 10,
+    marginTop: 32,
+    paddingTop: 8,
   },
   dot: {
     width: 8,
@@ -179,7 +185,7 @@ export function Projects() {
       >
         {projects.length > 0 ? (
           <>
-            <div style={s.wrapper}>
+            <div style={isMobile ? s.wrapperMobile : s.wrapper}>
               <div
                 key={`${language}-${page}`}
                 style={{
