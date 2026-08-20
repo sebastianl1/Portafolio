@@ -53,6 +53,11 @@ const ui: Record<string, { en: string; es: string }> = {
   'projects.proximamente-desc': { en: 'Projects will be added here as they are deployed.', es: 'Los proyectos se agregarán aquí a medida que se desplieguen.' },
   'projects.vista-previa': { en: 'Preview', es: 'Vista previa' },
   'projects.ver-proyecto': { en: 'View project', es: 'Ver proyecto' },
+  'projects.anterior': { en: 'Previous', es: 'Anterior' },
+  'projects.siguiente': { en: 'Next', es: 'Siguiente' },
+  'projects.pagina': { en: 'Page', es: 'Página' },
+  'projects.de': { en: 'of', es: 'de' },
+  'projects.paginacion': { en: 'Projects pagination', es: 'Paginación de proyectos' },
 
   /* Modal */
   'modal.no-disponible': { en: 'Preview not available', es: 'Vista previa no disponible' },
