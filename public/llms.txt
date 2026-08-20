@@ -17,6 +17,7 @@
 - **Antigravity CLI para Termux**: https://sebastianl1.github.io/antigravity-termux/
 - **OpenCode para Termux**: https://sebastianl1.github.io/opencode-termux/
 - **Claude Code para Termux**: https://sebastianl1.github.io/claude-code-termux/
+- **Freebuff para Termux**: https://sebastianl1.github.io/freebuff-termux/
 
 ## Contacto
 

@@ -73,6 +73,16 @@ const projectsData: Record<Language, Project[]> = {
       githubUrl: 'https://github.com/sebastianl1/claude-code-termux',
       thumbnail: 'projects/claude.jpg',
     },
+    {
+      id: 'freebuff-termux',
+      title: 'Freebuff for Termux',
+      description:
+        'Native installer for Freebuff (Codebuff) on Android ARM64. Official glibc binary launched through Termux\'s glibc layer with a native C launcher. Multi-source download and cache support.',
+      tags: ['Termux', 'Android', 'AI', 'Freebuff', 'C', 'Bash'],
+      iframeUrl: 'https://sebastianl1.github.io/freebuff-termux/',
+      githubUrl: 'https://github.com/sebastianl1/freebuff-termux',
+      thumbnail: 'projects/freebuff.jpg',
+    },
   ],
   es: [
     {
@@ -144,6 +154,16 @@ const projectsData: Record<Language, Project[]> = {
       iframeUrl: 'https://sebastianl1.github.io/claude-code-termux/',
       githubUrl: 'https://github.com/sebastianl1/claude-code-termux',
       thumbnail: 'projects/claude.jpg',
+    },
+    {
+      id: 'freebuff-termux',
+      title: 'Freebuff para Termux',
+      description:
+        'Instalador nativo de Freebuff (Codebuff) en Android ARM64. Binario oficial glibc ejecutado a través de la capa glibc de Termux con launcher nativo en C. Descarga multi-fuente con verificación y caché.',
+      tags: ['Termux', 'Android', 'IA', 'Freebuff', 'C', 'Bash'],
+      iframeUrl: 'https://sebastianl1.github.io/freebuff-termux/',
+      githubUrl: 'https://github.com/sebastianl1/freebuff-termux',
+      thumbnail: 'projects/freebuff.jpg',
     },
   ],
 }
