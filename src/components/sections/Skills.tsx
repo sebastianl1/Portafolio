@@ -8,58 +8,68 @@ import { useMediaQuery } from '../../hooks/useMediaQuery'
 const s: Record<string, React.CSSProperties> = {
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-    gap: 16,
+    gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+    gap: 12,
   },
   gridMobile: {
     display: 'grid',
     gridTemplateColumns: '1fr',
-    gap: 12,
+    gap: 10,
   },
   card: {
-    borderRadius: 'var(--radius-lg)',
+    borderRadius: 'var(--radius)',
     border: '1px solid var(--border)',
-    padding: '24px',
+    padding: '16px 14px',
     background: 'var(--bg-card)',
     transition: 'all var(--transition)',
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
+    gap: 6,
   },
-  subtopicsWrap: {
-    marginTop: 'auto',
-    flexShrink: 0,
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
   },
   iconRow: {
-    fontSize: '1.8rem',
-    marginBottom: 12,
+    fontSize: '1.3rem',
+    lineHeight: 1,
+    flexShrink: 0,
   },
   title: {
-    fontSize: '0.9rem',
+    fontSize: '0.85rem',
     fontWeight: 700,
     color: 'var(--text-primary)',
-    marginBottom: 6,
     fontFamily: 'var(--font-display)',
+    lineHeight: 1.3,
   },
   desc: {
     color: 'var(--text-secondary)',
-    fontSize: '0.78rem',
-    lineHeight: 1.6,
-    marginBottom: 14,
-  },
-  subtopic: {
-    color: 'var(--text-muted)',
     fontSize: '0.72rem',
-    fontFamily: 'var(--font-mono)',
-    padding: '4px 0',
-    borderTop: '1px solid var(--border)',
+    lineHeight: 1.5,
+    display: '-webkit-box',
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
+    margin: 0,
   },
-  subtopicFirst: {
-    color: 'var(--text-muted)',
-    fontSize: '0.72rem',
+  tags: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: 6,
+    marginTop: 'auto',
+    paddingTop: 8,
+  },
+  tag: {
+    fontSize: '0.68rem',
     fontFamily: 'var(--font-mono)',
-    padding: '4px 0',
-    borderTop: 'none',
+    color: 'var(--text-muted)',
+    background: 'var(--bg-subtle)',
+    border: '1px solid var(--border)',
+    padding: '3px 7px',
+    borderRadius: 999,
+    lineHeight: 1,
   },
 }
 
@@ -70,13 +80,13 @@ function SkillCard({ area, index }: { area: { id: string; title: string; descrip
     <div
       ref={ref}
       className={`reveal-stagger ${visible ? 'visible' : ''}`}
-      style={{ transitionDelay: `${index * 80}ms` }}
+      style={{ transitionDelay: `${index * 60}ms` }}
     >
       <div
         style={s.card}
         onMouseEnter={(e) => {
           e.currentTarget.style.borderColor = 'var(--border-accent)'
-          e.currentTarget.style.transform = 'translateY(-4px)'
+          e.currentTarget.style.transform = 'translateY(-3px)'
           e.currentTarget.style.boxShadow = 'var(--shadow-accent)'
         }}
         onMouseLeave={(e) => {
@@ -85,13 +95,20 @@ function SkillCard({ area, index }: { area: { id: string; title: string; descrip
           e.currentTarget.style.boxShadow = 'none'
         }}
       >
-        <div style={s.iconRow}>{area.icon}</div>
-        <h3 style={s.title}>{area.title}</h3>
+        <div style={s.header}>
+          <span style={s.iconRow}>{area.icon}</span>
+          <h3 style={s.title}>{area.title}</h3>
+        </div>
         <p style={s.desc}>{area.description}</p>
-        <div style={s.subtopicsWrap}>
-          {area.subtopics.map((st, i) => (
-            <div key={st} style={i === 0 ? s.subtopicFirst : s.subtopic}>→ {st}</div>
+        <div style={s.tags}>
+          {area.subtopics.slice(0, 4).map((st) => (
+            <span key={st} style={s.tag}>
+              {st}
+            </span>
           ))}
+          {area.subtopics.length > 4 && (
+            <span style={{ ...s.tag, opacity: 0.6 }}>+{area.subtopics.length - 4}</span>
+          )}
         </div>
       </div>
     </div>

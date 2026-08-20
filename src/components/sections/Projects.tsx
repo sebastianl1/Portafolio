@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { t } from '../../i18n/translations'
 import { getProjects } from '../../data/projects'
@@ -108,11 +108,19 @@ const s: Record<string, React.CSSProperties> = {
 
 export function Projects() {
   const { language } = useLanguage()
-  const projects = getProjects(language)
+  const rawProjects = getProjects(language)
+  // Aleatorizar en cada entrada (por sesión) — Fisher-Yates
+  const projects = useMemo(() => {
+    const arr = [...rawProjects]
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[arr[i], arr[j]] = [arr[j], arr[i]]
+    }
+    return arr
+  }, [rawProjects])
   const [preview, setPreview] = useState<Project | null>(null)
   const isMobile = useMediaQuery('(max-width: 640px)')
-  const isTablet = useMediaQuery('(min-width: 641px) and (max-width: 1024px)')
-  const pageSize = isMobile ? 2 : isTablet ? 4 : 6
+  const pageSize = isMobile ? 2 : 3
   const totalPages = Math.max(1, Math.ceil(projects.length / pageSize))
   const [page, setPage] = useState(0)
   const touchStartX = useRef<number | null>(null)
@@ -169,8 +177,8 @@ export function Projects() {
     else prev()
   }
 
-  // Grid style per breakpoint (2 filas visibles)
-  const gridStyle = isMobile ? s.gridMobile : isTablet ? s.gridTablet : s.grid
+  // Grid: 3 en desktop (1 fila x3), 2 en móvil (2 filas x1)
+  const gridStyle = isMobile ? s.gridMobile : s.grid
 
   return (
     <Section id="projects" title={t('section.proyectos', language)}>
